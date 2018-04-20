@@ -2,10 +2,7 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	
-
 <meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
-
 	<style type="text/css">
 		@font-face {
 			font-family: "My Custom Font";
@@ -226,10 +223,10 @@
 
 						<div class="page-header">
 							<h1>
-								 السراكي
+								 التصرفات
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									بيانات عامة عن السراكي
+									بيانات عامة عن التصرفات
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -376,346 +373,40 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<div class="row">
-									<div class="row">
-									<div class="col-xs-12">
-									<div class="clearfix">
-										<div class="pull-right tableTools-container"></div>
-											<?php
-												if (isset($_SESSION['securitylvl']))
-													{
-														$securitylvl=$_SESSION['securitylvl'];
-														if($securitylvl == "d" || $securitylvl == "a" ):
-															?>
-																<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
-																	<i class="ace-icon fa fa-plus-square-o"></i>
-																		<b>إضافة</b></font>
-																</a>
-																<?php
-														endif;
-													}
-											?>
-										</div>
-										<div class="table-header">
-											نتائج البحث عن السراكي
-										</div>
+								<div class="error-container">
+									<div class="well">
+										<h1 class="grey lighter smaller">
+											<span class="blue bigger-125">
+												Under construction
+											</span>
+										</h1>
 
-										<!-- div.table-responsive -->
-<!-- 
-	<style>
-	   table {border-collapse:collapse; table-layout:fixed; width:30px;}
-	   table td {border:solid 1px #fab; width:100px; word-wrap:break-word;}
-	</style> 
---> 
-<style type='text/css'>
-   table { table-layout:fixed; /* nothing here - table is block, so should auto expand to as large as it can get without causing scrollbars? */ }
-   .left { text-align:center; }
-   .right { text-align:right; }
-   .middle { text-align:left; /* expand this column to as large as it can get within table? */}
-   .wrap { word-wrap:break-word; /* use up entire cell this div is contained in? */ }
-  </style>
-										<!-- div.dataTables_borderWrap -->
+										<hr />
+										<h3 class="lighter smaller">
+											But we are working
+											<i class="ace-icon fa fa-wrench icon-animated-wrench bigger-125"></i>
+											on it!
+										</h3>
+
+										<div class="space"></div>
+
 										<div>
-											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
-												<thead>
-													<tr>
-														<th>id</th>
-														<th>التاريخ</th>
-														<th>من رقم إلى رقم</th>
-														<th>السنة</th>
-														<th>الجدول</th>
-														<th>القسم</th>
-														<th>نوع </th>
-														<th>منشئ السركي</th>
-														<th>عدد القضايا</th>
-														<th>ملاحظات</th>
-													</tr>
-												</thead>
+											<h4 class="lighter smaller">Meanwhile, try one of the following:</h4>
 
-												<tbody>
-													<?php
-														if($_SESSION['securitylvl'] == "a")
-														{
-															$result4 = mysqli_query($sqlcon,"
-
-															Select departs.departname,
-															  casetype2.casetype2name,
-															  casetype.casetypename,
-															  sarki.date,
-															  sarki.`from`,
-															  sarki.`to`,
-															  sarki.year,
-															  sarki.createdate,
-															  sarki.updatedate,
-															  sarki.idsarki,
-															  sarki.notes,
-															  users.idusers,
-															  users.nickname
-															From sarki
-															  Inner Join casetype2 On casetype2.idcasetype2 = sarki.casetype2_idcasetype2
-															  Inner Join casetype On casetype.idcasetype = sarki.casetype_idcasetype
-															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
-															  Inner Join pros On pros.idpros = departs.pros_idpros
-															  Inner Join users On sarki.idusers = users.idusers
-															  where 1 = 2
-															Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
-														}else
-														{
-															$result4 = mysqli_query($sqlcon,"
-
-															Select departs.departname,
-															  casetype2.casetype2name,
-															  casetype.casetypename,
-															  sarki.date,
-															  sarki.`from`,
-															  sarki.`to`,
-															  sarki.year,
-															  sarki.createdate,
-															  sarki.updatedate,
-															  sarki.idsarki,
-															  sarki.notes,
-															  users.idusers,
-															  users.nickname
-															From sarki
-															  Inner Join casetype2 On casetype2.idcasetype2 = sarki.casetype2_idcasetype2
-															  Inner Join casetype On casetype.idcasetype = sarki.casetype_idcasetype
-															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
-															  Inner Join pros On pros.idpros = departs.pros_idpros
-															  Inner Join users On sarki.idusers = users.idusers
-															Where 1 = 2 AND users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
-														}
-														while($row4 = mysqli_fetch_assoc($result4))
-															{
-
-													?>
-													<tr>
-														<?php if($securitylvl == "a") 	{?>
-														<td><a class="red" href="sarkiprofile.php?idsarki=<?php echo $row4['idsarki'] ?>"><?php echo $row4['idsarki'] ?></a></td>
-														<?php }else{ ?>
-														<td><a class="red" ><?php echo $row4['idsarki'] ?></a></td>
-														<?php };?>
-														<td><?php echo $row4['date'] ?></td>
-														<td class="middle wrap"><?php echo $row4['to'] ?></td>
-														<td><?php echo $row4['year'] ?></td>
-														<td><?php echo $row4['casetypename'] ?></td>
-														<td><?php echo $row4['departname'] ?></td>
-														<td><?php echo $row4['casetype2name'] ?></td>
-														<?php if($_SESSION['securitylvl'] == "a"){?>
-														<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
-														<?php }else{?>
-														<td><?php echo $row4['nickname'] ?></a></td>
-														<?php };?>
-<td>
-<?php
-$result55 = mysqli_query($sqlcon,"
-Select Count(`case`.idcase) As countcase
-From `case`
-  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
-Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
-$row55 = mysqli_fetch_assoc($result55);
-if($row55['countcase'] > '0')
-{echo $row55['countcase'];}else
-{echo "0";}
-?>
-</td>														<td><?php echo $row4['notes'] ?></td>
-													</tr>
-													<?php
-												};
-											?>
-												</tbody>
-											</table>
+											<ul class="list-unstyled spaced inline bigger-110 margin-15">
+												<li>
+													<i class="ace-icon fa fa-hand-o-right blue"></i>
+													Give us more info on how this specific error occurred!
+												</li>
+											</ul>
 										</div>
+										<hr />
 									</div>
 								</div>
 
-								</div><!-- /.row -->
-
-								<div id="modal-add" class="modal fade" tabindex="-1">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header no-padding">
-												<div class="table-header">
-													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-														<span class="white">&times;</span>
-													</button>
-													إضافة سركي جديد
-												</div>
-											</div>
-											<form class="form-horizontal" method="post" action="assets/redi/insertsarki.php">
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> التاريخ </label>
-													<div class="col-sm-8">
-														<div class="input-group">
-															<input required class="form-control date-picker" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"/>
-															<span class="input-group-addon">
-																<i class="fa fa-calendar bigger-110"></i>
-															</span>
-														</div>
-													</div>
-												</div>
-												<script src="assets/js/jquery.min.js"></script>
-												<script type="text/javascript">
-												$(document).ready(function(){
-													var maxField = 15; //Input fields increment limitation
-														var addButton = $('.add_button'); //Add button selector
-														var wrapper = $('.field_wrapper'); //Input field wrapper
-														var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/><input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/><button type="button" class="btn btn-danger btn-minier remove_button" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
-														var x = 1; //Initial field counter is 1
-														$(addButton).click(function(){ //Once add button is clicked
-																if(x < maxField){ //Check maximum number of input fields
-																		x++; //Increment field counter
-																		$(wrapper).append(fieldHTML); // Add field html
-																}
-														});
-														$(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
-																e.preventDefault();
-																$(this).parent('div').remove(); //Remove field html
-																x--; //Decrement field counter
-														});
-												});
-												</script>
-												<script type="text/javascript">
-												$(document).ready(function(){
-													var maxField = 50; //Input fields increment limitation
-												    var addButton = $('.add_button2'); //Add button selector
-												    var wrapper = $('.field_wrapper2'); //Input field wrapper
-												    var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/><button type="button" class="btn btn-danger btn-minier remove_button2" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
-												    var x = 1; //Initial field counter is 1
-												    $(addButton).click(function(){ //Once add button is clicked
-												        if(x < maxField){ //Check maximum number of input fields
-												            x++; //Increment field counter
-												            $(wrapper).append(fieldHTML); // Add field html
-												        }
-												    });
-												    $(wrapper).on('click', '.remove_button2', function(e){ //Once remove button is clicked
-												        e.preventDefault();
-												        $(this).parent('div').remove(); //Remove field html
-												        x--; //Decrement field counter
-												    });
-												});
-												</script>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-8">كشف مسلسل </label>
-													<div class="col-sm-8">
-															<div class="field_wrapper">
-																<div>
-																	<input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/>
-																	<input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/>
-																	<button id="add_un" type="button" class="btn btn-minier btn-info add_button" title="Add field">
-																		<i class="ace-icon fa fa-plus"></i>Add
-																	</button>
-																</div>
-															</div>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> كشف غير مسلسل </label>
-													<div class="col-sm-8">
-														<div class="field_wrapper2">
-															<div>
-																<input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/>
-																<button type="button" class="btn btn-minier btn-info add_button2" title="Add field">
-																	<i class="ace-icon fa fa-plus"></i>Add
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-8">  السنة </label>
-													<div class="col-sm-8">
-														<input required type="text" class="input-sm" id="spinner5" name="year"/>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> الجدول </label>
-													<div class="col-sm-8">
-														<select required id="form-field-4" name="type">
-															<option selected="selected" disabled>--إختار الجدول--</option>
-															<?php
-																$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
-																while ($row2 = $result2->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
-															<?php } ?>
-														</select>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> القسم </label>
-													<div class="col-sm-8">
-														<select required id="form-field-4" name="depart">
-															<?php
-																if($_SESSION['securitylvl'] == "a")
-																	{
-																		$result2 = mysqli_query($sqlcon, "Select
-																  departs.departname,
-																  departs.iddeparts
-																From departs
-																  Inner Join pros On pros.idpros = departs.pros_idpros");
-																while ($row2 = $result2->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
-															<?php };
-																	}else
-																	{
-																		$result2 = mysqli_query($sqlcon, "Select departs.departname,
-																		  departs.iddeparts,
-																		  users.idusers
-																		From users
-																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
-																		  Inner Join pros On pros_has_users.idpros = pros.idpros
-																		  Inner Join departs On departs.pros_idpros = pros.idpros
-																		Where users.idusers =$_SESSION[idusers]");
-																while ($row2 = $result2->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
-															<?php };
-																	}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> نوع الإيراد </label>
-													<div class="col-sm-8">
-														<select id="form-field-4" name="type2">
-															<option selected="selected" disabled>--إختار  نوع الإيراد--</option>
-															<?php
-																$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
-																while ($row2 = $result2->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row2['idcasetype2'] ?>"> <?php echo $row2['casetype2name']?> </option>
-															<?php } ?>
-														</select>
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-8">  ملاحظات  </label>
-													<div class="col-sm-8">
-														<textarea id="form-field-8" class="autosize-transition form-control" name="notes"></textarea>
-													</div>
-												</div>
-												<div class="clearfix form-actions">
-													<div class="col-md-offset-3 col-md-9">
-														<button class="btn btn-info"  type="Submit"  name="submit">
-															<i class="ace-icon fa fa-check bigger-110"></i>
-															Submit
-														</button>
-
-														&nbsp; &nbsp; &nbsp;
-														<button class="btn" type="reset">
-															<i class="ace-icon fa fa-undo bigger-110"></i>
-															Reset
-														</button>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div><!-- /.modal-content -->
-								</div><!-- /.modal-dialog -->
-								</div>
-								</div><!-- /.row -->
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
