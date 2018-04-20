@@ -1,4 +1,5 @@
 <head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 	<?php 
 		session_start();
 		if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")

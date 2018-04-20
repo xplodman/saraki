@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	
-
-<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
-
-
+		<link rel="icon" type="image/png" href="assets/favicon.png" />
+		<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 				{
 					header('Location: assets/redi/logout.php');
-					$fh = fopen('/tmp/track.txt','a');
-					fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-					fclose($fh);
+					exit;
 				};
 			{$_SESSION['authenticate']="true";}
 
@@ -28,7 +23,7 @@
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8">
-		<title>prosecutions</title>
+		<title>النيابات</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -73,8 +68,6 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-
-
 	</head>
 
 	<body class="no-skin">
@@ -477,12 +470,12 @@
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													Insert a over all prosecution
+													إضافة نيابة كلية
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insertoverallpros.php">
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Over all prosecution name </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم النيابة الكلية </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="overallprosname"/>
 													</div>
@@ -513,18 +506,18 @@
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													Insert a prosecution
+													إضافة نيابة جزئية
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insertpros.php">
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Prosecution name </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> اسم النيابة الجزئية </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="prosname"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1">  Overall Prosecution </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1">  تتبع النيابة الكلية </label>
 													<div class="col-sm-9">
 														<select id="form-field-4" name="overallprosid">
 																	<?php
@@ -564,12 +557,12 @@
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													Insert a depart
+													إضافة قسم
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insertdepart.php">
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> depart name </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم القسم </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="departname"/>
 													</div>

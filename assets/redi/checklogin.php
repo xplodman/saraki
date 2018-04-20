@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	  users.username
 	From pros_has_users
 	  Inner Join pros On pros.idpros = pros_has_users.idpros
-	  Inner Join users On pros_has_users.idusers = users.idusers Where users.username =$username"); 
+	  Right Join users On pros_has_users.idusers = users.idusers Where users.username =$username");
 	$row2 = mysqli_fetch_assoc($result2);
 
 		
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$_SESSION["idusers"] = $row2['idusers'];
 			header('Location: ../../adminindex.php');
 			exit;
-		}else{
+		}elseif($row2['securitylvl'] == "d"){
 			$maxattendanceid = mysqli_query($sqlcon, "Select Max(`attendance`.attendanceid) From `attendance`");
 			$maxattendanceidrow = mysqli_fetch_row($maxattendanceid);
 			$maxattendanceid = implode("", $maxattendanceidrow);
@@ -57,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$_SESSION["securitylvl"] = $row2['securitylvl'];
 			$_SESSION["idusers"] = $row2['idusers'];
 			header('Location: ../../userindex.php');
+			exit;
+		}else{
+			header('Location: ../../login.php?backresult=7');
 			exit;
 		};
 	};

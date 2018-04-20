@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 	
 
 <meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
@@ -386,9 +387,9 @@
 											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>Nickname</th>
-														<th>Username</th>
-														<th>Password</th>
+														<th>أسم الشهرة</th>
+														<th>أسم المستخدم</th>
+														<th>كلمة السر</th>
 														<th>النيابات التابع لها</th>
 														<th>الحالة</th>
 
@@ -430,7 +431,13 @@
 														</td>
 														<td>
 															<?php
-																echo $row4['securitylvl'] 
+															if ($row4['securitylvl']=='0'){
+																echo "Blocked";
+															}elseif ($row4['securitylvl']=='a'){
+																echo "Administrator";
+															}elseif ($row4['securitylvl']=='d'){
+																echo "Data entry";
+															}
 															?>
 														</td>
 													</tr>
@@ -453,24 +460,24 @@
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													Insert a مدخلي البيانات
+													إضافة مدخل بيانات
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insertdataentry.php">
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nickname </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم الشهرة </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="nickname"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Username </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم المستخدم </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="username" class="col-xs-10 col-sm-5"  name="username"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Password </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> كلمة السر </label>
 													<div class="col-sm-9">
 														<input required type="text" id="form-field-1" placeholder="password" class="col-xs-10 col-sm-5"  name="password"/>
 													</div>

@@ -5,10 +5,11 @@ include_once "assets/redi/sqlcon.php";
 <html>
 
 <head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الحضور و الإنصراف | Login</title>
-	<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
+    <title>السراكي | Login</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <style>
         @font-face {
             font-family: myFirstFont;
@@ -54,7 +55,7 @@ include_once "assets/redi/sqlcon.php";
         }
     </style>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/plugins/c3/c3.min.css" rel="stylesheet">
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">

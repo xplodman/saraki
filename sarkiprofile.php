@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 		<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")

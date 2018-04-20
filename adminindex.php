@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
 		<?php
 			session_start();
@@ -310,9 +311,7 @@
 													</button>
 												</div>
 											</div>
-										</form>								
-								<div class="hr hr32 hr-dotted"></div>
-
+										</form>
 								<div class="hr hr32 hr-dotted"></div>
 									<h3>تقرير تفصيلي بالقضايا للمستخدم</h3>
 										<form class="form-horizontal" method="post" action="full_dataentry_rep_x.php"  target="_blank">
@@ -337,36 +336,7 @@
 													</button>
 												</div>
 											</div>
-										</form>								
-								<div class="hr hr32 hr-dotted"></div>
-								<div class="row">
-									<div class="col-xs-12">
-									<h3>التقرير اليومي للمستخدم</h3>
-										<form class="form-horizontal" method="post" action="xdataentryrep.php" target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select id="form-field-44" name="idusers">
-															<option value="" >أسم المستخدم</option>
-															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT * FROM `users`");
-																while ($row22 = $result22->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row22['idusers'] ?>" > <?php echo $row22['nickname'] ?> </option>
-
-															<?php } ?>
-														</select>
-
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
 										</form>
-									</div><!-- /.row -->
-								</div><!-- /.row -->
 								<div class="hr hr32 hr-dotted"></div>
 								<div class="row">
 									<div class="col-xs-12">

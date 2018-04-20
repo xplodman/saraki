@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 	
 
 <meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
@@ -456,6 +457,7 @@
 															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
 															  Inner Join pros On pros.idpros = departs.pros_idpros
 															  Inner Join users On sarki.idusers = users.idusers
+															  where 1 = 2
 															Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
 														}else
 														{
@@ -480,7 +482,7 @@
 															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
 															  Inner Join pros On pros.idpros = departs.pros_idpros
 															  Inner Join users On sarki.idusers = users.idusers
-															Where users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
+															Where 1 = 2 AND users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
 														}
 														while($row4 = mysqli_fetch_assoc($result4))
 															{

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="en">
 	<head>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
 		<style> 
