@@ -28,7 +28,7 @@
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8">
-		<title>Data entry</title>
+		<title>مدخلي البيانات</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -154,83 +154,9 @@
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
-
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-				<script type="text/javascript">
-					try{ace.settings.loadState('sidebar')}catch(e){}
-				</script>
-				<ul class="nav nav-list">
-					<li>
-						<?php
-						require 'assets/redi/sqlcon.php';
-						$nickname=$_SESSION['nickname'];
-						$prosname=$_SESSION['prosname'];
-						$securitylvl=$_SESSION['securitylvl'];
-						$idusers=$_SESSION['idusers'];
-						if($securitylvl == "a")
-							{?>
-								<a href="adminindex.php">
-								<?php
-							}else
-							{?>
-								<a href="userindex.php">
-						<?php };
-						?>
-
-							<i class="menu-icon fa fa-home"></i>
-							<span class="menu-text"> الصفحة الرئيسية </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<a href="sarki.php">
-							<i class="menu-icon fa fa-sticky-note-o"></i>
-							<span class="menu-text"> السراكي </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<?php
-						if($securitylvl == "a")
-							{?>
-								<a href="advancedsearch.php">
-								<?php
-							}else
-							{?>
-								<a href="search.php">
-						<?php }; ?>
-							<i class="menu-icon fa fa-search"></i>
-							<span class="menu-text">البحث </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li class="active">
-						<a href="dataentry.php">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Data entry </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="pros.php">
-							<i class="menu-icon fa fa-university"></i>
-							<span class="menu-text"> النيابات </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-				</ul><!-- /.nav-list -->
-
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-			</div>
-
+			<?php
+				include_once "assets/sidebar.php";
+			?>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<div class="page-content">
@@ -303,7 +229,7 @@
 
 						<div class="page-header">
 							<h1>
-								 Data entry
+								 مدخلي البيانات
 							</h1>
 						</div><!-- /.page-header -->
 
@@ -527,7 +453,7 @@
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													Insert a data entry
+													Insert a مدخلي البيانات
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insertdataentry.php">

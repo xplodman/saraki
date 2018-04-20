@@ -21,19 +21,19 @@
     <favorites_list name="saraki" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="advancedsearch.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/advancedsearch.php">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="pros.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pros.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-832">
-              <caret line="235" column="40" selection-start-line="235" selection-start-column="40" selection-end-line="235" selection-end-column="56" />
+            <state relative-caret-position="372">
+              <caret line="486" column="167" selection-start-line="486" selection-start-column="167" selection-end-line="486" selection-end-column="167" />
               <folding>
-                <marker date="1522366806564" expanded="true" signature="11857:12321" ph="Select `case... case" />
-                <marker date="1522366806564" expanded="true" signature="13939:13992" ph="SELECT * FRO... users" />
-                <marker date="1522366806564" expanded="true" signature="15728:15752" ph="SELECT * FRO... casetype" />
-                <marker date="1522366806564" expanded="true" signature="16711:16891" ph="Select depar... departs" />
-                <marker date="1522366806564" expanded="true" signature="17447:17854" ph="Select depar... users" />
-                <marker date="1522366806564" expanded="true" signature="27458:27490" ph="..." />
+                <marker date="1524201641895" expanded="true" signature="14014:14034" ph="SELECT * FRO... pros" />
+                <marker date="1524201641895" expanded="true" signature="14440:14759" ph="Select pros.... pros" />
+                <marker date="1524201641895" expanded="true" signature="15383:15850" ph="Select depar... pros" />
+                <marker date="1524201641895" expanded="true" signature="19277:19304" ph="SELECT * FRO... overallpros" />
+                <marker date="1524201641895" expanded="true" signature="21429:21449" ph="SELECT * FRO... pros" />
+                <marker date="1524201641895" expanded="true" signature="28871:28903" ph="..." />
               </folding>
             </state>
           </provider>
@@ -41,12 +41,17 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/assets/redi/sqlcon.php" />
         <option value="$PROJECT_DIR$/assets/redi/checklogin.php" />
+        <option value="$PROJECT_DIR$/assets/js/ace.min.js" />
         <option value="$PROJECT_DIR$/advancedsearch.php" />
+        <option value="$PROJECT_DIR$/pros.php" />
       </list>
     </option>
   </component>
@@ -56,7 +61,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 5.5" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -88,49 +96,21 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="saraki" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="saraki" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="saraki" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="saraki" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="saraki" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.advancedsearch.php">
+    <configuration default="false" name="advancedsearch.php" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/saraki/advancedsearch.php">
+      <method />
+    </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
@@ -161,9 +141,20 @@
       <envs />
       <method />
     </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.advancedsearch.php" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.advancedsearch.php" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -173,18 +164,20 @@
       <option name="presentableId" value="Default" />
       <updated>1521208749856</updated>
       <workItem from="1521208751053" duration="186000" />
-      <workItem from="1522365638777" duration="1255000" />
+      <workItem from="1522365638777" duration="2652000" />
+      <workItem from="1522405153557" duration="12000" />
+      <workItem from="1524200604824" duration="1035000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1441000" />
+    <option name="totallyTimeSpent" value="3885000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="1" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -194,14 +187,23 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="PHP-CGI Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39974293" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -211,6 +213,26 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/assets/js/ace.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/ace.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/adminindex.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2077">
@@ -222,7 +244,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -230,12 +251,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1705">
           <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
-          <folding>
-            <marker date="1522365881063" expanded="true" signature="151:232" ph="SELECT * FRO... users" />
-            <marker date="1522365881063" expanded="true" signature="270:540" ph="Select pros.... pros_has_users" />
-            <marker date="1522365881063" expanded="true" signature="682:737" ph="Select Max(`... attendance" />
-            <marker date="1522365881063" expanded="true" signature="964:1189" ph="INSERT INTO `pic`.`attendance`... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -243,21 +258,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1431">
           <caret line="174" column="13" selection-start-line="174" selection-start-column="13" selection-end-line="174" selection-end-column="13" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/ace.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="0" column="392441" selection-start-line="0" selection-start-column="392434" selection-end-line="0" selection-end-column="392441" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/advancedsearch.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-832">
-          <caret line="235" column="40" selection-start-line="235" selection-start-column="40" selection-end-line="235" selection-end-column="56" />
+        <state relative-caret-position="571">
+          <caret line="1452" column="0" selection-start-line="1452" selection-start-column="0" selection-end-line="1452" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/ace.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="5" column="7604" selection-start-line="5" selection-start-column="7604" selection-end-line="5" selection-end-column="7604" />
           <folding>
-            <marker date="1522366806564" expanded="true" signature="11857:12321" ph="Select `case... case" />
-            <marker date="1522366806564" expanded="true" signature="13939:13992" ph="SELECT * FRO... users" />
-            <marker date="1522366806564" expanded="true" signature="15728:15752" ph="SELECT * FRO... casetype" />
-            <marker date="1522366806564" expanded="true" signature="16711:16891" ph="Select depar... departs" />
-            <marker date="1522366806564" expanded="true" signature="17447:17854" ph="Select depar... users" />
-            <marker date="1522366806564" expanded="true" signature="27458:27490" ph="..." />
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pros.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="486" column="167" selection-start-line="486" selection-start-column="167" selection-end-line="486" selection-end-column="167" />
+          <folding>
+            <marker date="1524201641895" expanded="true" signature="14014:14034" ph="SELECT * FRO... pros" />
+            <marker date="1524201641895" expanded="true" signature="14440:14759" ph="Select pros.... pros" />
+            <marker date="1524201641895" expanded="true" signature="15383:15850" ph="Select depar... pros" />
+            <marker date="1524201641895" expanded="true" signature="19277:19304" ph="SELECT * FRO... overallpros" />
+            <marker date="1524201641895" expanded="true" signature="21429:21449" ph="SELECT * FRO... pros" />
+            <marker date="1524201641895" expanded="true" signature="28871:28903" ph="..." />
           </folding>
         </state>
       </provider>

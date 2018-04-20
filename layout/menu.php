@@ -33,7 +33,7 @@ function active($currect_page){
                                             echo "Administrator";
                                             break;
                                         case "d":
-                                            echo "Data entry";
+                                            echo "مدخلي البيانات";
                                             break;
                                         default:
                                             echo "Nothing here...";
@@ -86,7 +86,7 @@ function active($currect_page){
 				<li class="<?php active('index.php');?>">
 						<a href="dataentry.php">
 							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Data entry </span>
+							<span class="menu-text"> مدخلي البيانات </span>
 						</a>
 						<b class="arrow"></b>
 					</li>

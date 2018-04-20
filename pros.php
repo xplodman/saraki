@@ -154,83 +154,9 @@
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
-
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-				<script type="text/javascript">
-					try{ace.settings.loadState('sidebar')}catch(e){}
-				</script>
-				<ul class="nav nav-list">
-					<li>
-						<?php
-						require 'assets/redi/sqlcon.php';
-						$nickname=$_SESSION['nickname'];
-						$prosname=$_SESSION['prosname'];
-						$securitylvl=$_SESSION['securitylvl'];
-						$idusers=$_SESSION['idusers'];
-						if($securitylvl == "a")
-							{?>
-								<a href="adminindex.php">
-								<?php
-							}else
-							{?>
-								<a href="userindex.php">
-						<?php };
-						?>
-
-							<i class="menu-icon fa fa-home"></i>
-							<span class="menu-text"> الصفحة الرئيسية </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<a href="sarki.php">
-							<i class="menu-icon fa fa-sticky-note-o"></i>
-							<span class="menu-text"> السراكي </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<?php
-						if($securitylvl == "a")
-							{?>
-								<a href="advancedsearch.php">
-								<?php
-							}else
-							{?>
-								<a href="search.php">
-						<?php }; ?>
-							<i class="menu-icon fa fa-search"></i>
-							<span class="menu-text">البحث </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="dataentry.php">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Data entry </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li class="active">
-						<a href="pros.php">
-							<i class="menu-icon fa fa-university"></i>
-							<span class="menu-text"> النيابات </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-				</ul><!-- /.nav-list -->
-
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-			</div>
-
+			<?php
+				include_once "assets/sidebar.php";
+			?>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<div class="page-content">
@@ -303,7 +229,7 @@
 
 						<div class="page-header">
 							<h1>
-								 Data entry
+								 النيابات
 							</h1>
 						</div><!-- /.page-header -->
 
@@ -427,16 +353,19 @@
 														$securitylvl=$_SESSION['securitylvl'];
 														if($securitylvl == "d" || $securitylvl == "a" ):
 															?>
-
-																	<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
-																		<i class="ace-icon fa fa-plus-square-o"></i>
-																			<b>إضافة نيابة</b></font>
-																	</a>
-																	<a href="#modal-add2" class="btn btn-white btn-info btn-bold" data-toggle="modal">
-																		<i class="ace-icon fa fa-plus-square-o"></i>
-																			<b>إضافة قسم</b></font>
-																	</a>
-																	<?php
+															<a href="#modal-add-overall-pros" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+																<i class="ace-icon fa fa-plus-square-o"></i>
+																	<b>إضافة نيابة كلية</b></font>
+															</a>
+															<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+																<i class="ace-icon fa fa-plus-square-o"></i>
+																<b>إضافة نيابة</b></font>
+															</a>
+															<a href="#modal-add2" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+																<i class="ace-icon fa fa-plus-square-o"></i>
+																	<b>إضافة قسم</b></font>
+															</a>
+															<?php
 														endif;
 													}
 											?>
@@ -540,7 +469,42 @@
 								</div>
 
 								</div><!-- /.row -->
+								<div id="modal-add-overall-pros" class="modal fade" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header no-padding">
+												<div class="table-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														<span class="white">&times;</span>
+													</button>
+													Insert a over all prosecution
+												</div>
+											</div>
+											<form class="form-horizontal" method="post" action="assets/redi/insertoverallpros.php">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Over all prosecution name </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="overallprosname"/>
+													</div>
+												</div>
+												<div class="clearfix form-actions">
+													<div class="col-md-offset-3 col-md-9">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Submit
+														</button>
 
+														&nbsp; &nbsp; &nbsp;
+														<button class="btn" type="reset">
+															<i class="ace-icon fa fa-undo bigger-110"></i>
+															Reset
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
 								<div id="modal-add" class="modal fade" tabindex="-1">
 									<div class="modal-dialog">
 										<div class="modal-content">

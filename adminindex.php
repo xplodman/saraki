@@ -150,68 +150,9 @@
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
-
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-				<script type="text/javascript">
-					try{ace.settings.loadState('sidebar')}catch(e){}
-				</script>
-				<ul class="nav nav-list">
-					<li class="active">
-						<a href="index.php">
-							<i class="menu-icon fa fa-home"></i>
-							<span class="menu-text"> الصفحة الرئيسية </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<a href="sarki.php">
-							<i class="menu-icon fa fa-sticky-note-o"></i>
-							<span class="menu-text"> السراكي </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<?php
-						if($securitylvl == "a")
-							{?>
-								<a href="advancedsearch.php">
-								<?php
-							}else
-							{?>
-								<a href="search.php">
-						<?php }; ?>
-							<i class="menu-icon fa fa-search"></i>
-							<span class="menu-text">البحث </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="dataentry.php">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Data entry </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="pros.php">
-							<i class="menu-icon fa fa-university"></i>
-							<span class="menu-text"> النيابات </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-				</ul><!-- /.nav-list -->
-
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-			</div>
-
+			<?php
+				include_once "assets/sidebar.php";
+			?>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<div class="page-content">
@@ -326,10 +267,9 @@
 										?>
 								<div class="row">
 									<div class="col-xs-12">									
-									<h3>تقرير متابعة مدخلي البيانات</h3>
+									<h3>تقرير متابعة مدخلي البيانات بإجمالي عدد القضايا</h3>
 										<form class="form-horizontal" method="post" action="dataentryrep.php"  target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ الإنشاء </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
@@ -344,7 +284,6 @@
 									<h3>تقرير غياب و حضور مدخلي البيانات</h3>
 										<form class="form-horizontal" method="post" action="dataentry_attend_rep.php"  target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> التاريخ </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="date_start"/>
 													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="date_end"/>
@@ -359,10 +298,9 @@
 								</div><!-- /.row -->
 								
 								<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير تفصيلي بالقضايا</h3>
+									<h3>تقرير تفصيلي بالقضايا لجميع مدخلي البيانات</h3>
 										<form class="form-horizontal" method="post" action="full_dataentry_rep.php"  target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ الإنشاء </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
@@ -375,12 +313,37 @@
 										</form>								
 								<div class="hr hr32 hr-dotted"></div>
 
+								<div class="hr hr32 hr-dotted"></div>
+									<h3>تقرير تفصيلي بالقضايا للمستخدم</h3>
+										<form class="form-horizontal" method="post" action="full_dataentry_rep_x.php"  target="_blank">
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
+													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
+														<select id="form-field-44" name="idusers">
+															<option value="" >أسم المستخدم</option>
+															<?php
+																$result22 = mysqli_query($sqlcon, "SELECT * FROM `users`");
+																while ($row22 = $result22->fetch_assoc()) {
+																?>
+															<option value="<?php echo $row22['idusers'] ?>" > <?php echo $row22['nickname'] ?> </option>
+
+															<?php } ?>
+														</select>
+
+													<button class="btn btn-info"  type="Submit"  name="submit">
+														<i class="ace-icon fa fa-print bigger-150"></i>
+														Print
+													</button>
+												</div>
+											</div>
+										</form>								
+								<div class="hr hr32 hr-dotted"></div>
 								<div class="row">
 									<div class="col-xs-12">
 									<h3>التقرير اليومي للمستخدم</h3>
 										<form class="form-horizontal" method="post" action="xdataentryrep.php" target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ الإنشاء </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
@@ -410,7 +373,6 @@
 									<h3>تقرير متابعة النيابات</h3>
 										<form class="form-horizontal" method="post" action="prosrep.php" target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ الإنشاء </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
@@ -439,7 +401,6 @@
 									<h3>تقرير مجمع للنيابات بالشهور</h3>
 										<form class="form-horizontal" method="post" action="prosrep_by_month.php" target="_blank">
 											<div class="form-group">
-												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ الإنشاء </label>
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/m" name="from_month"/>
 													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/m" name="to_month"/>
@@ -484,11 +445,11 @@
 																<th>الأسم</th>
 																<th>التاريخ</th>
 																<th>وقت الحضور</th>
-																<th>موقع الدخول</th>
 																<th>Ip address الدخول</th>
+																<th>موقع الدخول</th>
 																<th>وقت الإنصراف</th>
-																<th>موقع الخروج</th>
 																<th>Ip address الخروج</th>
+																<th>موقع الخروج</th>
 															</tr>
 														</thead>
 														<tbody>

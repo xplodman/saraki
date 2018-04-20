@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	
-
-<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
-
-
+		<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 				{
@@ -73,10 +69,7 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-
-
 	</head>
-
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
@@ -89,16 +82,14 @@
 
 					<span class="icon-bar"></span>
 				</button>
-
 				<div class="navbar-header pull-left">
-								<a href="index.php" class="navbar-brand">
+					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class="fa fa-cubes"></i>
 							PIC
 						</small>
 					</a>
 				</div>
-
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
 						<li class="light-blue dropdown-modal">
@@ -155,83 +146,9 @@
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
-
-			<div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-				<script type="text/javascript">
-					try{ace.settings.loadState('sidebar')}catch(e){}
-				</script>
-				<ul class="nav nav-list">
-					<li>
-						<?php
-						require 'assets/redi/sqlcon.php';
-						$nickname=$_SESSION['nickname'];
-						$prosname=$_SESSION['prosname'];
-						$securitylvl=$_SESSION['securitylvl'];
-						$idusers=$_SESSION['idusers'];
-						if($securitylvl == "a")
-							{?>
-								<a href="adminindex.php">
-								<?php
-							}else
-							{?>
-								<a href="userindex.php">
-						<?php };
-						?>
-
-							<i class="menu-icon fa fa-home"></i>
-							<span class="menu-text"> الصفحة الرئيسية </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li class="active">
-						<a href="sarki.php">
-							<i class="menu-icon fa fa-sticky-note-o"></i>
-							<span class="menu-text"> السراكي </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<li>
-						<?php
-						if($securitylvl == "a")
-							{?>
-								<a href="advancedsearch.php">
-								<?php
-							}else
-							{?>
-								<a href="search.php">
-						<?php }; ?>
-							<i class="menu-icon fa fa-search"></i>
-							<span class="menu-text">البحث </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="dataentry.php">
-							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> Data entry </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-					<?php
-						if($securitylvl == "a"){ ?>
-					<li>
-						<a href="pros.php">
-							<i class="menu-icon fa fa-university"></i>
-							<span class="menu-text"> النيابات </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
-					<?PHP } ?>
-				</ul><!-- /.nav-list -->
-
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-			</div>
-
+			<?php
+				include_once "assets/sidebar.php";
+			?>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<div class="page-content">
@@ -355,7 +272,23 @@
 
 
 								$idsarki=$_GET['idsarki'];
-								$result=mysqli_query($sqlcon, "SELECT * FROM `sarki` WHERE `idsarki` = $idsarki");
+								$result=mysqli_query($sqlcon, "SELECT
+  sarki.idsarki,
+  sarki.casetype_idcasetype,
+  sarki.casetype2_idcasetype2,
+  sarki.departs_iddeparts,
+  sarki.idusers,
+  sarki.date,
+  sarki.`from`,
+  sarki.`to`,
+  sarki.year,
+  sarki.createdate,
+  sarki.updatedate,
+  sarki.notes,
+  users.nickname
+FROM
+  sarki
+  INNER JOIN users ON sarki.idusers = users.idusers WHERE `idsarki` = $idsarki");
 								while($sarkiinfores = mysqli_fetch_assoc($result))
 															{	
 													?>								
@@ -369,10 +302,32 @@
 											<div class="col-xs-12 col-sm-9">
 												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
+														<div class="profile-info-name">أسم مدخل البانات</div>
+
+														<div class="profile-info-value">
+															<input type="text" class="col-sm-8" type="text" value="<?php echo $sarkiinfores['nickname'] ;?>" disabled/>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">عدد القضايا داخل السركي</div>
+
+														<div class="profile-info-value">
+															<input type="text" class="col-sm-8" type="text" value="<?php $result545 = mysqli_query($sqlcon,"
+Select Count(`case`.idcase) As countcase
+From `case`
+  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
+Where sarki.idsarki = $idsarki") or die(mysqli_error($sqlcon));
+$row545 = mysqli_fetch_assoc($result545);
+if($row545['countcase'] > '0')
+{echo $row545['countcase'];}else
+{echo "0";} ?>" disabled/>
+														</div>
+													</div>
+													<div class="profile-info-row">
 														<div class="profile-info-name">التاريخ</div>
 
 														<div class="profile-info-value">
-															<input type="text" class="date-picker" "id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $sarkiinfores['date'] ;?>" name="date"/>
+															<input type="text" class="col-sm-8 date-picker" "id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $sarkiinfores['date'] ;?>" name="date"/>
 														</div>
 													</div>
 													<div class="profile-info-row">

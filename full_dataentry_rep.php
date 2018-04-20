@@ -15,6 +15,8 @@
 		<![endif]-->
 		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.table2excel.min.js"></script>
 		<!--[if lte IE 9]>
 		<link rel="stylesheet" href="assets/css/ace-ie.min.css" />
 		<![endif]-->
@@ -36,7 +38,7 @@
   casetype.casetypename,
   departs.departname,
   users.nickname,
-  sarki.createdate
+  DATE_FORMAT(sarki.createdate, '%d/%m/%Y') AS createdate
 FROM
   `case`
   INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
@@ -78,6 +80,18 @@ ORDER BY
 	?>
 		
 <body>
+<script>
+	$(function() {
+		$(".table2excel").table2excel({
+			name: "من <?php echo $week_start; ?> إلى <?php echo $week_end; ?>",
+			filename: "تقرير المتابعة من <?php echo $week_start; ?> إلى <?php echo $week_end; ?>",
+			fileext: ".xls",
+			exclude_img: true,
+			exclude_links: true,
+			exclude_inputs: true
+		});
+	});
+</script>
 		<style>
 		tr.row {
     border:1px solid black; 
@@ -100,7 +114,7 @@ ORDER BY
 						</div>
 					</div>
 					<br>
-					<table  border="5" align="center"  style="width:98%">
+					<table border="5" align="center"  style="width:98%" class="table2excel">
 						<tr>
 							<td width="10%" align="center">
 								<font size="3" style="bold" >
@@ -220,5 +234,4 @@ ORDER BY
 		</div>
 		<!-- /.row -->
 	</body>
-
 </html>

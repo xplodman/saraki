@@ -8,6 +8,7 @@ include_once "assets/redi/sqlcon.php";
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الحضور و الإنصراف | Login</title>
+	<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
     <style>
         @font-face {
             font-family: myFirstFont;
