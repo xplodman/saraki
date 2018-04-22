@@ -23,6 +23,7 @@
 			} else {
 				$_SESSION['timestamp'] = time(); //set new timestamp
 					}}
+		$admin_id = $_SESSION["admin_id"];
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -109,7 +110,7 @@
 											{
 												$prosname=$_SESSION['prosname'];
 												$nickname=$_SESSION['nickname'];
-												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 												$securitylvl=$_SESSION['securitylvl'];
 
 													echo $nickname;
@@ -319,10 +320,22 @@
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select id="form-field-44" name="idusers">
+														<select required id="form-field-44" name="idusers">
 															<option value="" >أسم المستخدم</option>
 															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT * FROM `users`");
+																$result22 = mysqli_query($sqlcon, "SELECT
+  *
+FROM
+  users
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  users.securitylvl = 'd' AND
+  overallpros_has_users.users_idusers = '$admin_id'
+  GROUP BY
+  users.idusers");
 																while ($row22 = $result22->fetch_assoc()) {
 																?>
 															<option value="<?php echo $row22['idusers'] ?>" > <?php echo $row22['nickname'] ?> </option>
@@ -349,7 +362,13 @@
 														<select id="form-field-44" name="overallprosid">
 															<option value="" >الكل</option>
 															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT * FROM `overallpros`");
+																$result22 = mysqli_query($sqlcon, "SELECT
+  *
+FROM
+  overallpros
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'");
 																while ($row22 = $result22->fetch_assoc()) {
 																?>
 															<option value="<?php echo $row22['overallprosid'] ?>" > <?php echo $row22['overallprosname'] ?> </option>
@@ -365,34 +384,40 @@
 										</form>
 									</div><!-- /.row -->
 								</div><!-- /.row -->
-								<div class="hr hr32 hr-dotted"></div>
-								<div class="row">
-									<div class="col-xs-12">
-									<h3>تقرير مجمع للنيابات بالشهور</h3>
-										<form class="form-horizontal" method="post" action="prosrep_by_month.php" target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/m" name="from_month"/>
-													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/m" name="to_month"/>
-														<select id="form-field-44" name="overallprosid">
-															<option value="" >الكل</option>
-															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT * FROM `overallpros`");
-																while ($row22 = $result22->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row22['overallprosid'] ?>" > <?php echo $row22['overallprosname'] ?> </option>
-
-															<?php } ?>
-														</select>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-									</div><!-- /.row -->
-								</div><!-- /.row -->
+<!--								<div class="hr hr32 hr-dotted"></div>-->
+<!--								<div class="row">-->
+<!--									<div class="col-xs-12">-->
+<!--									<h3>تقرير مجمع للنيابات بالشهور</h3>-->
+<!--										<form class="form-horizontal" method="post" action="prosrep_by_month.php" target="_blank">-->
+<!--											<div class="form-group">-->
+<!--												<div class="col-sm-12">-->
+<!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/m" name="from_month"/>-->
+<!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/m" name="to_month"/>-->
+<!--													<select id="form-field-44" name="overallprosid">-->
+<!--														<option value="" >الكل</option>-->
+<!--														--><?php
+//														$result22 = mysqli_query($sqlcon, "SELECT
+//  *
+//FROM
+//  overallpros
+//  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+//WHERE
+//  overallpros_has_users.users_idusers = $idusers");
+//														while ($row22 = $result22->fetch_assoc()) {
+//															?>
+<!--															<option value="--><?php //echo $row22['overallprosid'] ?><!--" > --><?php //echo $row22['overallprosname'] ?><!-- </option>-->
+<!---->
+<!--														--><?php //} ?>
+<!--													</select>-->
+<!--													<button class="btn btn-info"  type="Submit"  name="submit">-->
+<!--														<i class="ace-icon fa fa-print bigger-150"></i>-->
+<!--														Print-->
+<!--													</button>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</form>-->
+<!--									</div><!-- /.row -->
+<!--								</div><!-- /.row -->
 								<div class="hr hr32 hr-dotted"></div>
 								<div class="row">
 										<div class="col-sm-12">
@@ -425,78 +450,134 @@
 														<tbody>
 														<?php
 														$result4 = mysqli_query($sqlcon,"
-															Select pros.prosname,
-															  attendance.attendanceid,
-															  attendance.checkindate,
-															  attendance.ip_address as ip_address_real,
-															  attendance.ip_address_2 as ip_address_2_real,
-															  (
-    CASE 
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.10' Then 'IT رمل'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.50' Then 'غرب'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.51' Then 'شئون مالية'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.52' Then 'الأحداث'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.53' Then 'الجمرك'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.54' Then 'سيدي جابر'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.55' Then 'اللبان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.56' Then 'العطارين'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.58' Then 'المنتزة ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.50' Then 'المنتزة أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.20' Then 'الميناء'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.42' Then 'مينا البصل'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.41' Then 'كرموز'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.40' Then 'محرم بك'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.30' Then 'عامرية أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.31' Then 'عامرية ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.32' Then 'الدخيلة'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '40.60' Then 'برج العرب'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.6' Then 'رمل أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.22' Then 'رمل ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.4' Then 'شرق الكلية'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.2' Then 'إستئناف'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.8' Then 'باب شرقي'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address,'.',3),'.',-2) = '31.17' Then 'المنشية'
-     ELSE 'OTHERS' END 
-    ) AS ip_address,
-															  (
-    CASE 
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.10' Then 'IT رمل'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.50' Then 'غرب'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.51' Then 'شئون مالية'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.52' Then 'الأحداث'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.53' Then 'الجمرك'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.54' Then 'سيدي جابر'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.55' Then 'اللبان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.56' Then 'العطارين'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.58' Then 'المنتزة ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.50' Then 'المنتزة أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.20' Then 'الميناء'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.42' Then 'مينا البصل'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.41' Then 'كرموز'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.40' Then 'محرم بك'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.30' Then 'عامرية أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.31' Then 'عامرية ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.32' Then 'الدخيلة'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '40.60' Then 'برج العرب'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.6' Then 'رمل أول'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.22' Then 'رمل ثان'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.4' Then 'شرق الكلية'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.2' Then 'إستئناف'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.8' Then 'باب شرقي'
-      WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(ip_address_2,'.',3),'.',-2) = '31.17' Then 'المنشية'
-     ELSE 'OTHERS' END 
-    ) AS ip_address_2,
-															  Date_Format(attendance.checkouttime, '%h:%i %p') As checkouttime,
-															  users.nickname,
-															  users.idusers,
-															  Date_Format(attendance.checkintime, '%h:%i %p') As checkintime
-															From attendance
-															  Inner Join users On users.idusers = attendance.idusers
-															  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
-															  Inner Join pros On pros.idpros = pros_has_users.idpros 
-															group by attendance.checkindate, users.idusers
-															Order By 
-															  attendance.checkindate Desc  Limit 100") or die(mysqli_error($sqlcon));
+															SELECT
+  pros.prosname,
+  attendance.attendanceid,
+  attendance.checkindate,
+  attendance.ip_address AS ip_address_real,
+  attendance.ip_address_2 AS ip_address_2_real,
+  (CASE
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.10'
+    THEN 'IT رمل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.50'
+    THEN 'غرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.51'
+    THEN 'شئون مالية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.52'
+    THEN 'الأحداث'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.53'
+    THEN 'الجمرك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.54'
+    THEN 'سيدي جابر'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.55'
+    THEN 'اللبان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.56'
+    THEN 'العطارين'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.58'
+    THEN 'المنتزة ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.50'
+    THEN 'المنتزة أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.20'
+    THEN 'الميناء'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.42'
+    THEN 'مينا البصل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.41'
+    THEN 'كرموز'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.40'
+    THEN 'محرم بك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.30'
+    THEN 'عامرية أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.31'
+    THEN 'عامرية ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.32'
+    THEN 'الدخيلة'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.60'
+    THEN 'برج العرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.6'
+    THEN 'رمل أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.22'
+    THEN 'رمل ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.4'
+    THEN 'شرق الكلية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.2'
+    THEN 'إستئناف'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.8'
+    THEN 'باب شرقي'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.17'
+    THEN 'المنشية'
+    ELSE 'OTHERS'
+  END) AS ip_address,
+  (CASE
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.10'
+    THEN 'IT رمل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.50'
+    THEN 'غرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.51'
+    THEN 'شئون مالية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.52'
+    THEN 'الأحداث'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.53'
+    THEN 'الجمرك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.54'
+    THEN 'سيدي جابر'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.55'
+    THEN 'اللبان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.56'
+    THEN 'العطارين'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.58'
+    THEN 'المنتزة ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.50'
+    THEN 'المنتزة أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.20'
+    THEN 'الميناء'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.42'
+    THEN 'مينا البصل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.41'
+    THEN 'كرموز'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.40'
+    THEN 'محرم بك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.30'
+    THEN 'عامرية أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.31'
+    THEN 'عامرية ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.32'
+    THEN 'الدخيلة'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.60'
+    THEN 'برج العرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.6'
+    THEN 'رمل أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.22'
+    THEN 'رمل ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.4'
+    THEN 'شرق الكلية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.2'
+    THEN 'إستئناف'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.8'
+    THEN 'باب شرقي'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.17'
+    THEN 'المنشية'
+    ELSE 'OTHERS'
+  END) AS ip_address_2,
+  Date_Format(attendance.checkouttime, '%h:%i %p') AS checkouttime,
+  users.nickname,
+  users.idusers,
+  Date_Format(attendance.checkintime, '%h:%i %p') AS checkintime
+FROM
+  attendance
+  INNER JOIN users ON users.idusers = attendance.idusers
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros.idpros = pros_has_users.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+GROUP BY
+  attendance.checkindate,
+  users.idusers,
+  overallpros_has_users.users_idusers
+ORDER BY
+  attendance.checkindate DESC
+LIMIT 100") or die(mysqli_error($sqlcon));
 															while($row4 = mysqli_fetch_assoc($result4))
 																{
 																?>

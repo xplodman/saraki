@@ -29,6 +29,8 @@
 		<![endif]-->
 	<?php
 		require 'assets/redi/sqlcon.php';
+	session_start();
+	$admin_id = $_SESSION["admin_id"];
 		$day = date('w');
 		$week_start=$_POST['week_start'];
 		$week_end=$_POST['week_end'];
@@ -39,7 +41,7 @@
   casetype.casetypename,
   departs.departname,
   users.nickname,
-  DATE_FORMAT(sarki.createdate, '%d/%m/%Y') AS createdate
+  Date_Format(sarki.createdate, '%d/%m/%Y') AS createdate
 FROM
   `case`
   INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
@@ -47,37 +49,56 @@ FROM
   INNER JOIN sarki ON sarki.casetype_idcasetype = casetype.idcasetype AND sarki.departs_iddeparts = departs.iddeparts
     AND `case`.sarki_idsarki = sarki.idsarki
   INNER JOIN users ON sarki.idusers = users.idusers
+  INNER JOIN pros ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
-  `case`.createdate BETWEEN '$week_start' and '$week_end 23:59:59'
+  `case`.createdate BETWEEN '$week_start' AND '$week_end 23:59:59' AND
+  overallpros_has_users.users_idusers = '$admin_id'
 ORDER BY
   users.idusers") or die(mysqli_error($sqlcon));
   
   
 	$result5 = mysqli_query($sqlcon,"
-		Select Count(`case`.departs_iddeparts) As countcase,
-		  users.nickname As nickname,
-		  users.idusers As idusers
-		From (((`case`
-		  Join casetype On `case`.casetype_idcasetype = casetype.idcasetype)
-		  Join departs On departs.iddeparts = `case`.departs_iddeparts)
-		  Join sarki On sarki.idsarki = `case`.sarki_idsarki)
-		  Join users On sarki.idusers = users.idusers
-		  Inner Join pros On pros.idpros = departs.pros_idpros
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'
-		Group By users.idusers
-		Order By users.idusers") or die(mysqli_error($sqlcon));	
+		  SELECT
+  Count(`case`.departs_iddeparts) AS countcase,
+  users.nickname AS nickname,
+  users.idusers AS idusers
+FROM
+  (((`case`
+  JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype)
+  JOIN departs ON departs.iddeparts = `case`.departs_iddeparts)
+  JOIN sarki ON sarki.idsarki = `case`.sarki_idsarki)
+  JOIN users ON sarki.idusers = users.idusers
+  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  `case`.createdate BETWEEN '$week_start' AND '$week_end 23:59:59' AND
+  overallpros_has_users.users_idusers = '$admin_id'
+GROUP BY
+  users.idusers
+ORDER BY
+  idusers") or die(mysqli_error($sqlcon));
 	$result6 = mysqli_query($sqlcon,"
-		Select Count(`case`.departs_iddeparts) As countcase,
-		  users.nickname As nickname,
-		  users.idusers As idusers
-		From (((`case`
-		  Join casetype On `case`.casetype_idcasetype = casetype.idcasetype)
-		  Join departs On departs.iddeparts = `case`.departs_iddeparts)
-		  Join sarki On sarki.idsarki = `case`.sarki_idsarki)
-		  Join users On sarki.idusers = users.idusers
-		  Inner Join pros On pros.idpros = departs.pros_idpros
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'
-		") or die(mysqli_error($sqlcon));		
+		SELECT
+  Count(`case`.departs_iddeparts) AS countcase,
+  users.nickname AS nickname,
+  users.idusers AS idusers
+FROM
+  (((`case`
+  JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype)
+  JOIN departs ON departs.iddeparts = `case`.departs_iddeparts)
+  JOIN sarki ON sarki.idsarki = `case`.sarki_idsarki)
+  JOIN users ON sarki.idusers = users.idusers
+  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  `case`.createdate BETWEEN '$week_start' AND '$week_end 23:59:59' AND
+  overallpros_has_users.users_idusers = '$admin_id'
+GROUP BY
+  overallpros_has_users.users_idusers") or die(mysqli_error($sqlcon));
 	?>
 		
 <body>
@@ -204,7 +225,7 @@ ORDER BY
 								</td>
 								<td width="30%" align="center">
 									<font size="5" style="bold" >
-										<b>جميع النيابات</b>
+										<b>إجمالي</b>
 									</font>
 								</td>
 								<td width="30%" align="center">

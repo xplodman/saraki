@@ -28,6 +28,8 @@
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
+	session_start();
+	$admin_id = $_SESSION["admin_id"];
 		$date=$_POST['date_start'];
 		$date2=$_POST['date_start'];
 		$date3=$_POST['date_start'];
@@ -45,8 +47,12 @@
 	  select c.db_date, a.nickname, a.idusers
 	  from time_dimension c
 	  cross join users a
+	    INNER JOIN pros_has_users ON pros_has_users.idusers = a.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 	  WHERE
-      a.securitylvl = 'd'
+      a.securitylvl = 'd' and overallpros_has_users.users_idusers = '$admin_id'
 	) ca
 	left join attendance p
 	  on ca.idusers = p.idusers
@@ -55,7 +61,7 @@
 	order by ca.idusers;";	
 	$result = mysqli_query($sqlcon, $query);
 	?>
-		
+
 <body>
 		<div class="page-header">
 			<div class="row">

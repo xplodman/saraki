@@ -130,7 +130,7 @@
 							<div>
 								<font size="5" style="bold" >
 									<b>
-										<span>تقرير المتابعة من <?php echo $from_minus_month.'/25'; ?> إلى <?php echo $to_month.'/26'; 
+										<span>تقرير المتابعة من <?php echo $from_minus_month.'/25'; ?> إلى <?php echo $to_month.'/26';
 										
 										if (!empty($_POST['overallprosid'])) {
 											$overallprosid=$_POST['overallprosid'];

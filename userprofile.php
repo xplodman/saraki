@@ -286,8 +286,8 @@
 										}
 
 
-								$idusers=$_GET['idusers'];
-								$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`=$idusers");
+								$dataentry_user_id=$_GET['idusers'];
+								$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`='$dataentry_user_id'");
 								while($userinfores = mysqli_fetch_assoc($result))
 															{	
 													?>								
@@ -295,7 +295,7 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<div>
-									<form method="post" action="assets/redi/edituser.php?idusers=<?php echo $idusers?>" method="post">
+									<form method="post" action="assets/redi/edituser.php?idusers=<?php echo $dataentry_user_id?>" method="post">
 										<div id="user-profile-1" class="user-profile row">
 											<div class="col-xs-12 col-sm-3 center">
 												<div>
@@ -355,7 +355,7 @@
 												From pros_has_users
 												  Inner Join users On users.idusers = pros_has_users.idusers
 												  Inner Join pros On pros_has_users.idpros = pros.idpros
-												Where users.idusers = $idusers
+												Where users.idusers = '$dataentry_user_id'
 												Group By pros.idpros");
 												while ($row2 = $result2->fetch_assoc()) {
 												$prosname = $row2['prosname'];
@@ -366,13 +366,15 @@
 											<?php } ?>
 											
 											<?php
-
 												$result99 = mysqli_query($sqlcon, "
-												Select 
-												 pros.prosname,
-												 pros.idpros
-												From pros
-												WHERE  pros.idpros NOT IN ( '" . implode($result_array, "', '") . "' )
+												SELECT
+												  pros.prosname,
+												  pros.idpros
+												FROM
+												  pros
+												  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+												  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+												WHERE  pros.idpros NOT IN ( '" . implode($result_array, "', '") . "' ) AND overallpros_has_users.users_idusers = '$idusers'
 												Group By pros.idpros
 												") or die(mysqli_error($sqlcon));
 												while ($row99 = $result99->fetch_assoc()) {

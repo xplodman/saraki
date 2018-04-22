@@ -32,14 +32,14 @@ session_start();
 	  $result133 = mysqli_query($sqlcon, "INSERT INTO `pic`.`pros_has_users` (`idpros`, `idusers`) VALUES ('$pros[$x]','$comma_separated');");
 	}
 	mysqli_commit($sqlcon);
-	header('Location: ../../dataentry.php?backresult=1');
+	header('Location: ../../users.php?backresult=1');
 	$fh = fopen('/tmp/track.txt','a');
 	fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
 	fclose($fh);
 	exit;
 	}
 	{ 
-	header('Location: ../../dataentry.php?backresult=0');
+	header('Location: ../../users.php?backresult=0');
 	$fh = fopen('/tmp/track.txt','a');
 	fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
 	fclose($fh);

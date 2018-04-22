@@ -21,13 +21,13 @@ if ( $result3 )
 { 
 				mysqli_commit($sqlcon);
 
-header('Location: ../../dataentry.php?backresult=1');
+header('Location: ../../users.php?backresult=1');
 $fh = fopen('/tmp/track.txt','a');
 fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
 fclose($fh);}
 else
 { 
-header('Location: ../../dataentry.php?backresult=0');
+header('Location: ../../users.php?backresult=0');
 $fh = fopen('/tmp/track.txt','a');
 fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
 fclose($fh);

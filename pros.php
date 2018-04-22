@@ -107,6 +107,7 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -344,7 +345,7 @@
 												if (isset($_SESSION['securitylvl']))
 													{
 														$securitylvl=$_SESSION['securitylvl'];
-														if($securitylvl == "d" || $securitylvl == "a" ):
+														if($securitylvl == "a" ):
 															?>
 															<a href="#modal-add-overall-pros" class="btn btn-white btn-info btn-bold" data-toggle="modal">
 																<i class="ace-icon fa fa-plus-square-o"></i>
@@ -394,7 +395,16 @@
 
 												<tbody>
 												<?php 
-														$result4 = mysqli_query($sqlcon, "SELECT * FROM `pros`");
+														$result4 = mysqli_query($sqlcon, "SELECT
+  pros.idpros,
+  pros.overallprosid,
+  pros.prosname
+FROM
+  pros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'");
 														while($row4 = mysqli_fetch_assoc($result4))
 															{	
 													?>
@@ -521,7 +531,14 @@
 													<div class="col-sm-9">
 														<select id="form-field-4" name="overallprosid">
 																	<?php
-																		$result22 = mysqli_query($sqlcon, "SELECT * FROM `overallpros`");
+																		$result22 = mysqli_query($sqlcon, "SELECT
+  overallpros.overallprosid,
+  overallpros.overallprosname
+FROM
+  overallpros
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'");
 																		while ($row22 = $result22->fetch_assoc()) {
 																		?>
 																	<option value="<?php echo $row22['overallprosid'] ?>" > <?php echo $row22['overallprosname'] ?> </option>
@@ -572,7 +589,16 @@
 													<div class="col-sm-8">
 														<select name="prosid" >
 															<?php
-																$result2 = mysqli_query($sqlcon, "SELECT * FROM `pros`");
+																$result2 = mysqli_query($sqlcon, "SELECT
+  pros.idpros,
+  pros.overallprosid,
+  pros.prosname
+FROM
+  pros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'");
 																while ($row2 = $result2->fetch_assoc()) {
 																$prosid = $row2['idpros'];
 																$prosname = $row2['prosname']; 

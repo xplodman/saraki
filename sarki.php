@@ -123,6 +123,7 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -280,7 +281,6 @@
 											echo "&ensp;";
 
 											echo $departname=$_SESSION['departname'];
-											$idusers=$_SESSION['idusers'];
 										?>
 
 
@@ -386,7 +386,7 @@
 												if (isset($_SESSION['securitylvl']))
 													{
 														$securitylvl=$_SESSION['securitylvl'];
-														if($securitylvl == "d" || $securitylvl == "a" ):
+														if($securitylvl == "d" ):
 															?>
 																<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
 																	<i class="ace-icon fa fa-plus-square-o"></i>
@@ -439,26 +439,34 @@
 														{
 															$result4 = mysqli_query($sqlcon,"
 
-															Select departs.departname,
-															  casetype2.casetype2name,
-															  casetype.casetypename,
-															  sarki.date,
-															  sarki.`from`,
-															  sarki.`to`,
-															  sarki.year,
-															  sarki.createdate,
-															  sarki.updatedate,
-															  sarki.idsarki,
-															  sarki.notes,
-															  users.idusers,
-															  users.nickname
-															From sarki
-															  Inner Join casetype2 On casetype2.idcasetype2 = sarki.casetype2_idcasetype2
-															  Inner Join casetype On casetype.idcasetype = sarki.casetype_idcasetype
-															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
-															  Inner Join pros On pros.idpros = departs.pros_idpros
-															  Inner Join users On sarki.idusers = users.idusers
-															Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
+															SELECT
+  departs.departname,
+  casetype2.casetype2name,
+  casetype.casetypename,
+  sarki.date,
+  sarki.`from`,
+  sarki.`to`,
+  sarki.year,
+  sarki.createdate,
+  sarki.updatedate,
+  sarki.idsarki,
+  sarki.notes,
+  users.idusers,
+  users.nickname
+FROM
+  sarki
+  INNER JOIN casetype2 ON casetype2.idcasetype2 = sarki.casetype2_idcasetype2
+  INNER JOIN casetype ON casetype.idcasetype = sarki.casetype_idcasetype
+  INNER JOIN departs ON departs.iddeparts = sarki.departs_iddeparts
+  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+  INNER JOIN users ON sarki.idusers = users.idusers
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+ORDER BY
+  sarki.idsarki DESC
+LIMIT 1000") or die(mysqli_error($sqlcon));
 														}else
 														{
 															$result4 = mysqli_query($sqlcon,"

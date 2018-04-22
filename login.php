@@ -135,7 +135,16 @@ include_once "assets/redi/sqlcon.php";
         -o-animation-iteration-count: infinite;
     }
 </style>
-<body class="gray-bg">
+<style>
+    #example1 {
+        border: 2px solid black;
+        padding: 25px;
+        background: url(assets/images/nss_lock_image.jpg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+</style>
+<body class="gray-bg" id="example1">
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div>
         <div class="col-lg-12 center">

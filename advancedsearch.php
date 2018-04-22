@@ -110,6 +110,7 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -355,7 +356,22 @@ if(trim($user) != ''){
 													<select class="multiselect" id="form-field-4" name="user">
 														<option selected="selected" value="" >--إختار المدخل--</option>
 														<?php
-															$result222 = mysqli_query($sqlcon, "SELECT * FROM `users` ORDER BY `users`.`nickname` ASC ");
+															$result222 = mysqli_query($sqlcon, "SELECT
+  users.idusers,
+  users.username,
+  users.nickname
+FROM
+  users
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+GROUP BY
+  users.idusers
+ORDER BY
+  users.nickname");
 															while ($row222 = $result222->fetch_assoc()) { 
 															?>											
 														<option value="<?php echo $row222['idusers'] ?>"<?php if (!empty($user)) {if($row222['idusers']==$user) echo 'selected="selected"'; }?> > <?php echo $row222['nickname']?> </option>
@@ -412,11 +428,17 @@ if(trim($user) != ''){
 														<?php 
 																if($_SESSION['securitylvl'] == "a")
 																	{
-																		$result2 = mysqli_query($sqlcon, "Select
-																  departs.departname,
-																  departs.iddeparts
-																From departs
-																  Inner Join pros On pros.idpros = departs.pros_idpros");
+																		$result2 = mysqli_query($sqlcon, "SELECT
+  departs.departname,
+  departs.iddeparts
+FROM
+  departs
+  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+  GROUP BY departs.iddeparts");
 																while ($row2 = $result2->fetch_assoc()) { 
 																?>											
 															<option value="<?php echo $row2['iddeparts'] ?>"

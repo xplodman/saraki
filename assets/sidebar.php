@@ -44,10 +44,10 @@ function active($currect_page){
 					</li>
 					<?php
 						if($securitylvl == "a"){ ?>
-					<li class="<?php active('dataentry.php')?>">
-						<a href="dataentry.php">
+					<li class="<?php active('users.php')?>">
+						<a href="users.php">
 							<i class="menu-icon fa fa-users"></i>
-							<span class="menu-text"> مدخلي البيانات </span>
+							<span class="menu-text"> المستخدمين </span>
 						</a>
 						<b class="arrow"></b>
 					</li>

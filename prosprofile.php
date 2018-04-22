@@ -115,6 +115,7 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -309,7 +310,14 @@
 														<div class="profile-info-value">
 															<select class="multiselect" id="form-field-4" name="overallprosid">
 																	<?php
-																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `overallpros`");
+																		$result2 = mysqli_query($sqlcon, "SELECT
+  overallpros.overallprosid,
+  overallpros.overallprosname
+FROM
+  overallpros
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'");
 																		while ($row2 = $result2->fetch_assoc()) {
 																		?>
 																	<option value="<?php echo $row2['overallprosid'] ?>" <?php if($prosinfores['overallprosid']==$row2['overallprosid']) echo 'selected="selected"'; ?> > <?php echo $row2['overallprosname'] ?> </option>
@@ -329,13 +337,20 @@
 										<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="form-field-13">
 											<?php
 												$result2 = mysqli_query($sqlcon, "
-												Select departs.iddeparts,
-												  departs.departname,
-												  pros.idpros,
-												  pros.prosname
-												From pros
-												  Inner Join departs On departs.pros_idpros = pros.idpros
-												Where pros.idpros = $idpros");
+												
+												SELECT
+  departs.iddeparts,
+  departs.departname,
+  pros.idpros,
+  pros.prosname
+FROM
+  pros
+  INNER JOIN departs ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  pros.idpros = '$idpros' AND
+  overallpros_has_users.users_idusers = '$admin_id'");
 												while ($row2 = $result2->fetch_assoc()) {
 												$prosname = $row2['departname'];
 												$idpros = $row2['iddeparts']; 
@@ -347,13 +362,18 @@
 											<?php
 
 												$result99 = mysqli_query($sqlcon, "
-												Select departs.iddeparts,
-												  departs.departname,
-												  pros.idpros,
-												  pros.prosname
-												From pros
-												  Inner Join departs On departs.pros_idpros = pros.idpros
-												WHERE  departs.iddeparts NOT IN ( '" . implode($result_array, "', '") . "' )") or die(mysqli_error($sqlcon));
+												SELECT
+  departs.iddeparts,
+  departs.departname,
+  pros.idpros,
+  pros.prosname
+FROM
+  pros
+  INNER JOIN departs ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id' AND departs.iddeparts NOT IN ( '" . implode($result_array, "', '") . "' )") or die(mysqli_error($sqlcon));
 												while ($row99 = $result99->fetch_assoc()) {
 												$prosname = $row99['departname'];
 												$idpros = $row99['iddeparts']; 

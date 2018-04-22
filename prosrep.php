@@ -28,20 +28,25 @@
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
+	session_start();
+	$admin_id = $_SESSION["admin_id"];
 		$day = date('w');
 		$week_start=$_POST['week_start'];
 		$week_end=$_POST['week_end'];
 		
 		$query="
-		Select Count(`case`.idcase) As casecount,
-		  pros.prosname As prosname,
+		SELECT
+		  Count(`case`.idcase) AS casecount,
+		  pros.prosname AS prosname,
 		  overallpros.overallprosname,
 		  overallpros.overallprosid
-		From pros
-		  Inner Join departs On departs.pros_idpros = pros.idpros
-		  Inner Join `case` On departs.iddeparts = `case`.departs_iddeparts
-		  Inner Join overallpros On overallpros.overallprosid = pros.overallprosid 
-		  Where `case`.createdate between '$week_start' and '$week_end 23:59:59'
+		FROM
+		  pros
+		  INNER JOIN departs ON departs.pros_idpros = pros.idpros
+		  INNER JOIN `case` ON departs.iddeparts = `case`.departs_iddeparts
+		  INNER JOIN overallpros ON overallpros.overallprosid = pros.overallprosid
+		  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+		  Where overallpros_has_users.users_idusers = '$admin_id' and `case`.createdate between '$week_start' and '$week_end 23:59:59'
 		";
 
 		if (!empty($_POST['overallprosid'])) {
@@ -56,21 +61,24 @@
 		$result4 = mysqli_query($sqlcon, $query) or die(mysqli_error($sqlcon));
 		  
 		$query2="
-		Select Count(`case`.idcase) As casecount,
+		SELECT
+		  Count(`case`.idcase) AS casecount,
 		  overallpros.overallprosname,
 		  overallpros.overallprosid
-		From pros
-		  Inner Join departs On departs.pros_idpros = pros.idpros
-		  Inner Join `case` On departs.iddeparts = `case`.departs_iddeparts
-		  Inner Join overallpros On overallpros.overallprosid = pros.overallprosid 
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'
+		FROM
+		  pros
+		  INNER JOIN departs ON departs.pros_idpros = pros.idpros
+		  INNER JOIN `case` ON departs.iddeparts = `case`.departs_iddeparts
+		  INNER JOIN overallpros ON overallpros.overallprosid = pros.overallprosid
+		  LEFT JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid 
+		Where overallpros_has_users.users_idusers = '$admin_id' and `case`.createdate between '$week_start' and '$week_end 23:59:59'
 		";
 
 		if (!empty($_POST['overallprosid'])) {
 			$overallprosid=$_POST['overallprosid'];
 		if(trim($overallprosid) != ''){
 			$query2 .= " AND  `overallpros`.overallprosid = '$overallprosid'";
-		}}  
+		}}
 			$query2 .= " Group By overallpros.overallprosname, overallpros.overallprosid  ";
 			$query2 .= " Order By casecount Desc";
 	
@@ -78,14 +86,18 @@
 		$result5 = mysqli_query($sqlcon, $query2) or die(mysqli_error($sqlcon));
 
 		$query3="
-		Select Count(`case`.idcase) As casecount,
-		  overallpros.overallprosname,
-		  overallpros.overallprosid
-		From pros
-		  Inner Join departs On departs.pros_idpros = pros.idpros
-		  Inner Join `case` On departs.iddeparts = `case`.departs_iddeparts
-		  Inner Join overallpros On overallpros.overallprosid = pros.overallprosid 
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'
+		SELECT
+  Count(`case`.idcase) AS casecount,
+  overallpros.overallprosname,
+  overallpros.overallprosid
+FROM
+  pros
+  INNER JOIN departs ON departs.pros_idpros = pros.idpros
+  INNER JOIN `case` ON departs.iddeparts = `case`.departs_iddeparts
+  INNER JOIN overallpros ON overallpros.overallprosid = pros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  
+		Where overallpros_has_users.users_idusers = '$admin_id' and `case`.createdate between '$week_start' and '$week_end 23:59:59' 
 		";
 		$query3 .= " Order By casecount Desc";
 
@@ -225,7 +237,7 @@
 								<tr>
 								<td colspan="2" width="60%" align="center">
 									<font size="4" style="bold" >
-										<b>إجمالي نبايات الإسكندرية</b>
+										<b>إجمالي النبايات</b>
 									</font>
 								</td>
 								<td width="30%" align="center">
