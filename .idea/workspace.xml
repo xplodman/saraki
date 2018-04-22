@@ -22,12 +22,78 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="login.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/login.php">
+      <file leaf-file-name="pros.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pros.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="148" column="8" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
-              <folding />
+            <state relative-caret-position="223">
+              <caret line="108" column="58" selection-start-line="108" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+              <folding>
+                <marker date="1524392251345" expanded="true" signature="13983:14290" ph="SELECT * FRO... pros" />
+                <marker date="1524392251345" expanded="true" signature="13983:14301" ph="SELECT pros.... pros" />
+                <marker date="1524392251345" expanded="true" signature="14707:15026" ph="Select pros.... pros" />
+                <marker date="1524392251345" expanded="true" signature="15650:16117" ph="Select depar... pros" />
+                <marker date="1524392251345" expanded="true" signature="19524:19769" ph="SELECT * FRO... overallpros" />
+                <marker date="1524392251345" expanded="true" signature="19524:19780" ph="SELECT overa... overallpros" />
+                <marker date="1524392251345" expanded="true" signature="21897:22215" ph="SELECT * FRO... pros" />
+                <marker date="1524392251345" expanded="true" signature="29637:29669" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="insertoverallpros.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/assets/redi/insertoverallpros.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding>
+                <marker date="1524423514060" expanded="true" signature="292:371" ph="SELECT Max(o... overallpros" />
+                <marker date="1524423514060" expanded="true" signature="575:694" ph="INSERT INTO `pic`.`overallpros`... " />
+                <marker date="1524423514060" expanded="true" signature="735:866" ph="INSERT INTO `pic`.`overallpros_has_users`... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="insertsarki.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/redi/insertsarki.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-783">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1501064228000" expanded="true" signature="2395:2725" ph="INSERT INTO `pic`.`sarki`... " />
+                <marker date="1501064228000" expanded="true" signature="2797:2827" ph="SELECT MAX(i... sarki" />
+                <marker date="1501064228000" expanded="true" signature="2966:3003" ph="Select Max(`... case" />
+                <marker date="1501064228000" expanded="true" signature="3270:3433" ph="INSERT INTO `pic`.`caseentry`... " />
+                <marker date="1501064228000" expanded="true" signature="3482:3762" ph="INSERT INTO `pic`.`case`... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editsarki.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/redi/editsarki.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5730">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1503472542000" expanded="true" signature="5657:5839" ph="UPDATE `case... " />
+                <marker date="1503472542000" expanded="true" signature="5941:6186" ph="UPDATE `sark... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editadmin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/redi/editadmin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="26" column="26" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="26" />
+              <folding>
+                <marker date="1524313737846" expanded="true" signature="373:543" ph="UPDATE `pic`... " />
+                <marker date="1524313737846" expanded="true" signature="584:648" ph="DELETE FROM " />
+                <marker date="1524313737846" expanded="true" signature="739:852" ph="INSERT INTO overallpros_has_users... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -42,7 +108,6 @@
       <list>
         <option value="$PROJECT_DIR$/assets/redi/sqlcon.php" />
         <option value="$PROJECT_DIR$/assets/js/ace.min.js" />
-        <option value="$PROJECT_DIR$/assets/redi/insertoverallpros.php" />
         <option value="$PROJECT_DIR$/assets/header.php" />
         <option value="$PROJECT_DIR$/aaa.php" />
         <option value="$PROJECT_DIR$/actions.php" />
@@ -62,11 +127,12 @@
         <option value="$PROJECT_DIR$/assets/redi/checklogin.php" />
         <option value="$PROJECT_DIR$/sarki.php" />
         <option value="$PROJECT_DIR$/advancedsearch.php" />
-        <option value="$PROJECT_DIR$/adminprofile.php" />
-        <option value="$PROJECT_DIR$/users.php" />
         <option value="$PROJECT_DIR$/pros.php" />
         <option value="$PROJECT_DIR$/prosprofile.php" />
         <option value="$PROJECT_DIR$/login.php" />
+        <option value="$PROJECT_DIR$/users.php" />
+        <option value="$PROJECT_DIR$/adminprofile.php" />
+        <option value="$PROJECT_DIR$/assets/redi/insertoverallpros.php" />
       </list>
     </option>
   </component>
@@ -188,16 +254,16 @@
       <workItem from="1522405153557" duration="12000" />
       <workItem from="1524200604824" duration="7253000" />
       <workItem from="1524214550002" duration="615000" />
-      <workItem from="1524296785713" duration="18799000" />
+      <workItem from="1524296785713" duration="21237000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29517000" />
+    <option name="totallyTimeSpent" value="31955000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -305,13 +371,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/redi/insertoverallpros.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1023">
@@ -353,19 +412,6 @@
             <marker date="1518356226000" expanded="true" signature="373:543" ph="UPDATE `pic`... " />
             <marker date="1518356226000" expanded="true" signature="584:635" ph="DELETE FROM " />
             <marker date="1518356226000" expanded="true" signature="727:816" ph="INSERT INTO `pic`.`pros_has_users`... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/redi/editadmin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="29" column="29" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
-          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
-          <folding>
-            <marker date="1524313737846" expanded="true" signature="373:543" ph="UPDATE `pic`... " />
-            <marker date="1524313737846" expanded="true" signature="584:648" ph="DELETE FROM " />
-            <marker date="1524313737846" expanded="true" signature="739:852" ph="INSERT INTO overallpros_has_users... " />
           </folding>
         </state>
       </provider>
@@ -509,26 +555,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/adminindex.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13138">
-          <caret line="317" column="112" selection-start-line="317" selection-start-column="92" selection-end-line="317" selection-end-column="112" />
-          <folding>
-            <element signature="e#16696#16753#0#PHP" expanded="true" />
-            <marker date="1524387393595" expanded="true" signature="13275:13281" ph="SELECT * FRO... users" />
-            <marker date="1524387393595" expanded="true" signature="13275:13690" ph="SELECT * FRO... users" />
-            <marker date="1524387393595" expanded="true" signature="13275:13691" ph="SELECT * FRO... users" />
-            <marker date="1524387393595" expanded="true" signature="13275:13729" ph="SELECT * FRO... users" />
-            <marker date="1524387393595" expanded="true" signature="15053:15243" ph="SELECT * FRO... overallpros" />
-            <marker date="1524387393595" expanded="true" signature="15053:15254" ph="SELECT * FRO... overallpros" />
-            <marker date="1524387393595" expanded="true" signature="16747:16949" ph="SELECT * FRO... overallpros" />
-            <marker date="1524387393595" expanded="true" signature="16747:16957" ph="SELECT * FRO... overallpros" />
-            <marker date="1524387393595" expanded="true" signature="18764:25194" ph="Select pros.... attendance" />
-            <marker date="1524387393595" expanded="true" signature="33977:34009" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sarki.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="211">
@@ -564,41 +590,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/adminprofile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="366" column="60" selection-start-line="366" selection-start-column="60" selection-end-line="366" selection-end-column="60" />
-          <folding>
-            <marker date="1524390351198" expanded="true" signature="10230:10268" ph="SELECT * FRO... users" />
-            <marker date="1524390351198" expanded="true" signature="13157:13164" ph="SELECT overa... overallpros" />
-            <marker date="1524390351198" expanded="true" signature="13157:13481" ph="SELECT overa... overallpros" />
-            <marker date="1524390351198" expanded="true" signature="13800:14095" ph="SELECT overa... overallpros" />
-            <marker date="1524390351198" expanded="true" signature="13800:14407" ph="SELECT overa... overallpros" />
-            <marker date="1524390351198" expanded="true" signature="14130:14406" ph="SELECT overa... overallpros" />
-            <marker date="1524390351198" expanded="true" signature="21641:21673" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/users.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="544" column="4" selection-start-line="544" selection-start-column="4" selection-end-line="544" selection-end-column="4" />
-          <folding>
-            <marker date="1524391872714" expanded="true" signature="13779:13800" ph="SELECT * FRO... users" />
-            <marker date="1524391872714" expanded="true" signature="13870:13876" ph="SELECT * FRO... users" />
-            <marker date="1524391872714" expanded="true" signature="13870:14374" ph="SELECT users... users" />
-            <marker date="1524391872714" expanded="true" signature="13870:14385" ph="SELECT users... users" />
-            <marker date="1524391872714" expanded="true" signature="15318:15637" ph="SELECT overa... overallpros" />
-            <marker date="1524391872714" expanded="true" signature="16125:16423" ph="Select pros.... pros_has_users" />
-            <marker date="1524391872714" expanded="true" signature="16997:17039" ph="..." />
-            <marker date="1524391872714" expanded="true" signature="19471:19778" ph="SELECT * FRO... pros" />
-            <marker date="1524391872714" expanded="true" signature="19471:19789" ph="SELECT pros.... pros" />
-            <marker date="1524391872714" expanded="true" signature="27211:27243" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/prosprofile.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
@@ -610,23 +601,6 @@
             <marker date="1524392567062" expanded="true" signature="12457:12884" ph="SELECT depar... pros" />
             <marker date="1524392567062" expanded="true" signature="13334:13805" ph="Select depar... pros" />
             <marker date="1524392567062" expanded="true" signature="21153:21185" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pros.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="533" column="107" selection-start-line="533" selection-start-column="107" selection-end-line="540" selection-end-column="51" />
-          <folding>
-            <marker date="1524392251345" expanded="true" signature="13983:14290" ph="SELECT * FRO... pros" />
-            <marker date="1524392251345" expanded="true" signature="13983:14301" ph="SELECT pros.... pros" />
-            <marker date="1524392251345" expanded="true" signature="14707:15026" ph="Select pros.... pros" />
-            <marker date="1524392251345" expanded="true" signature="15650:16117" ph="Select depar... pros" />
-            <marker date="1524392251345" expanded="true" signature="19524:19769" ph="SELECT * FRO... overallpros" />
-            <marker date="1524392251345" expanded="true" signature="19524:19780" ph="SELECT overa... overallpros" />
-            <marker date="1524392251345" expanded="true" signature="21897:22215" ph="SELECT * FRO... pros" />
-            <marker date="1524392251345" expanded="true" signature="29637:29669" ph="..." />
           </folding>
         </state>
       </provider>
@@ -650,6 +624,127 @@
         <state relative-caret-position="270">
           <caret line="148" column="8" selection-start-line="148" selection-start-column="8" selection-end-line="148" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/adminprofile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="387" column="32" selection-start-line="387" selection-start-column="32" selection-end-line="387" selection-end-column="32" />
+          <folding>
+            <marker date="1524422759847" expanded="true" signature="10230:10268" ph="SELECT * FRO... users" />
+            <marker date="1524422759847" expanded="true" signature="13157:13164" ph="SELECT overa... overallpros" />
+            <marker date="1524422759847" expanded="true" signature="13157:13481" ph="SELECT overa... overallpros" />
+            <marker date="1524422759847" expanded="true" signature="13800:13890" ph="SELECT overa... overallpros" />
+            <marker date="1524422759847" expanded="true" signature="13800:14202" ph="SELECT overa... overallpros" />
+            <marker date="1524422759847" expanded="true" signature="13925:14201" ph="SELECT overa... overallpros" />
+            <marker date="1524422759847" expanded="true" signature="21436:21468" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/adminindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="317" column="112" selection-start-line="317" selection-start-column="92" selection-end-line="317" selection-end-column="112" />
+          <folding>
+            <element signature="e#16696#16753#0#PHP" expanded="true" />
+            <marker date="1524387393595" expanded="true" signature="13275:13281" ph="SELECT * FRO... users" />
+            <marker date="1524387393595" expanded="true" signature="13275:13690" ph="SELECT * FRO... users" />
+            <marker date="1524387393595" expanded="true" signature="13275:13691" ph="SELECT * FRO... users" />
+            <marker date="1524387393595" expanded="true" signature="13275:13729" ph="SELECT * FRO... users" />
+            <marker date="1524387393595" expanded="true" signature="15053:15243" ph="SELECT * FRO... overallpros" />
+            <marker date="1524387393595" expanded="true" signature="15053:15254" ph="SELECT * FRO... overallpros" />
+            <marker date="1524387393595" expanded="true" signature="16747:16949" ph="SELECT * FRO... overallpros" />
+            <marker date="1524387393595" expanded="true" signature="16747:16957" ph="SELECT * FRO... overallpros" />
+            <marker date="1524387393595" expanded="true" signature="18764:25194" ph="Select pros.... attendance" />
+            <marker date="1524387393595" expanded="true" signature="33977:34009" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="476" column="66" selection-start-line="476" selection-start-column="66" selection-end-line="476" selection-end-column="66" />
+          <folding>
+            <marker date="1524395236691" expanded="true" signature="13779:13800" ph="SELECT * FRO... users" />
+            <marker date="1524395236691" expanded="true" signature="13870:13876" ph="SELECT * FRO... users" />
+            <marker date="1524395236691" expanded="true" signature="13870:14374" ph="SELECT users... users" />
+            <marker date="1524395236691" expanded="true" signature="13870:14385" ph="SELECT users... users" />
+            <marker date="1524395236691" expanded="true" signature="15318:15637" ph="SELECT overa... overallpros" />
+            <marker date="1524395236691" expanded="true" signature="16113:16411" ph="Select pros.... pros_has_users" />
+            <marker date="1524395236691" expanded="true" signature="16973:17015" ph="..." />
+            <marker date="1524395236691" expanded="true" signature="19447:19754" ph="SELECT * FRO... pros" />
+            <marker date="1524395236691" expanded="true" signature="19447:19765" ph="SELECT pros.... pros" />
+            <marker date="1524395236691" expanded="true" signature="27187:27219" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pros.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="108" column="58" selection-start-line="108" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding>
+            <marker date="1524392251345" expanded="true" signature="13983:14290" ph="SELECT * FRO... pros" />
+            <marker date="1524392251345" expanded="true" signature="13983:14301" ph="SELECT pros.... pros" />
+            <marker date="1524392251345" expanded="true" signature="14707:15026" ph="Select pros.... pros" />
+            <marker date="1524392251345" expanded="true" signature="15650:16117" ph="Select depar... pros" />
+            <marker date="1524392251345" expanded="true" signature="19524:19769" ph="SELECT * FRO... overallpros" />
+            <marker date="1524392251345" expanded="true" signature="19524:19780" ph="SELECT overa... overallpros" />
+            <marker date="1524392251345" expanded="true" signature="21897:22215" ph="SELECT * FRO... pros" />
+            <marker date="1524392251345" expanded="true" signature="29637:29669" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/insertsarki.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-783">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1501064228000" expanded="true" signature="2395:2725" ph="INSERT INTO `pic`.`sarki`... " />
+            <marker date="1501064228000" expanded="true" signature="2797:2827" ph="SELECT MAX(i... sarki" />
+            <marker date="1501064228000" expanded="true" signature="2966:3003" ph="Select Max(`... case" />
+            <marker date="1501064228000" expanded="true" signature="3270:3433" ph="INSERT INTO `pic`.`caseentry`... " />
+            <marker date="1501064228000" expanded="true" signature="3482:3762" ph="INSERT INTO `pic`.`case`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/editsarki.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5730">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1503472542000" expanded="true" signature="5657:5839" ph="UPDATE `case... " />
+            <marker date="1503472542000" expanded="true" signature="5941:6186" ph="UPDATE `sark... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/editadmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="26" />
+          <folding>
+            <marker date="1524313737846" expanded="true" signature="373:543" ph="UPDATE `pic`... " />
+            <marker date="1524313737846" expanded="true" signature="584:648" ph="DELETE FROM " />
+            <marker date="1524313737846" expanded="true" signature="739:852" ph="INSERT INTO overallpros_has_users... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/insertoverallpros.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <marker date="1524423514060" expanded="true" signature="292:371" ph="SELECT Max(o... overallpros" />
+            <marker date="1524423514060" expanded="true" signature="575:694" ph="INSERT INTO `pic`.`overallpros`... " />
+            <marker date="1524423514060" expanded="true" signature="735:866" ph="INSERT INTO `pic`.`overallpros_has_users`... " />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -371,12 +371,9 @@ WHERE
 											$result2 = mysqli_query($sqlcon, "
 												SELECT
   overallpros.overallprosid,
-  overallpros.overallprosname,
-  users.idusers
+  overallpros.overallprosname
 FROM
   overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
 WHERE overallpros.overallprosid NOT IN (SELECT
   overallpros.overallprosid
 FROM

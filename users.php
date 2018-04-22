@@ -455,7 +455,7 @@ WHERE
 																		?>
 																		<button class="btn btn-xs btn-danger"> <?php echo $prosname ?></button>
 																<?php
-																		echo "&nbsp;&nbsp;&nbsp;";
+																		echo "&nbsp;";
 																	};																}elseif ($row4['securitylvl']=='d'){
 																	$matresult = mysqli_query($sqlcon, "
 																Select pros.prosname,
@@ -471,7 +471,7 @@ WHERE
 																		echo '<a href="'?>prosprofile.php?idpros=<?php echo $prosid ;
 																		echo '" class="btn btn-xs btn-'.$color.'">';
 																		echo $prosname;
-																		echo '</a>'."&nbsp;&nbsp;&nbsp;";
+																		echo '</a>'."&nbsp;";
 																	};
 																}
 																?>
