@@ -63,14 +63,24 @@ function active($currect_page){
 					</li>
 					<?PHP } ?>
 					<?php
-						if($securitylvl == "a"){ ?>
-					<li class="<?php active('actions.php')?>">
-						<a href="actions.php">
-							<i class="menu-icon fa fa-trophy"></i>
-							<span class="menu-text"> التصرفات </span>
-						</a>
-						<b class="arrow"></b>
-					</li>
+					if($securitylvl == "a"){ ?>
+						<li class="<?php active('court_session.php')?>">
+							<a href="court_session.php">
+								<i class="menu-icon fa fa-gavel"></i>
+								<span class="menu-text"> الجلسات </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
+					<?PHP } ?>
+					<?php
+					if($securitylvl == "a"){ ?>
+						<li class="<?php active('actions.php')?>">
+							<a href="actions.php">
+								<i class="menu-icon fa fa-trophy"></i>
+								<span class="menu-text"> التصرفات </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
 					<?PHP } ?>
 				</ul><!-- /.nav-list -->
 

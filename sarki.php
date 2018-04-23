@@ -123,7 +123,6 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -437,6 +436,7 @@
 													<?php
 														if($_SESSION['securitylvl'] == "a")
 														{
+															$admin_id=$_SESSION['admin_id'];
 															$result4 = mysqli_query($sqlcon,"
 
 															SELECT

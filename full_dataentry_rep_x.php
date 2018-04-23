@@ -33,6 +33,7 @@
 		$week_start=$_POST['week_start'];
 		$week_end=$_POST['week_end'];
 		$idusers=$_POST['idusers'];
+		$type2=$_POST['type2'];
 		$result4 = mysqli_query($sqlcon,"
 		SELECT
   `case`.casenum,
@@ -40,7 +41,8 @@
   casetype.casetypename,
   departs.departname,
   users.nickname,
-  DATE_FORMAT(sarki.createdate, '%d/%m/%Y') AS createdate
+  Date_Format(sarki.createdate, '%d/%m/%Y') AS createdate,
+  casetype2.casetype2name
 FROM
   `case`
   INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
@@ -48,37 +50,45 @@ FROM
   INNER JOIN sarki ON sarki.casetype_idcasetype = casetype.idcasetype AND sarki.departs_iddeparts = departs.iddeparts
     AND `case`.sarki_idsarki = sarki.idsarki
   INNER JOIN users ON sarki.idusers = users.idusers
+  INNER JOIN casetype2 ON `case`.casetype2_idcasetype2 = casetype2.idcasetype2
 WHERE
-  `case`.createdate BETWEEN '$week_start' and '$week_end 23:59:59' and users.idusers = '$idusers'
+  `case`.createdate BETWEEN '$week_start' and '$week_end 23:59:59' and users.idusers = '$idusers' and casetype2.idcasetype2 in ($type2)
 ORDER BY
   users.idusers") or die(mysqli_error($sqlcon));
-  
-  
+
 	$result5 = mysqli_query($sqlcon,"
-		Select Count(`case`.departs_iddeparts) As countcase,
-		  users.nickname As nickname,
-		  users.idusers As idusers
-		From (((`case`
-		  Join casetype On `case`.casetype_idcasetype = casetype.idcasetype)
-		  Join departs On departs.iddeparts = `case`.departs_iddeparts)
-		  Join sarki On sarki.idsarki = `case`.sarki_idsarki)
-		  Join users On sarki.idusers = users.idusers
-		  Inner Join pros On pros.idpros = departs.pros_idpros
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'  and users.idusers = '$idusers'
+		SELECT
+		  Count(`case`.departs_iddeparts) AS countcase,
+		  users.nickname AS nickname,
+		  users.idusers AS idusers
+		FROM
+		  (((`case`
+		  JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype)
+		  JOIN departs ON departs.iddeparts = `case`.departs_iddeparts)
+		  JOIN sarki ON sarki.idsarki = `case`.sarki_idsarki)
+		  JOIN users ON sarki.idusers = users.idusers
+		  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+		  INNER JOIN casetype2 ON `case`.casetype2_idcasetype2 = casetype2.idcasetype2
+		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'  and users.idusers = '$idusers' and casetype2.idcasetype2 in ($type2)
 		Group By users.idusers
-		Order By users.idusers") or die(mysqli_error($sqlcon));	
+		Order By users.idusers") or die(mysqli_error($sqlcon));
+
+
 	$result6 = mysqli_query($sqlcon,"
-		Select Count(`case`.departs_iddeparts) As countcase,
-		  users.nickname As nickname,
-		  users.idusers As idusers
-		From (((`case`
-		  Join casetype On `case`.casetype_idcasetype = casetype.idcasetype)
-		  Join departs On departs.iddeparts = `case`.departs_iddeparts)
-		  Join sarki On sarki.idsarki = `case`.sarki_idsarki)
-		  Join users On sarki.idusers = users.idusers
-		  Inner Join pros On pros.idpros = departs.pros_idpros
-		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'  and users.idusers ='$idusers'
-		") or die(mysqli_error($sqlcon));		
+		SELECT
+		  Count(`case`.departs_iddeparts) AS countcase,
+		  users.nickname AS nickname,
+		  users.idusers AS idusers
+		FROM
+		  (((`case`
+		  JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype)
+		  JOIN departs ON departs.iddeparts = `case`.departs_iddeparts)
+		  JOIN sarki ON sarki.idsarki = `case`.sarki_idsarki)
+		  JOIN users ON sarki.idusers = users.idusers
+		  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+		  INNER JOIN casetype2 ON `case`.casetype2_idcasetype2 = casetype2.idcasetype2
+		Where `case`.createdate between '$week_start' and '$week_end 23:59:59'  and users.idusers ='$idusers' and casetype2.idcasetype2 in ($type2)
+		") or die(mysqli_error($sqlcon));
 	?>
 		
 <body>
@@ -118,7 +128,7 @@ ORDER BY
 					<br>
 					<table border="5" align="center"  style="width:98%" class="table2excel">
 						<tr>
-							<td width="10%" align="center">
+							<td width="2%" align="center">
 								<font size="3" style="bold" >
 									<b>مسلسل</b>
 								</font>
@@ -133,9 +143,14 @@ ORDER BY
 									<b>أسم المنشئ</b>
 								</font>
 							</td>
-							<td width="30%" align="center">
+							<td width="25%" align="center">
 								<font size="3" style="bold" >
 									<b>تاريخ الإنشاء</b>
+								</font>
+							</td>
+							<td width="8%" align="center">
+								<font size="3" style="bold" >
+									<b>نوع المحضر</b>
 								</font>
 							</td>
 						</tr>
@@ -151,6 +166,7 @@ ORDER BY
 									<td align="center"><?php echo $row4['casenum']." / ".$row4['caseyear']." / ".$row4['casetypename']." / ".$row4['departname']; ?></td>
 									<td align="center"><?php echo $row4['nickname']; ?></td>
 									<td align="center"><?php echo $row4['createdate']; ?></td>
+									<td align="center"><?php echo $row4['casetype2name']; ?></td>
 								</tr>
 							<?php
 								$x=$x+1;
@@ -163,7 +179,7 @@ ORDER BY
 								
 							?>
 								<tr bgcolor="#BDBDBD">
-								<td width="10%" align="center">
+								<td width="2%" align="center">
 									<font size="3" style="italic" >
 										<b>#</b>
 									</font>
@@ -178,9 +194,14 @@ ORDER BY
 										<b><?php echo $row5['nickname'];?></b>
 									</font>
 								</td>
-								<td width="30%" align="center">
+								<td width="25%" align="center">
 									<font size="3" style="italic" >
 										<b><?php echo $row5['countcase'];?></b>
+									</font>
+								</td>
+								<td width="8%" align="center">
+									<font size="3" style="italic" >
+										<b>#</b>
 									</font>
 								</td>
 								</tr>

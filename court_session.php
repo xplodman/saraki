@@ -2,16 +2,19 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
-		<?php
-			session_start();
+	
+
+<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+
+
+		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
-						{
-											header('Location: assets/redi/logout.php');
-											$fh = fopen('/tmp/track.txt','a');
-											fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-											fclose($fh);
-						};
+				{
+					header('Location: assets/redi/logout.php');
+					$fh = fopen('/tmp/track.txt','a');
+					fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
+					fclose($fh);
+				};
 			{$_SESSION['authenticate']="true";}
 
 			if (isset($_SESSION['authenticate']))
@@ -23,12 +26,10 @@
 			} else {
 				$_SESSION['timestamp'] = time(); //set new timestamp
 					}}
-		$admin_id = $_SESSION["admin_id"];
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		
-		<title>الصفحة الرئيسية</title>
+		<meta charset="utf-8">
+		<title>الجلسات</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -73,6 +74,8 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+
 	</head>
 
 	<body class="no-skin">
@@ -89,7 +92,7 @@
 				</button>
 
 				<div class="navbar-header pull-left">
-					<a href="index.php" class="navbar-brand">
+								<a href="index.php" class="navbar-brand">
 						<small>
 							<i class="fa fa-cubes"></i>
 							PIC
@@ -108,10 +111,11 @@
 										require 'assets/redi/sqlcon.php';
 										if (isset($_SESSION['authenticate']))
 											{
-												$prosname=$_SESSION['prosname'];
 												$nickname=$_SESSION['nickname'];
-												$admin_id=$_SESSION['admin_id'];
+												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
+												$idusers=$_SESSION['idusers'];
+												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -147,8 +151,8 @@
 				</div>
 			</div><!-- /.navbar-container -->
 		</div>
-	
-		<div class="customfont main-container ace-save-state" id="main-container">
+
+		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
@@ -227,13 +231,10 @@
 
 						<div class="page-header">
 							<h1>
-								الصفحة الرئيسية
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									نظرة عامة &amp; الإحصائيات
-								</small>
+								جلسات المحكمة
 							</h1>
 						</div><!-- /.page-header -->
+
 						<?php
 							require 'assets/redi/sqlcon.php';
 
@@ -261,70 +262,151 @@
 									<i class="ace-icon fa fa-times red"></i>
 									<strong class="red">
 										لم تتم العملية بنجاح
+										<br>
+										برجاء التأكد من عدم تكرار أسم المستخدم
+									</strong>
+								</div>
+								<?php
+									}elseif ($backresult ==  "9") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo "برجاء التأكد من إدخال بدايات و نهايات الكشوف";
+										?>
+									</strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "6") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo "لا يمكن إضافة سركي فارغ";
+										?>
+									</strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "8") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo " لا يمكن إضافة أكثر من 250 قضية في سركي واحد";
+										?>
+									</strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "5") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo "لابد من ان يكون بداية الكشف أقل من نهاية الكشف و ليس العكس";
+										?>
 									</strong>
 								</div>
 								<?php
 									}
 										}
-										?>
+
+								?>
+
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+
 								<div class="row">
-									<div class="col-xs-12">									
-									<h3>تقرير متابعة مدخلي البيانات بإجمالي عدد القضايا</h3>
-										<form class="form-horizontal" method="post" action="dataentryrep.php"  target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-										<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير غياب و حضور مدخلي البيانات</h3>
-										<form class="form-horizontal" method="post" action="dataentry_attend_rep.php"  target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="date_start"/>
-													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="date_end"/>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-									</div><!-- /.row -->
-								</div><!-- /.row -->
-								
-								<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير تفصيلي بالقضايا لجميع مدخلي البيانات</h3>
-										<form class="form-horizontal" method="post" action="full_dataentry_rep.php"  target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-								<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير تفصيلي بالقضايا للمستخدم</h3>
-										<form class="form-horizontal" method="post" action="full_dataentry_rep_x.php"  target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select required id="form-field-44" name="idusers">
-															<option value="" >أسم المستخدم</option>
-															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT
-  *
+									<div class="row">
+									<div class="col-xs-12">
+									<div class="clearfix">
+										<div class="pull-right tableTools-container"></div>
+											<?php
+												if (isset($_SESSION['securitylvl']))
+													{
+														$securitylvl=$_SESSION['securitylvl'];
+														if($securitylvl == "a" ):
+															?>
+
+																	<a href="#add_court_session" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+																		<i class="ace-icon fa fa-plus-square-o"></i>
+																			<b>إضافة</b></font>
+																	</a>
+																	<?php
+														endif;
+													}
+											?>
+										</div>
+										<div class="table-header">
+											نتائج البحث عن  جلسات المحكمة
+										</div>
+
+										<!-- div.table-responsive -->
+<!-- 
+	<style>
+	   table {border-collapse:collapse; table-layout:fixed; width:30px;}
+	   table td {border:solid 1px #fab; width:100px; word-wrap:break-word;}
+	</style> 
+--> 
+<style type='text/css'>
+   table { table-layout:fixed; /* nothing here - table is block, so should auto expand to as large as it can get without causing scrollbars? */ }
+   .left { text-align:center; }
+   .right { text-align:right; }
+   .middle { text-align:left; /* expand this column to as large as it can get within table? */}
+   .wrap { word-wrap:break-word; /* use up entire cell this div is contained in? */ }
+  </style>
+										<!-- div.dataTables_borderWrap -->
+										<div>
+											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>أسم الشهرة</th>
+														<th>أسم المستخدم</th>
+														<th>كلمة السر</th>
+														<th>النيابات التابع لها</th>
+														<th>الحالة</th>
+													</tr>
+												</thead>
+
+												<tbody>
+												<?php
+												if($admin_id == '1'){
+													$result4 = mysqli_query($sqlcon, "SELECT * FROM `users`");
+												}else{
+													$result4 = mysqli_query($sqlcon, "SELECT
+  users.securitylvl,
+  users.idusers,
+  users.username,
+  users.password,
+  users.nickname
 FROM
   users
   INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
@@ -332,409 +414,190 @@ FROM
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
-  users.securitylvl = 'd' AND
-  overallpros_has_users.users_idusers = '$admin_id'
-  GROUP BY
-  users.idusers");
-																while ($row22 = $result22->fetch_assoc()) {
+  users.securitylvl != 'a' AND
+  overallpros_has_users.users_idusers = '$admin_id'");
+												}
+														while($row4 = mysqli_fetch_assoc($result4))
+															{	
+													?>
+													<tr>
+														<td>
+															<?php
+															if ($row4['securitylvl']=='a'){
 																?>
-															<option value="<?php echo $row22['idusers'] ?>" > <?php echo $row22['nickname'] ?> </option>
-
-															<?php } ?>
-														</select>
-													<select id="form-field-4" name="type2">
-														<option selected="selected" value="1 , 2" >الكل</option>
-														<?php
-														$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
-														while ($row2 = $result2->fetch_assoc()) {
+																<a class="red" href="adminprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a>
+															<?php															}else{
+																?>
+																<a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a>
+																<?php
+															}
 															?>
-															<option value="<?php echo $row2['idcasetype2'] ?>"
+														</td>
+														<td><?php echo $row4['username'] ?></td>
+														<td><?php echo $row4['password'] ?></td>
+														<td>
+															<p class="big">
+																<?php
+																if ($row4['securitylvl']=='a'){
+																	$matresult = mysqli_query($sqlcon, "
+																SELECT
+  overallpros.overallprosname,
+  overallpros.overallprosid
+FROM
+  overallpros
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
+WHERE
+  users.idusers = '".$row4['idusers']."'");
+																	while ($row = $matresult->fetch_assoc()) {
+																		$prosid= $row['overallprosid'];
+																		$prosname= $row['overallprosname'];
+																		?>
+																		<button class="btn btn-xs btn-danger"> <?php echo $prosname ?></button>
+																<?php
+																		echo "&nbsp;";
+																	};																}elseif ($row4['securitylvl']=='d'){
+																	$matresult = mysqli_query($sqlcon, "
+																Select pros.prosname,
+																  pros.idpros 
+																From pros_has_users
+																  Inner Join users On users.idusers = pros_has_users.idusers
+																  Inner Join pros On pros_has_users.idpros = pros.idpros
+																Where users.idusers ='".$row4['idusers']."'");
+																	$color = "purple";
+																	while ($row = $matresult->fetch_assoc()) {
+																		$prosid= $row['idpros'];
+																		$prosname= $row['prosname'];
+																		echo '<a href="'?>prosprofile.php?idpros=<?php echo $prosid ;
+																		echo '" class="btn btn-xs btn-'.$color.'">';
+																		echo $prosname;
+																		echo '</a>'."&nbsp;";
+																	};
+																}
+																?>
 																<?php
 
-																if (!empty($type)) {
-																	if($row2['idcasetype']==$type)
-																		echo 'selected="selected"';
-																}
-
-																?>
-															> <?php echo $row2['casetype2name']?> </option>
-														<?php } ?>
-													</select>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-								<div class="hr hr32 hr-dotted"></div>
-								<div class="row">
-									<div class="col-xs-12">
-									<h3>تقرير متابعة النيابات</h3>
-										<form class="form-horizontal" method="post" action="prosrep.php" target="_blank">
-											<div class="form-group">
-												<div class="col-sm-12">
-													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select id="form-field-44" name="overallprosid">
-															<option value="" >الكل</option>
+															?>
+															</p>
+														</td>
+														<td>
 															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT
-  *
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-WHERE
-  overallpros_has_users.users_idusers = '$admin_id'");
-																while ($row22 = $result22->fetch_assoc()) {
-																?>
-															<option value="<?php echo $row22['overallprosid'] ?>" > <?php echo $row22['overallprosname'] ?> </option>
-
-															<?php } ?>
-														</select>
-													<button class="btn btn-info"  type="Submit"  name="submit">
-														<i class="ace-icon fa fa-print bigger-150"></i>
-														Print
-													</button>
-												</div>
-											</div>
-										</form>
-									</div><!-- /.row -->
-								</div><!-- /.row -->
-						<div class="hr hr32 hr-dotted"></div>
-						<div class="row">
-							<div class="col-xs-12">
-								<h3>تقرير مفصل بالقضايا للنيابات</h3>
-								<form class="form-horizontal" method="post" action="full_prosrep.php" target="_blank">
-									<div class="form-group">
-										<div class="col-sm-12">
-											<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
-											<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-											<select id="form-field-44" name="prosid">
-												<option value="" >الكل</option>
-												<?php
-												$result22 = mysqli_query($sqlcon, "SELECT
-  pros.idpros,
-  pros.prosname
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN pros ON pros.overallprosid = overallpros.overallprosid
-WHERE
-  overallpros_has_users.users_idusers = '$admin_id'");
-												while ($row22 = $result22->fetch_assoc()) {
-													?>
-													<option value="<?php echo $row22['idpros'] ?>" > <?php echo $row22['prosname'] ?> </option>
-
-												<?php } ?>
-											</select>
-											<select id="form-field-4" name="type2">
-												<option selected="selected" value="" >الكل</option>
-												<?php
-												$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
-												while ($row2 = $result2->fetch_assoc()) {
-													?>
-													<option value="<?php echo $row2['idcasetype2'] ?>"
-														<?php
-
-														if (!empty($type)) {
-															if($row2['idcasetype']==$type)
-																echo 'selected="selected"';
-														}
-
-														?>
-													> <?php echo $row2['casetype2name']?> </option>
-												<?php } ?>
-											</select>
-											<button class="btn btn-info"  type="Submit"  name="submit">
-												<i class="ace-icon fa fa-print bigger-150"></i>
-												Print
-											</button>
+															if ($row4['securitylvl']=='0'){
+																echo "Blocked";
+															}elseif ($row4['securitylvl']=='a'){
+																echo "Administrator";
+															}elseif ($row4['securitylvl']=='d'){
+																echo "Data entry";
+															}
+															?>
+														</td>
+													</tr>
+													<?php
+												};
+											?>
+												</tbody>
+											</table>
 										</div>
 									</div>
-								</form>
-							</div><!-- /.row -->
-						</div><!-- /.row -->
-<!--								<div class="hr hr32 hr-dotted"></div>-->
-<!--								<div class="row">-->
-<!--									<div class="col-xs-12">-->
-<!--									<h3>تقرير مجمع للنيابات بالشهور</h3>-->
-<!--										<form class="form-horizontal" method="post" action="prosrep_by_month.php" target="_blank">-->
-<!--											<div class="form-group">-->
-<!--												<div class="col-sm-12">-->
-<!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/m" name="from_month"/>-->
-<!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/m" name="to_month"/>-->
-<!--													<select id="form-field-44" name="overallprosid">-->
-<!--														<option value="" >الكل</option>-->
-<!--														--><?php
-//														$result22 = mysqli_query($sqlcon, "SELECT
-//  *
-//FROM
-//  overallpros
-//  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-//WHERE
-//  overallpros_has_users.users_idusers = $idusers");
-//														while ($row22 = $result22->fetch_assoc()) {
-//															?>
-<!--															<option value="--><?php //echo $row22['overallprosid'] ?><!--" > --><?php //echo $row22['overallprosname'] ?><!-- </option>-->
-<!---->
-<!--														--><?php //} ?>
-<!--													</select>-->
-<!--													<button class="btn btn-info"  type="Submit"  name="submit">-->
-<!--														<i class="ace-icon fa fa-print bigger-150"></i>-->
-<!--														Print-->
-<!--													</button>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--										</form>-->
-<!--									</div><!-- /.row -->
-<!--								</div><!-- /.row -->
-								<div class="hr hr32 hr-dotted"></div>
-								<div class="row">
-										<div class="col-sm-12">
-										<h3>كشف بالحضور و الإنصراف</h3>
-										<div class="widget-box">
-											<div class="widget-header">
-												<div class="pull-right">
-													<div class="tableTools-container2"></div>
-												</div>
-												<div class="pull-LEFT">
-													<h4 class="smaller">
-														إحصائية <small>بالحضور و الإنصراف لكل موظفين الإدخال</small>
-													</h4>
+								</div>
+
+								</div><!-- /.row -->
+
+								<div id="modal-add" class="modal fade" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header no-padding">
+												<div class="table-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														<span class="white">&times;</span>
+													</button>
+													إضافة مدخل بيانات
 												</div>
 											</div>
-											<div class="widget-body">
-													<table id="dynamic-table2" class="table table-striped table-bordered table-hover">
-														<thead>
-															<tr>
-																<th>الأسم</th>
-																<th>التاريخ</th>
-																<th>وقت الحضور</th>
-																<th>Ip address الدخول</th>
-																<th>موقع الدخول</th>
-																<th>وقت الإنصراف</th>
-																<th>Ip address الخروج</th>
-																<th>موقع الخروج</th>
-															</tr>
-														</thead>
-														<tbody>
-														<?php
-														$result4 = mysqli_query($sqlcon,"
-															SELECT
-  pros.prosname,
-  attendance.attendanceid,
-  attendance.checkindate,
-  attendance.ip_address AS ip_address_real,
-  attendance.ip_address_2 AS ip_address_2_real,
-  (CASE
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.10'
-    THEN 'IT رمل'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.50'
-    THEN 'غرب'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.51'
-    THEN 'شئون مالية'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.52'
-    THEN 'الأحداث'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.53'
-    THEN 'الجمرك'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.54'
-    THEN 'سيدي جابر'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.55'
-    THEN 'اللبان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.56'
-    THEN 'العطارين'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.58'
-    THEN 'المنتزة ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.50'
-    THEN 'المنتزة أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.20'
-    THEN 'الميناء'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.42'
-    THEN 'مينا البصل'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.41'
-    THEN 'كرموز'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.40'
-    THEN 'محرم بك'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.30'
-    THEN 'عامرية أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.31'
-    THEN 'عامرية ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.32'
-    THEN 'الدخيلة'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.60'
-    THEN 'برج العرب'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.6'
-    THEN 'رمل أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.22'
-    THEN 'رمل ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.4'
-    THEN 'شرق الكلية'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.2'
-    THEN 'إستئناف'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.8'
-    THEN 'باب شرقي'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.17'
-    THEN 'المنشية'
-    ELSE 'OTHERS'
-  END) AS ip_address,
-  (CASE
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.10'
-    THEN 'IT رمل'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.50'
-    THEN 'غرب'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.51'
-    THEN 'شئون مالية'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.52'
-    THEN 'الأحداث'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.53'
-    THEN 'الجمرك'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.54'
-    THEN 'سيدي جابر'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.55'
-    THEN 'اللبان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.56'
-    THEN 'العطارين'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.58'
-    THEN 'المنتزة ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.50'
-    THEN 'المنتزة أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.20'
-    THEN 'الميناء'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.42'
-    THEN 'مينا البصل'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.41'
-    THEN 'كرموز'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.40'
-    THEN 'محرم بك'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.30'
-    THEN 'عامرية أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.31'
-    THEN 'عامرية ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.32'
-    THEN 'الدخيلة'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.60'
-    THEN 'برج العرب'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.6'
-    THEN 'رمل أول'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.22'
-    THEN 'رمل ثان'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.4'
-    THEN 'شرق الكلية'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.2'
-    THEN 'إستئناف'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.8'
-    THEN 'باب شرقي'
-    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.17'
-    THEN 'المنشية'
-    ELSE 'OTHERS'
-  END) AS ip_address_2,
-  Date_Format(attendance.checkouttime, '%h:%i %p') AS checkouttime,
-  users.nickname,
-  users.idusers,
-  Date_Format(attendance.checkintime, '%h:%i %p') AS checkintime
+											<form class="form-horizontal" method="post" action="assets/redi/insertdataentry.php">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم الشهرة </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="nickname"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم المستخدم </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="username" class="col-xs-10 col-sm-5"  name="username"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> كلمة السر </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="password" class="col-xs-10 col-sm-5"  name="password"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-13">النيابات التابع لها</label>
+													<div class="col-sm-8">
+														<select multiple="multiple" size="16" name="material_matid1[]" id="form-field-13">
+															<?php
+																$result2 = mysqli_query($sqlcon, "SELECT
+  pros.idpros,
+  pros.overallprosid,
+  pros.prosname
 FROM
-  attendance
-  INNER JOIN users ON users.idusers = attendance.idusers
-  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
-  INNER JOIN pros ON pros.idpros = pros_has_users.idpros
+  pros
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
-  overallpros_has_users.users_idusers = '$admin_id'
-GROUP BY
-  attendance.checkindate,
-  users.idusers,
-  overallpros_has_users.users_idusers
-ORDER BY
-  attendance.checkindate DESC
-LIMIT 100") or die(mysqli_error($sqlcon));
-															while($row4 = mysqli_fetch_assoc($result4))
-																{
+  overallpros_has_users.users_idusers = '$admin_id'");
+																while ($row2 = $result2->fetch_assoc()) {
+																$prosid = $row2['idpros'];
+																$prosname = $row2['prosname']; 
 																?>
-																	<tr>
-																		<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
-																		<td><?php echo $row4['checkindate'] ?></td>
-																		<td>
-																		<?php
-															$dateinlate = "09:15 AM";
-															$dateinnormal = "09:00 AM";
-															$dateinearly = "08:45 AM";
-															$dateinearly=date("h:i A",strtotime($dateinearly));
-															$dateinlate=date("h:i A",strtotime($dateinlate));
-															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinearly > $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-success">';
-															elseif(($dateinlate < $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-danger">';
-															else:
-															$varb='<span class="btn btn-xs btn-warning">';
-																endif;
-																echo $varb.$row4['checkintime'];?></span>
-
-																		</td>
-																		<td><?php echo $row4['ip_address_real'] ?></td>
-																		<td><?php echo $row4['ip_address'] ?></td>
-																		<td>
-
-
-																<?php
-																$dateoutlate = "03:00 PM";
-
-																$dateoutearly = "02:00 PM";
-
-																$dateoutearly=date("h:i A",strtotime($dateoutearly));
-																$dateoutlate=date("h:i A",strtotime($dateoutlate));
-
-																if(($dateoutearly > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-danger">';
-
-																elseif(($dateoutlate > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-warning">';
-
-																else:
-																$varb='<span class="btn btn-xs btn-success">';
-																endif;
-																echo $varb.$row4['checkouttime'];?></span>
-
-
-																</td>
-																<td><?php echo $row4['ip_address_2_real'] ?></td>
-																<td><?php echo $row4['ip_address_2'] ?></td>
-
-																	</tr>
-																<?php
-																};
-															?>
-														</tbody>
-													</table>
+																<option value="<?php echo $row2['idpros'] ?>"> <?php echo $row2['prosname'] ?> </option>
+															<?php } ?>
+														</select>
+													</div>
 												</div>
-											</div>
-									</div><!-- /.col -->
+												<div class="clearfix form-actions">
+													<div class="col-md-offset-3 col-md-9">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Submit
+														</button>
+
+														&nbsp; &nbsp; &nbsp;
+														<button class="btn" type="reset">
+															<i class="ace-icon fa fa-undo bigger-110"></i>
+															Reset
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
 								</div>
-								<div class="hr hr32 hr-dotted"></div>
-								<div class="hr hr32 hr-dotted"></div>
+								</div><!-- /.row -->
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
-					</div><!-- /.page-content -->
+			</div><!-- /.main-content -->
 
 			<div class="footer">
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017
+							Application &copy; 2016-2017<? echo $varb;?>
 						</span>
 					</div>
 				</div>
 			</div>
-		</div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
+		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
 
@@ -744,8 +607,8 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-		<script src="assets/js/jquery-1.11.3.min.js"></script>
-		<![endif]-->
+<script src="assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
@@ -776,7 +639,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 		<script src="assets/js/jquery.inputlimiter.min.js"></script>
 		<script src="assets/js/jquery.maskedinput.min.js"></script>
 		<script src="assets/js/bootstrap-tag.min.js"></script>
-		<script src="assets/js/jquery.dataTables.min.js"></script>
+				<script src="assets/js/jquery.dataTables.min.js"></script>
 		<script src="assets/js/jquery.dataTables.bootstrap.min.js"></script>
 		<script src="assets/js/dataTables.buttons.min.js"></script>
 		<script src="assets/js/buttons.flash.min.js"></script>
@@ -1077,38 +940,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 
 				//datepicker plugin
 				//link
-				$('.data_month_picker').datepicker({
-					viewMode: "months",
-					minViewMode: "months",
-					changeYear: true,
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker1').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker2').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker3').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker4').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker5').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker8').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
-				$('.date-picker9').datepicker({
+				$('.date-picker').datepicker({
 					autoclose: true,
 					todayHighlight: true
 				})
@@ -1585,239 +1417,16 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 
 			});
 		</script>
-				
-
-		<script type="text/javascript">
+				<script type="text/javascript">
 			jQuery(function($) {
 				//initiate dataTables plugin
 				var myTable =
-				$('#dynamic-table2')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+				$('#dynamic-table')
+				.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
-					bAutoWidth: false,
-					
-					"aaSorting": [],
-
-
-					//"bProcessing": true,
-			        //"bServerSide": true,
-			        //"sAjaxSource": "http://127.0.0.1/table.php"	,
-
-					//,
-					//"sScrollY": "200px",
-					//"bPaginate": false,
-
-					//"sScrollX": "100%",
-					//"sScrollXInner": "120%",
-					//"bScrollCollapse": true,
-					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-
-					//"iDisplayLength": 50
-
-
-					select: {
-						style: 'multi'
-					}
-			    } );
-
-
-
-				$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
-
-				new $.fn.dataTable.Buttons( myTable, {
-					buttons: [
-					  {
-						"extend": "colvis",
-						"text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
-						"className": "btn btn-white btn-primary btn-bold",
-						columns: ':not(:first):not(:last)'
-					  },
-					  {
-						"extend": "copy",
-						"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					  {
-						"extend": "csv",
-						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					  {
-						"extend": "print",
-						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
-						"className": "btn btn-white btn-primary btn-bold",
-						autoPrint: true,
-						message: 'This print was produced using the Print button for DataTables'
-					  }
-					]
-				} );
-				myTable.buttons().container().appendTo( $('.tableTools-container2') );
-
-				//style the message box
-				var defaultCopyAction = myTable.button(1).action();
-				myTable.button(1).action(function (e, dt, button, config) {
-					defaultCopyAction(e, dt, button, config);
-					$('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
-				});
-
-
-				var defaultColvisAction = myTable.button(0).action();
-				myTable.button(0).action(function (e, dt, button, config) {
-
-					defaultColvisAction(e, dt, button, config);
-
-
-					if($('.dt-button-collection > .dropdown-menu').length == 0) {
-						$('.dt-button-collection')
-						.wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
-						.find('a').attr('href', '#').wrap("<li />")
-					}
-					$('.dt-button-collection').appendTo('.tableTools-container2 .dt-buttons')
-				});
-
-				////
-
-				setTimeout(function() {
-					$($('.tableTools-container2')).find('a.dt-button').each(function() {
-						var div = $(this).find(' > div').first();
-						if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
-						else $(this).tooltip({container: 'body', title: $(this).text()});
-					});
-				}, 500);
-
-
-
-
-
-				myTable.on( 'select', function ( e, dt, type, index ) {
-					if ( type === 'row' ) {
-						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
-					}
-				} );
-				myTable.on( 'deselect', function ( e, dt, type, index ) {
-					if ( type === 'row' ) {
-						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
-					}
-				} );
-
-
-
-
-				/////////////////////////////////
-				//table checkboxes
-				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
-
-				//select/deselect all rows according to table header checkbox
-				$('#dynamic-table2 > thead > tr > th input[type=checkbox], #dynamic-table2_wrapper input[type=checkbox]').eq(0).on('click', function(){
-					var th_checked = this.checked;//checkbox inside "TH" table header
-
-					$('#dynamic-table2').find('tbody > tr').each(function(){
-						var row = this;
-						if(th_checked) myTable.row(row).select();
-						else  myTable.row(row).deselect();
-					});
-				});
-
-				//select/deselect a row when the checkbox is checked/unchecked
-				$('#dynamic-table2').on('click', 'td input[type=checkbox]' , function(){
-					var row = $(this).closest('tr').get(0);
-					if(this.checked) myTable.row(row).deselect();
-					else myTable.row(row).select();
-				});
-
-
-
-				$(document).on('click', '#dynamic-table2 .dropdown-toggle', function(e) {
-					e.stopImmediatePropagation();
-					e.stopPropagation();
-					e.preventDefault();
-				});
-
-
-
-				//And for the first simple table, which doesn't have TableTools or dataTables
-				//select/deselect all rows according to table header checkbox
-				var active_class = 'active';
-				$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-					var th_checked = this.checked;//checkbox inside "TH" table header
-
-					$(this).closest('table').find('tbody > tr').each(function(){
-						var row = this;
-						if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
-						else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
-					});
-				});
-
-				//select/deselect a row when the checkbox is checked/unchecked
-				$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
-					var $row = $(this).closest('tr');
-					if($row.is('.detail-row ')) return;
-					if(this.checked) $row.addClass(active_class);
-					else $row.removeClass(active_class);
-				});
-
-
-
-				/********************************/
-				//add tooltip for small view action buttons in dropdown menu
-				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-
-				//tooltip placement on right or left
-				function tooltip_placement(context, source) {
-					var $source = $(source);
-					var $parent = $source.closest('table')
-					var off1 = $parent.offset();
-					var w1 = $parent.width();
-
-					var off2 = $source.offset();
-					//var w2 = $source.width();
-
-					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-					return 'left';
-				}
-
-
-
-
-				/***************/
-				$('.show-details-btn').on('click', function(e) {
-					e.preventDefault();
-					$(this).closest('tr').next().toggleClass('open');
-					$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
-				});
-				/***************/
-
-
-
-
-
-				/**
-				//add horizontal scrollbars to a simple table
-				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
-				  {
-					horizontal: true,
-					styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
-					size: 2000,
-					mouseWheelLock: true
-				  }
-				).css('padding-top', '12px');
-				*/
-
-
-			})
-		</script>
-
-		<script type="text/javascript">
-			jQuery(function($) {
-				//initiate dataTables plugin
-				var myTable =
-				$('#dynamic-table3')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-				.DataTable( {
-					bAutoWidth: false,
+					bAutoWidth: true,
 					"aoColumns": [
-					  null, null, null, null, null, null
+					  null, null, null,null,null
 					],
 					"aaSorting": [],
 
@@ -1875,7 +1484,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 					  }
 					]
 				} );
-				myTable.buttons().container().appendTo( $('.tableTools-container3') );
+				myTable.buttons().container().appendTo( $('.tableTools-container') );
 
 				//style the message box
 				var defaultCopyAction = myTable.button(1).action();
@@ -1896,13 +1505,13 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 						.wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
 						.find('a').attr('href', '#').wrap("<li />")
 					}
-					$('.dt-button-collection').appendTo('.tableTools-container3 .dt-buttons')
+					$('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
 				});
 
 				////
 
 				setTimeout(function() {
-					$($('.tableTools-container3')).find('a.dt-button').each(function() {
+					$($('.tableTools-container')).find('a.dt-button').each(function() {
 						var div = $(this).find(' > div').first();
 						if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
 						else $(this).tooltip({container: 'body', title: $(this).text()});
@@ -1932,10 +1541,10 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
 
 				//select/deselect all rows according to table header checkbox
-				$('#dynamic-table3 > thead > tr > th input[type=checkbox], #dynamic-table3_wrapper input[type=checkbox]').eq(0).on('click', function(){
+				$('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function(){
 					var th_checked = this.checked;//checkbox inside "TH" table header
 
-					$('#dynamic-table3').find('tbody > tr').each(function(){
+					$('#dynamic-table').find('tbody > tr').each(function(){
 						var row = this;
 						if(th_checked) myTable.row(row).select();
 						else  myTable.row(row).deselect();
@@ -1943,7 +1552,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 				});
 
 				//select/deselect a row when the checkbox is checked/unchecked
-				$('#dynamic-table3').on('click', 'td input[type=checkbox]' , function(){
+				$('#dynamic-table').on('click', 'td input[type=checkbox]' , function(){
 					var row = $(this).closest('tr').get(0);
 					if(this.checked) myTable.row(row).deselect();
 					else myTable.row(row).select();
@@ -1951,230 +1560,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 
 
 
-				$(document).on('click', '#dynamic-table3 .dropdown-toggle', function(e) {
-					e.stopImmediatePropagation();
-					e.stopPropagation();
-					e.preventDefault();
-				});
-
-
-
-				//And for the first simple table, which doesn't have TableTools or dataTables
-				//select/deselect all rows according to table header checkbox
-				var active_class = 'active';
-				$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-					var th_checked = this.checked;//checkbox inside "TH" table header
-
-					$(this).closest('table').find('tbody > tr').each(function(){
-						var row = this;
-						if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
-						else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
-					});
-				});
-
-				//select/deselect a row when the checkbox is checked/unchecked
-				$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
-					var $row = $(this).closest('tr');
-					if($row.is('.detail-row ')) return;
-					if(this.checked) $row.addClass(active_class);
-					else $row.removeClass(active_class);
-				});
-
-
-
-				/********************************/
-				//add tooltip for small view action buttons in dropdown menu
-				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-
-				//tooltip placement on right or left
-				function tooltip_placement(context, source) {
-					var $source = $(source);
-					var $parent = $source.closest('table')
-					var off1 = $parent.offset();
-					var w1 = $parent.width();
-
-					var off2 = $source.offset();
-					//var w2 = $source.width();
-
-					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-					return 'left';
-				}
-
-
-
-
-				/***************/
-				$('.show-details-btn').on('click', function(e) {
-					e.preventDefault();
-					$(this).closest('tr').next().toggleClass('open');
-					$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
-				});
-				/***************/
-
-
-
-
-
-				/**
-				//add horizontal scrollbars to a simple table
-				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
-				  {
-					horizontal: true,
-					styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
-					size: 2000,
-					mouseWheelLock: true
-				  }
-				).css('padding-top', '12px');
-				*/
-
-
-			})
-		</script>
-
-		<script type="text/javascript">
-			jQuery(function($) {
-				//initiate dataTables plugin
-				var myTable =
-				$('#dynamic-table4')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-				.DataTable( {
-					bAutoWidth: false,
-					"aoColumns": [
-					  null, null
-					],
-					"aaSorting": [],
-
-
-					//"bProcessing": true,
-			        //"bServerSide": true,
-			        //"sAjaxSource": "http://127.0.0.1/table.php"	,
-
-					//,
-					//"sScrollY": "200px",
-					//"bPaginate": false,
-
-					//"sScrollX": "100%",
-					//"sScrollXInner": "120%",
-					//"bScrollCollapse": true,
-					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-
-					//"iDisplayLength": 50
-
-
-					select: {
-						style: 'multi'
-					}
-			    } );
-
-
-
-				$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
-
-				new $.fn.dataTable.Buttons( myTable, {
-					buttons: [
-					  {
-						"extend": "colvis",
-						"text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
-						"className": "btn btn-white btn-primary btn-bold",
-						columns: ':not(:first):not(:last)'
-					  },
-					  {
-						"extend": "copy",
-						"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					  {
-						"extend": "csv",
-						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					  {
-						"extend": "print",
-						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
-						"className": "btn btn-white btn-primary btn-bold",
-						autoPrint: true,
-						message: 'This print was produced using the Print button for DataTables'
-					  }
-					]
-				} );
-				myTable.buttons().container().appendTo( $('.tableTools-container4') );
-
-				//style the message box
-				var defaultCopyAction = myTable.button(1).action();
-				myTable.button(1).action(function (e, dt, button, config) {
-					defaultCopyAction(e, dt, button, config);
-					$('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
-				});
-
-
-				var defaultColvisAction = myTable.button(0).action();
-				myTable.button(0).action(function (e, dt, button, config) {
-
-					defaultColvisAction(e, dt, button, config);
-
-
-					if($('.dt-button-collection > .dropdown-menu').length == 0) {
-						$('.dt-button-collection')
-						.wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
-						.find('a').attr('href', '#').wrap("<li />")
-					}
-					$('.dt-button-collection').appendTo('.tableTools-container4 .dt-buttons')
-				});
-
-				////
-
-				setTimeout(function() {
-					$($('.tableTools-container4')).find('a.dt-button').each(function() {
-						var div = $(this).find(' > div').first();
-						if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
-						else $(this).tooltip({container: 'body', title: $(this).text()});
-					});
-				}, 500);
-
-
-
-
-
-				myTable.on( 'select', function ( e, dt, type, index ) {
-					if ( type === 'row' ) {
-						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
-					}
-				} );
-				myTable.on( 'deselect', function ( e, dt, type, index ) {
-					if ( type === 'row' ) {
-						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
-					}
-				} );
-
-
-
-
-				/////////////////////////////////
-				//table checkboxes
-				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
-
-				//select/deselect all rows according to table header checkbox
-				$('#dynamic-table4 > thead > tr > th input[type=checkbox], #dynamic-table4_wrapper input[type=checkbox]').eq(0).on('click', function(){
-					var th_checked = this.checked;//checkbox inside "TH" table header
-
-					$('#dynamic-table4').find('tbody > tr').each(function(){
-						var row = this;
-						if(th_checked) myTable.row(row).select();
-						else  myTable.row(row).deselect();
-					});
-				});
-
-				//select/deselect a row when the checkbox is checked/unchecked
-				$('#dynamic-table4').on('click', 'td input[type=checkbox]' , function(){
-					var row = $(this).closest('tr').get(0);
-					if(this.checked) myTable.row(row).deselect();
-					else myTable.row(row).select();
-				});
-
-
-
-				$(document).on('click', '#dynamic-table4 .dropdown-toggle', function(e) {
+				$(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
 					e.stopImmediatePropagation();
 					e.stopPropagation();
 					e.preventDefault();

@@ -415,7 +415,8 @@ FROM
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
   users.securitylvl != 'a' AND
-  overallpros_has_users.users_idusers = '$admin_id'");
+  overallpros_has_users.users_idusers = '$admin_id'
+  group by users.idusers");
 												}
 														while($row4 = mysqli_fetch_assoc($result4))
 															{	
