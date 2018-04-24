@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			header('Location: ../../userindex.php');
 			exit;
 		}else{
-//			header('Location: ../../login.php?backresult=7');
+			header('Location: ../../login.php?backresult=7');
 			exit;
 		};
 	};

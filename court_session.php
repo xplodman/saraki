@@ -267,9 +267,10 @@
 									</strong>
 								</div>
 								<?php
-									}elseif ($backresult ==  "9") {
-								 ?>
-								 <div class="alert alert-block alert-danger">
+							}
+							elseif ($backresult ==  "5") {
+								?>
+								<div class="alert alert-block alert-danger">
 									<button type="button" class="close" data-dismiss="alert">
 										<i class="ace-icon fa fa-times"></i>
 									</button>
@@ -277,8 +278,8 @@
 									<strong class="red">
 										لم تتم العملية بنجاح
 										<br>
-											<?php
-											echo "برجاء التأكد من إدخال بدايات و نهايات الكشوف";
+										<?php
+										echo "برجاء إختيار أيام الإنعقاد";
 										?>
 									</strong>
 								</div>
@@ -318,23 +319,7 @@
 								</div>
 								<?php
 									}
-									elseif ($backresult ==  "5") {
-								 ?>
-								 <div class="alert alert-block alert-danger">
-									<button type="button" class="close" data-dismiss="alert">
-										<i class="ace-icon fa fa-times"></i>
-									</button>
-									<i class="ace-icon fa fa-times red"></i>
-									<strong class="red">
-										لم تتم العملية بنجاح
-										<br>
-											<?php
-											echo "لابد من ان يكون بداية الكشف أقل من نهاية الكشف و ليس العكس";
-										?>
-									</strong>
-								</div>
-								<?php
-									}
+									
 										}
 
 								?>
@@ -508,7 +493,7 @@ WHERE
 												<div class="form-group">
 													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> سكرتير الجلسة </label>
 													<div class="col-sm-9">
-														<input required type="text" id="form-field-1" placeholder="أسم الدائرة" class="col-xs-10 col-sm-5"  name="court_session_employe"/>
+														<input required type="text" id="form-field-1" placeholder="أسم سكرتير الجلسة" class="col-xs-10 col-sm-5"  name="court_session_employe"/>
 													</div>
 												</div>
 												<div class="form-group">

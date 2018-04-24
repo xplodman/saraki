@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
@@ -382,7 +382,7 @@ FROM
 								</div>
 								<?php
 									}
-									elseif ($backresult ==  "8") {
+									elseif ($backresult ==  "5") {
 								 ?>
 								 <div class="alert alert-block alert-danger">
 									<button type="button" class="close" data-dismiss="alert">
@@ -393,7 +393,7 @@ FROM
 										لم تتم العملية بنجاح
 										<br>
 											<?php
-											echo " لا يمكن إضافة أكثر من 500 قضية في سركي واحد";
+											echo "لم يتم الإكتمال من مرحلة الكشف المسلسل";
 										?>
 									</strong>
 								</div>
@@ -633,15 +633,28 @@ FROM
 												</div>
 											</div>
 											<form class="form-horizontal" method="post" action="assets/redi/insert_actions.php">
+
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام القضايا </label>
+													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> نوع الكشف </label>
 													<div class="col-sm-8">
-														<div class="multi-field-wrapper">
-															<div class="multi-fields">
-																<div class="multi-field">
-																	<input required type="number" class="input-sm" id="case_number" name="case_number[]" placeholder="رقم"/>
-																	<input required type="number" class="input-sm" id="case_year" name="case_year[]" placeholder="سنة"/>
-																	<select required id="form-field-4" name="case_type[]">
+														<div class="input-group">
+															<input type="radio" name='case_statement_type' value='non_sequential' data-id="sequential" placeholder="aa"> كشف غير مسلسل </input>
+														</div>
+														<div class="input-group">
+															<input type="radio" name='case_statement_type' value='sequential' data-id="non_sequential" > كشف مسلسل </input>
+														</div>
+													</div>
+												</div>
+												<div id="sequential" class="hidden form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام قضايا مسلسلة </label>
+													<div class="col-sm-9">
+														<div class="multi-field-wrapper2">
+															<div class="multi-fields2">
+																<div class="multi-field2">
+																	<input  type="number" class="input-sm" id="case_number" name="case_number_start[]" placeholder="من"/>
+																	<input  type="number" class="input-sm" id="case_number" name="case_number_end[]" placeholder="إلى"/>
+																	<input  type="number" class="input-sm" id="case_year" name="case_year_sequential[]" placeholder="سنة"/>
+																	<select  id="form-field-4" name="case_type_sequential[]">
 																		<option hidden selected="selected" disabled>--إختار الجدول--</option>
 																		<?php
 																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
@@ -650,7 +663,7 @@ FROM
 																			<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
 																		<?php } ?>
 																	</select>
-																	<select required id="form-field-4" name="case_depart[]">
+																	<select  id="form-field-4" name="case_depart_sequential[]">
 																		<?php
 																		if($_SESSION['securitylvl'] == "a")
 																		{
@@ -680,7 +693,72 @@ FROM
 																		}
 																		?>
 																	</select>
-																	<select required id="form-field-4" name="action_type[]">
+																	<select  id="form-field-4" name="action_type_sequential[]">
+																		<option hidden selected="selected" disabled>--نوع التصرف--</option>
+																		<?php
+																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `action`");
+																		while ($row2 = $result2->fetch_assoc()) {
+																			?>
+																			<option value="<?php echo $row2['action_id'] ?>"> <?php echo $row2['action_name']?> </option>
+																		<?php } ?>
+																	</select>
+																	<button type="button" class="remove-field2">Remove</button>
+																</div>
+															</div>
+															<button type="button" class="btn btn-minier btn-info add_button2 add-field2" id="add_un2">
+																<i class="ace-icon fa fa-plus"></i>Add
+															</button>
+														</div>
+													</div>
+												</div>
+												<div id="non_sequential" class="hidden form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام قضايا غير مسلسلة </label>
+													<div class="col-sm-9">
+														<div class="multi-field-wrapper">
+															<div class="multi-fields">
+																<div class="multi-field">
+																	<input  type="number" class="input-sm" id="case_number" name="case_number[]" placeholder="رقم"/>
+																	<input  type="number" class="input-sm" id="case_year" name="case_year[]" placeholder="سنة"/>
+																	<select  id="form-field-4" name="case_type[]">
+																		<option hidden selected="selected" disabled>--إختار الجدول--</option>
+																		<?php
+																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+																		while ($row2 = $result2->fetch_assoc()) {
+																			?>
+																			<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
+																		<?php } ?>
+																	</select>
+																	<select  id="form-field-4" name="case_depart[]">
+																		<?php
+																		if($_SESSION['securitylvl'] == "a")
+																		{
+																			$result2 = mysqli_query($sqlcon, "Select
+																  departs.departname,
+																  departs.iddeparts
+																From departs
+																  Inner Join pros On pros.idpros = departs.pros_idpros");
+																			while ($row2 = $result2->fetch_assoc()) {
+																				?>
+																				<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																			<?php };
+																		}else
+																		{
+																			$result2 = mysqli_query($sqlcon, "Select departs.departname,
+																		  departs.iddeparts,
+																		  users.idusers
+																		From users
+																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		  Inner Join departs On departs.pros_idpros = pros.idpros
+																		Where users.idusers =$_SESSION[idusers]");
+																			while ($row2 = $result2->fetch_assoc()) {
+																				?>
+																				<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																			<?php };
+																		}
+																		?>
+																	</select>
+																	<select  id="form-field-4" name="action_type[]">
 																		<option hidden selected="selected" disabled>--نوع التصرف--</option>
 																		<?php
 																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `action`");
@@ -735,9 +813,14 @@ FROM
 															<option hidden selected="selected" disabled >--إختار الدائرة--</option>
 															<?php
 															$result2 = mysqli_query($sqlcon, "SELECT
-  *
+  court_session.id_court_session,
+  court_session.court_session_name
 FROM
-  court_session");
+  court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
+  INNER JOIN pros_has_users ON pros_has_users.idpros = pros.idpros
+WHERE
+  pros_has_users.idusers = '$idusers'");
 															while ($row2 = $result2->fetch_assoc()) {
 																?>
 																<option value="<?php echo $row2['id_court_session'] ?>"> <?php echo $row2['court_session_name']?> </option>
@@ -1906,6 +1989,18 @@ FROM
 			});
 		});
 	</script>
+		<script>
+			$('.multi-field-wrapper2').each(function() {
+				var $wrapper = $('.multi-fields2', this);
+				$(".add-field2", $(this)).click(function(e) {
+					$('.multi-field2:first-child', $wrapper).clone(true).appendTo($wrapper).find('#case_number_start').val('').focus();
+				});
+				$('.multi-field2 .remove-field2', $wrapper).click(function() {
+					if ($('.multi-field2', $wrapper).length > 1)
+						$(this).parent('.multi-field2').remove();
+				});
+			});
+		</script>
 	<script>
 		function get_court_days_on(val){
 			//We create ajax function
@@ -1923,6 +2018,12 @@ FROM
 				}
 			});
 		}
+	</script>
+	<script>
+		$(':radio').change(function (event) {
+			var id = $(this).data('id');
+			$('#' + id).addClass('hidden').siblings().removeClass('hidden');
+		});
 	</script>
 	</body>
 </html>
