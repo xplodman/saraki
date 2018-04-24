@@ -233,7 +233,21 @@
 
 						<?php
 							require 'assets/redi/sqlcon.php';
+                        $casetype_query = mysqli_query($sqlcon, "SELECT
+  casetype.idcasetype,
+  casetype.casetypename
+FROM
+  casetype");
+                        while($casetype = mysqli_fetch_assoc($casetype_query))
+                        {$casetype_array[$casetype['idcasetype']] = $casetype['casetypename'];};
 
+                        $depart_query = mysqli_query($sqlcon, "SELECT
+  departs.iddeparts,
+  departs.departname
+FROM
+  departs");
+                        while($depart = mysqli_fetch_assoc($depart_query))
+                        {$depart_array[$depart['iddeparts']] = $depart['departname'];};
 							if (isset($_GET['backresult']))
 						{
 							$backresult=$_GET['backresult'];
@@ -258,32 +272,10 @@
 									<i class="ace-icon fa fa-times red"></i>
 									<strong class="red">
 										لم تتم العملية بنجاح
-
-										<?php
-											$casenumdub=$_SESSION['casenumdub'];
-											$casenumdub = implode(",", $casenumdub);
-											?>
-										<br>
-											<?php
-											echo "الارقام المكررة هي ";
-
-											echo $casenumdub." / ";
-
-											echo $year=$_SESSION['year'];
-											echo "&ensp;";
-
-											echo $casetypename=$_SESSION['casetypename'];
-											echo "&ensp;";
-
-											echo $departname=$_SESSION['departname'];
-											$idusers=$_SESSION['idusers'];
-										?>
-
-
 									</strong>
 								</div>
 								<?php
-									}elseif ($backresult ==  "9") {
+									}elseif ($backresult ==  "2") {
 								 ?>
 								 <div class="alert alert-block alert-danger">
 									<button type="button" class="close" data-dismiss="alert">
@@ -291,29 +283,58 @@
 									</button>
 									<i class="ace-icon fa fa-times red"></i>
 									<strong class="red">
-										لم تتم العملية بنجاح
+                                        لم تتم العملية بنجاح بالكامل
 										<br>
 											<?php
-											echo "برجاء التأكد من إدخال بدايات و نهايات الكشوف";
-										?>
+                                            $failed_in_action_case_number = $_SESSION["failed_in_action_case_number"];
+                                            $failed_in_action_case_year = $_SESSION["failed_in_action_case_year"];
+                                            $failed_in_action_case_type = $_SESSION["failed_in_action_case_type"];
+                                            $failed_in_action_case_depart = $_SESSION["failed_in_action_case_depart"];
+                                            $case_failed_count = sizeof($failed_in_action_case_number);
+                                            echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية";
+                                            for($len=0 ; $len < $case_failed_count ; $len++)
+                                            {
+                                                echo "<br>".$failed_in_action_case_number[$len]." / ".$failed_in_action_case_year[$len]." ".$failed_in_action_case_type[$len]." ".$failed_in_action_case_depart[$len];
+                                            }
+                                            unset($_SESSION['failed_in_action_case_number']);
+                                            unset($_SESSION['failed_in_action_case_year']);
+                                            unset($_SESSION['failed_in_action_case_type']);
+                                            unset($_SESSION['failed_in_action_case_depart']);
+                                            ?>
 									</strong>
 								</div>
 								<?php
-									}elseif ($backresult ==  "88") {
+									}elseif ($backresult ==  "3") {
 								 ?>
 								 <div class="alert alert-block alert-danger">
 									<button type="button" class="close" data-dismiss="alert">
 										<i class="ace-icon fa fa-times"></i>
 									</button>
 									<i class="ace-icon fa fa-times red"></i>
-									<strong class="red">
-										لم تتم العملية بنجاح
-										<br>
-									</strong>
+                                     <strong class="red">
+                                         لم تتم العملية بنجاح بالكامل
+                                         <br>
+                                         <?php
+                                         $not_found_case_number = $_SESSION["not_found_case_number"];
+                                         $not_found_case_year = $_SESSION["not_found_case_year"];
+                                         $not_found_case_type = $_SESSION["not_found_case_type"];
+                                         $not_found_case_depart = $_SESSION["not_found_case_depart"];
+                                         $case_failed_count = sizeof($not_found_case_number);
+                                         echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية لكونها غير مدرجة بالنظام";
+                                         for($len=0 ; $len < $case_failed_count ; $len++)
+                                         {
+                                             echo "<br>".$not_found_case_number[$len]." / ".$not_found_case_year[$len]." ".$casetype_array[$not_found_case_type[$len]]." ".$depart_array[$not_found_case_depart[$len]];
+                                         }
+                                         unset($_SESSION['not_found_case_number']);
+                                         unset($_SESSION['not_found_case_year']);
+                                         unset($_SESSION['not_found_case_type']);
+                                         unset($_SESSION['not_found_case_depart']);
+                                         ?>
+                                     </strong>
 								</div>
 								<?php
 									}
-									elseif ($backresult ==  "6") {
+									elseif ($backresult ==  "4") {
 								 ?>
 								 <div class="alert alert-block alert-danger">
 									<button type="button" class="close" data-dismiss="alert">
@@ -322,10 +343,41 @@
 									<i class="ace-icon fa fa-times red"></i>
 									<strong class="red">
 										لم تتم العملية بنجاح
-										<br>
-											<?php
-											echo "لا يمكن إضافة سركي فارغ";
-										?>
+                                        <br>
+                                        <?php
+                                        $not_found_case_number = $_SESSION["not_found_case_number"];
+                                        $not_found_case_year = $_SESSION["not_found_case_year"];
+                                        $not_found_case_type = $_SESSION["not_found_case_type"];
+                                        $not_found_case_depart = $_SESSION["not_found_case_depart"];
+                                        $case_failed_count = sizeof($not_found_case_number);
+                                        echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية لكونها غير مدرجة بالنظام";
+                                        for($len=0 ; $len < $case_failed_count ; $len++)
+                                        {
+                                            echo "<br>".$not_found_case_number[$len]." / ".$not_found_case_year[$len]." ".$casetype_array[$not_found_case_type[$len]]." ".$depart_array[$not_found_case_depart[$len]];
+                                        }
+                                        unset($_SESSION['not_found_case_number']);
+                                        unset($_SESSION['not_found_case_year']);
+                                        unset($_SESSION['not_found_case_type']);
+                                        unset($_SESSION['not_found_case_depart']);
+                                        ?>
+                                        <br>
+                                        <br>
+                                        <?php
+                                        $failed_in_action_case_number = $_SESSION["failed_in_action_case_number"];
+                                        $failed_in_action_case_year = $_SESSION["failed_in_action_case_year"];
+                                        $failed_in_action_case_type = $_SESSION["failed_in_action_case_type"];
+                                        $failed_in_action_case_depart = $_SESSION["failed_in_action_case_depart"];
+                                        $case_failed_count = sizeof($failed_in_action_case_number);
+                                        echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية";
+                                        for($len=0 ; $len < $case_failed_count ; $len++)
+                                        {
+                                            echo "<br>".$failed_in_action_case_number[$len]." / ".$failed_in_action_case_year[$len]." ".$failed_in_action_case_type[$len]." ".$failed_in_action_case_depart[$len];
+                                        }
+                                        unset($_SESSION['failed_in_action_case_number']);
+                                        unset($_SESSION['failed_in_action_case_year']);
+                                        unset($_SESSION['failed_in_action_case_type']);
+                                        unset($_SESSION['failed_in_action_case_depart']);
+                                        ?>
 									</strong>
 								</div>
 								<?php
@@ -373,39 +425,412 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<div class="error-container">
-									<div class="well">
-										<h1 class="grey lighter smaller">
-											<span class="blue bigger-125">
-												Under construction
-											</span>
-										</h1>
+								<div class="row">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="clearfix">
+												<div class="pull-right tableTools-container"></div>
+												<?php
+												if (isset($_SESSION['securitylvl']))
+												{
+													$securitylvl=$_SESSION['securitylvl'];
+													if($securitylvl == "d" ):
+														?>
+														<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+															<i class="ace-icon fa fa-plus-square-o"></i>
+															<b>إضافة تصرف حفظ / أمر جنائي</b></font>
+														</a>
+                                                        <a href="#send_case_to_court" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+                                                            <i class="ace-icon fa fa-plus-square-o"></i>
+                                                            <b>إضافة تصرف إحالة</b></font>
+                                                        </a>
+														<?php
+													endif;
+												}
+												?>
+											</div>
+											<div class="table-header">
+												نتائج البحث عن التصرفات
+											</div>
 
-										<hr />
-										<h3 class="lighter smaller">
-											But we are working
-											<i class="ace-icon fa fa-wrench icon-animated-wrench bigger-125"></i>
-											on it!
-										</h3>
+											<!-- div.table-responsive -->
+											<!--
+                                                <style>
+                                                   table {border-collapse:collapse; table-layout:fixed; width:30px;}
+                                                   table td {border:solid 1px #fab; width:100px; word-wrap:break-word;}
+                                                </style>
+                                            -->
+											<style type='text/css'>
+												table { table-layout:fixed; /* nothing here - table is block, so should auto expand to as large as it can get without causing scrollbars? */ }
+												.left { text-align:center; }
+												.right { text-align:right; }
+												.middle { text-align:left; /* expand this column to as large as it can get within table? */}
+												.wrap { word-wrap:break-word; /* use up entire cell this div is contained in? */ }
+											</style>
+											<!-- div.dataTables_borderWrap -->
+											<div>
+												<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+													<thead>
+													<tr>
+														<th>الرقم</th>
+														<th>السنة</th>
+														<th>الجدول</th>
+														<th>القسم</th>
+														<th>نوع التصرف</th>
+                                                        <th>منشئ التصرف</th>
+													</tr>
+													</thead>
 
-										<div class="space"></div>
+													<tbody>
+													<?php
+													if($_SESSION['securitylvl'] == "a")
+													{
+														$admin_id=$_SESSION['admin_id'];
+														$result4 = mysqli_query($sqlcon,"SELECT
+  `case`.casenum,
+  `case`.caseyear,
+  casetype.casetypename,
+  departs.departname,
+  action.action_name,
+  users.nickname,
+  users.idusers
+FROM
+  case_has_action
+  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+  INNER JOIN action ON case_has_action.action_action_id = action.action_id
+  INNER JOIN pros ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'") or die(mysqli_error($sqlcon));
+													}else
+													{
+														$result4 = mysqli_query($sqlcon,"
+SELECT
+  `case`.casenum,
+  `case`.caseyear,
+  casetype.casetypename,
+  departs.departname,
+  action.action_name,
+  users.nickname,
+  users.idusers
+FROM
+  case_has_action
+  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+  INNER JOIN action ON case_has_action.action_action_id = action.action_id
+															Where users.idusers =$_SESSION[idusers]") or die(mysqli_error($sqlcon));
+													}
+													while($row4 = mysqli_fetch_assoc($result4))
+													{
 
-										<div>
-											<h4 class="lighter smaller">Meanwhile, try one of the following:</h4>
+														?>
+														<tr>
+															<td><?php echo $row4['casenum'] ?></td>
+															<td><?php echo $row4['caseyear'] ?></td>
+															<td><?php echo $row4['casetypename'] ?></td>
+                                                            <td><?php echo $row4['departname'] ?></td>
+                                                            <td><?php echo $row4['action_name'] ?></td>
+															<?php if($_SESSION['securitylvl'] == "a"){?>
+																<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+															<?php }else{?>
+																<td><?php echo $row4['nickname'] ?></a></td>
+															<?php };?>
+														</tr>
+														<?php
+													};
+													?>
+													<?php
+													if($_SESSION['securitylvl'] == "a")
+													{
+														$admin_id=$_SESSION['admin_id'];
+														$result4 = mysqli_query($sqlcon,"SELECT
+  case_has_court_session.session_date,
+  court_session.court_session_name,
+  pros.prosname,
+  users.idusers,
+  users.nickname,
+  casetype.casetypename,
+  `case`.casenum,
+  `case`.caseyear,
+  departs.departname
+FROM
+  case_has_court_session
+  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
+  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'") or die(mysqli_error($sqlcon));
+													}else
+													{
+														$result4 = mysqli_query($sqlcon,"
+SELECT
+  case_has_court_session.session_date,
+  court_session.court_session_name,
+  pros.prosname,
+  users.idusers,
+  users.nickname,
+  casetype.casetypename,
+  `case`.casenum,
+  `case`.caseyear,
+  departs.departname
+FROM
+  case_has_court_session
+  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
+  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+															Where users.idusers =$_SESSION[idusers]") or die(mysqli_error($sqlcon));
+													}
+													while($row4 = mysqli_fetch_assoc($result4))
+													{
 
-											<ul class="list-unstyled spaced inline bigger-110 margin-15">
-												<li>
-													<i class="ace-icon fa fa-hand-o-right blue"></i>
-													Give us more info on how this specific error occurred!
-												</li>
-											</ul>
+														?>
+														<tr>
+															<td><?php echo $row4['casenum'] ?></td>
+															<td><?php echo $row4['caseyear'] ?></td>
+															<td><?php echo $row4['casetypename'] ?></td>
+															<td><?php echo $row4['departname'] ?></td>
+															<td><?php echo "إحالة إلى ".$row4['court_session_name'] ?></td>
+															<?php if($_SESSION['securitylvl'] == "a"){?>
+																<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+															<?php }else{?>
+																<td><?php echo $row4['nickname'] ?></a></td>
+															<?php };?>
+														</tr>
+														<?php
+													};
+													?>
+													</tbody>
+												</table>
+											</div>
 										</div>
-										<hr />
 									</div>
-								</div>
 
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<div id="modal-add" class="modal fade" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header no-padding">
+												<div class="table-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														<span class="white">&times;</span>
+													</button>
+													إضافة تصرفات لقضايا
+												</div>
+											</div>
+											<form class="form-horizontal" method="post" action="assets/redi/insert_actions.php">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام القضايا </label>
+													<div class="col-sm-8">
+														<div class="multi-field-wrapper">
+															<div class="multi-fields">
+																<div class="multi-field">
+																	<input required type="number" class="input-sm" id="case_number" name="case_number[]" placeholder="رقم"/>
+																	<input required type="number" class="input-sm" id="case_year" name="case_year[]" placeholder="سنة"/>
+																	<select required id="form-field-4" name="case_type[]">
+																		<option hidden selected="selected" disabled>--إختار الجدول--</option>
+																		<?php
+																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+																		while ($row2 = $result2->fetch_assoc()) {
+																			?>
+																			<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
+																		<?php } ?>
+																	</select>
+																	<select required id="form-field-4" name="case_depart[]">
+																		<?php
+																		if($_SESSION['securitylvl'] == "a")
+																		{
+																			$result2 = mysqli_query($sqlcon, "Select
+																  departs.departname,
+																  departs.iddeparts
+																From departs
+																  Inner Join pros On pros.idpros = departs.pros_idpros");
+																			while ($row2 = $result2->fetch_assoc()) {
+																				?>
+																				<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																			<?php };
+																		}else
+																		{
+																			$result2 = mysqli_query($sqlcon, "Select departs.departname,
+																		  departs.iddeparts,
+																		  users.idusers
+																		From users
+																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		  Inner Join departs On departs.pros_idpros = pros.idpros
+																		Where users.idusers =$_SESSION[idusers]");
+																			while ($row2 = $result2->fetch_assoc()) {
+																				?>
+																				<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																			<?php };
+																		}
+																		?>
+																	</select>
+																	<select required id="form-field-4" name="action_type[]">
+																		<option hidden selected="selected" disabled>--نوع التصرف--</option>
+																		<?php
+																		$result2 = mysqli_query($sqlcon, "SELECT * FROM `action`");
+																		while ($row2 = $result2->fetch_assoc()) {
+																			?>
+																			<option value="<?php echo $row2['action_id'] ?>"> <?php echo $row2['action_name']?> </option>
+																		<?php } ?>
+																	</select>
+                                                                    <button type="button" class="remove-field">Remove</button>
+                                                                </div>
+															</div>
+															<button type="button" class="btn btn-minier btn-info add_button2 add-field" id="add_un">
+																<i class="ace-icon fa fa-plus"></i>Add
+															</button>
+														</div>
+													</div>
+												</div>
+												<div class="clearfix form-actions">
+													<div class="col-md-offset-3 col-md-9">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Submit
+														</button>
+
+														&nbsp; &nbsp; &nbsp;
+														<button class="btn" type="reset">
+															<i class="ace-icon fa fa-undo bigger-110"></i>
+															Reset
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+                                <div id="send_case_to_court" class="modal fade" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-padding">
+                                                <div class="table-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                        <span class="white">&times;</span>
+                                                    </button>
+                                                    إضافة تصرفات لقضايا
+                                                </div>
+                                            </div>
+                                            <form class="form-horizontal" method="post" action="assets/redi/insert_court_actions.php">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> الدائرة </label>
+													<div class="col-sm-8">
+														<select onchange="get_court_days_on(this.value);" required id="form-field-4" name="court_id">
+															<option hidden selected="selected" disabled >--إختار الدائرة--</option>
+															<?php
+															$result2 = mysqli_query($sqlcon, "SELECT
+  *
+FROM
+  court_session");
+															while ($row2 = $result2->fetch_assoc()) {
+																?>
+																<option value="<?php echo $row2['id_court_session'] ?>"> <?php echo $row2['court_session_name']?> </option>
+															<?php } ?>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> تاريخ الجلسة </label>
+													<div class="col-sm-8">
+														<div class="input-group">
+															<input required class="form-control date-picker" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"  autocomplete="off"/>
+															<span class="input-group-addon">
+																<i class="fa fa-calendar bigger-110"></i>
+															</span>
+														</div>
+													</div>
+												</div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام القضايا </label>
+                                                    <div class="col-sm-8">
+                                                        <div class="multi-field-wrapper">
+                                                            <div class="multi-fields">
+                                                                <div class="multi-field">
+                                                                    <input required type="number" class="input-sm" id="case_number" name="case_number[]" placeholder="رقم"/>
+                                                                    <input required type="number" class="input-sm" id="case_year" name="case_year[]" placeholder="سنة"/>
+                                                                    <select required id="form-field-4" name="case_type[]">
+                                                                        <option hidden selected="selected" disabled>--إختار الجدول--</option>
+                                                                        <?php
+                                                                        $result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+                                                                        while ($row2 = $result2->fetch_assoc()) {
+                                                                            ?>
+                                                                            <option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                    <select required id="form-field-4" name="case_depart[]">
+                                                                        <?php
+                                                                        if($_SESSION['securitylvl'] == "a")
+                                                                        {
+                                                                            $result2 = mysqli_query($sqlcon, "Select
+																  departs.departname,
+																  departs.iddeparts
+																From departs
+																  Inner Join pros On pros.idpros = departs.pros_idpros");
+                                                                            while ($row2 = $result2->fetch_assoc()) {
+                                                                                ?>
+                                                                                <option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+                                                                            <?php };
+                                                                        }else
+                                                                        {
+                                                                            $result2 = mysqli_query($sqlcon, "Select departs.departname,
+																		  departs.iddeparts,
+																		  users.idusers
+																		From users
+																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		  Inner Join departs On departs.pros_idpros = pros.idpros
+																		Where users.idusers =$_SESSION[idusers]");
+                                                                            while ($row2 = $result2->fetch_assoc()) {
+                                                                                ?>
+                                                                                <option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+                                                                            <?php };
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                    <button type="button" class="remove-field">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-minier btn-info add_button2 add-field" id="add_un">
+                                                                <i class="ace-icon fa fa-plus"></i>Add
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix form-actions">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <button class="btn btn-info"  type="Submit"  name="submit">
+                                                            <i class="ace-icon fa fa-check bigger-110"></i>
+                                                            Submit
+                                                        </button>
+
+                                                        &nbsp; &nbsp; &nbsp;
+                                                        <button class="btn" type="reset">
+                                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                            Reset
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div>
+							</div>
 						</div><!-- /.row -->
 
 								<!-- PAGE CONTENT ENDS -->
@@ -770,10 +1195,7 @@
 
 				//datepicker plugin
 				//link
-				$('.date-picker').datepicker({
-					autoclose: true,
-					todayHighlight: true
-				})
+
 				//show datepicker when clicking on the icon
 				.next().on(ace.click_event, function(){
 					$(this).prev().focus();
@@ -1255,9 +1677,6 @@
 				.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
 					bAutoWidth: true,
-					"aoColumns": [
-					  null, null, null,null,null,null,null,null,null,null
-					],
 					"aaSorting": [],
 
 
@@ -1475,5 +1894,35 @@
                 $("#add_un").click();
             })
         </script>
+	<script>
+		$('.multi-field-wrapper').each(function() {
+			var $wrapper = $('.multi-fields', this);
+			$(".add-field", $(this)).click(function(e) {
+				$('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('#case_number').val('').focus();
+			});
+			$('.multi-field .remove-field', $wrapper).click(function() {
+				if ($('.multi-field', $wrapper).length > 1)
+					$(this).parent('.multi-field').remove();
+			});
+		});
+	</script>
+	<script>
+		function get_court_days_on(val){
+			//We create ajax function
+			$.ajax({
+				type: "POST",
+				url: "assets/redi/get_court_days_on.php",
+				data: "court_id="+val,
+				success: function(data){
+					$('.date-picker').datepicker({
+						autoclose: true,
+						todayHighlight: true,
+						daysOfWeekDisabled: data
+					})
+					$( ".date-picker" ).datepicker(refresh);
+				}
+			});
+		}
+	</script>
 	</body>
 </html>

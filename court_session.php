@@ -388,109 +388,64 @@
 											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>أسم الشهرة</th>
-														<th>أسم المستخدم</th>
-														<th>كلمة السر</th>
+														<th>أسم الدائرة</th>
+														<th>أسم رئيس الدائرة</th>
+														<th>أيام الإنعقاد</th>
+														<th>سكرتير الجلسة</th>
 														<th>النيابات التابع لها</th>
-														<th>الحالة</th>
 													</tr>
 												</thead>
 
 												<tbody>
 												<?php
 												if($admin_id == '1'){
-													$result4 = mysqli_query($sqlcon, "SELECT * FROM `users`");
+													$result4 = mysqli_query($sqlcon, "SELECT
+  court_session.id_court_session,
+  court_session.pros_idpros,
+  court_session.court_session_days,
+  court_session.court_session_name,
+  court_session.court_session_head,
+  court_session.court_session_employe,
+  pros.prosname
+FROM
+  court_session
+INNER JOIN pros ON court_session.pros_idpros = pros.idpros");
 												}else{
 													$result4 = mysqli_query($sqlcon, "SELECT
-  users.securitylvl,
-  users.idusers,
-  users.username,
-  users.password,
-  users.nickname
+  court_session.id_court_session,
+  court_session.court_session_days,
+  court_session.court_session_name,
+  court_session.court_session_head,
+  court_session.court_session_employe,
+  pros.prosname
 FROM
-  users
-  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
-  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
-  users.securitylvl != 'a' AND
   overallpros_has_users.users_idusers = '$admin_id'");
 												}
 														while($row4 = mysqli_fetch_assoc($result4))
 															{	
 													?>
 													<tr>
+														<td><?php echo $row4['court_session_name'] ?></td>
+														<td><?php echo $row4['court_session_head'] ?></td>
 														<td>
 															<?php
-															if ($row4['securitylvl']=='a'){
-																?>
-																<a class="red" href="adminprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a>
-															<?php															}else{
-																?>
-																<a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a>
-																<?php
-															}
+															$row4['court_session_days'] = str_replace("6","السبت",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace("0","الأحد",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace("1","الإثنين",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace("2","الثلاثاء",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace("3","الأربعاء",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace("4","الخميس",$row4['court_session_days']);
+															$row4['court_session_days'] = str_replace(","," و ",$row4['court_session_days']);
+																echo $row4['court_session_days']
 															?>
 														</td>
-														<td><?php echo $row4['username'] ?></td>
-														<td><?php echo $row4['password'] ?></td>
-														<td>
-															<p class="big">
-																<?php
-																if ($row4['securitylvl']=='a'){
-																	$matresult = mysqli_query($sqlcon, "
-																SELECT
-  overallpros.overallprosname,
-  overallpros.overallprosid
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
-WHERE
-  users.idusers = '".$row4['idusers']."'");
-																	while ($row = $matresult->fetch_assoc()) {
-																		$prosid= $row['overallprosid'];
-																		$prosname= $row['overallprosname'];
-																		?>
-																		<button class="btn btn-xs btn-danger"> <?php echo $prosname ?></button>
-																<?php
-																		echo "&nbsp;";
-																	};																}elseif ($row4['securitylvl']=='d'){
-																	$matresult = mysqli_query($sqlcon, "
-																Select pros.prosname,
-																  pros.idpros 
-																From pros_has_users
-																  Inner Join users On users.idusers = pros_has_users.idusers
-																  Inner Join pros On pros_has_users.idpros = pros.idpros
-																Where users.idusers ='".$row4['idusers']."'");
-																	$color = "purple";
-																	while ($row = $matresult->fetch_assoc()) {
-																		$prosid= $row['idpros'];
-																		$prosname= $row['prosname'];
-																		echo '<a href="'?>prosprofile.php?idpros=<?php echo $prosid ;
-																		echo '" class="btn btn-xs btn-'.$color.'">';
-																		echo $prosname;
-																		echo '</a>'."&nbsp;";
-																	};
-																}
-																?>
-																<?php
-
-															?>
-															</p>
-														</td>
-														<td>
-															<?php
-															if ($row4['securitylvl']=='0'){
-																echo "Blocked";
-															}elseif ($row4['securitylvl']=='a'){
-																echo "Administrator";
-															}elseif ($row4['securitylvl']=='d'){
-																echo "Data entry";
-															}
-															?>
-														</td>
+														<td><?php echo $row4['court_session_employe'] ?></td>
+														<td><?php echo $row4['prosname'] ?></td>
 													</tr>
 													<?php
 												};
@@ -503,7 +458,7 @@ WHERE
 
 								</div><!-- /.row -->
 
-								<div id="modal-add" class="modal fade" tabindex="-1">
+								<div id="add_court_session" class="modal fade" tabindex="-1">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header no-padding">
@@ -511,32 +466,55 @@ WHERE
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 														<span class="white">&times;</span>
 													</button>
-													إضافة مدخل بيانات
+													إضافة دائرة محكمة
 												</div>
 											</div>
-											<form class="form-horizontal" method="post" action="assets/redi/insertdataentry.php">
+											<form class="form-horizontal" method="post" action="assets/redi/insert_court_session.php">
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم الشهرة </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم الدائرة </label>
 													<div class="col-sm-9">
-														<input required type="text" id="form-field-1" placeholder="الأسم" class="col-xs-10 col-sm-5"  name="nickname"/>
+														<input required type="text" id="form-field-1" placeholder="أسم الدائرة" class="col-xs-10 col-sm-5"  name="court_session_name"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم المستخدم </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أسم رئيس الدائرة </label>
 													<div class="col-sm-9">
-														<input required type="text" id="form-field-1" placeholder="username" class="col-xs-10 col-sm-5"  name="username"/>
+														<input required type="text" id="form-field-1" placeholder="أسم رئيس الدائرة" class="col-xs-10 col-sm-5"  name="court_head_name"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> كلمة السر </label>
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> أيام الإنعقاد </label>
 													<div class="col-sm-9">
-														<input required type="text" id="form-field-1" placeholder="password" class="col-xs-10 col-sm-5"  name="password"/>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="6">السبت
+														</label>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="0">الأحد
+														</label>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="1">الإثنين
+														</label>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="2">الثلاثاء
+														</label>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="3">الأربعاء
+														</label>
+														<label class="checkbox-inline">
+															<input name="court_session_days[]" class="" type="checkbox" value="4">الخميس
+														</label>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> سكرتير الجلسة </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="أسم الدائرة" class="col-xs-10 col-sm-5"  name="court_session_employe"/>
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-sm-3 control-label no-padding-right" for="form-field-13">النيابات التابع لها</label>
 													<div class="col-sm-8">
-														<select multiple="multiple" size="16" name="material_matid1[]" id="form-field-13">
+														<select size="16" name="material_matid1[]" id="form-field-13">
 															<?php
 																$result2 = mysqli_query($sqlcon, "SELECT
   pros.idpros,

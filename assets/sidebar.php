@@ -72,16 +72,13 @@ function active($currect_page){
 							<b class="arrow"></b>
 						</li>
 					<?PHP } ?>
-					<?php
-					if($securitylvl == "a"){ ?>
-						<li class="<?php active('actions.php')?>">
-							<a href="actions.php">
-								<i class="menu-icon fa fa-trophy"></i>
-								<span class="menu-text"> التصرفات </span>
-							</a>
-							<b class="arrow"></b>
-						</li>
-					<?PHP } ?>
+					<li class="<?php active('actions.php')?>">
+						<a href="actions.php">
+							<i class="menu-icon fa fa-trophy"></i>
+							<span class="menu-text"> التصرفات </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
