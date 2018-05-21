@@ -2,22 +2,22 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 
 		<?php
 			session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
-						{
-											header('Location: assets/redi/logout.php');
-											$fh = fopen('/tmp/track.txt','a');
-											fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-											fclose($fh);
-						};
+			{
+				header('Location: assets/redi/logout.php');
+				$fh = fopen('/tmp/track.txt','a');
+				fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
+				fclose($fh);
+			};
 			{$_SESSION['authenticate']="true";}
 			
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				echo"<script>alert('15 Minutes over!');</script>";
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');
@@ -133,7 +133,6 @@
 				</div>
 			</div><!-- /.navbar-container -->
 		</div>
-
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
@@ -257,9 +256,8 @@
 							<div class="col-xs-12">
 								<div class="row">
 									<div class="space-6"></div>
-							
 									<div class="col-sm-12 infobox-container">
-							<h3>الشهر الحالي</h3>
+									<h3>إيراد الشهر الحالي</h3>
 									<?php
 									$month = date("n"); 
 									$numofday = date("j"); 
@@ -348,14 +346,8 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$mo
 										</div>
 									<?php };?>
 									</div>
-									
-								</div><!-- /.row -->
-								<div class="space"></div>
-								<div class="hr hr32 hr-dotted"></div>
-								
-							
 									<div class="col-sm-12 infobox-container">
-								<h3>الشهر السابق</h3>
+								<h3>إيراد الشهر السابق</h3>
 									<?php
 										$iduser = $_SESSION["idusers"];
 										$casecount=mysqli_query($sqlcon, "Select Count(`case`.idcase) As casecount,
@@ -439,7 +431,104 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 										</div>
 									<?php };?>
 									</div>
+								</div><!-- /.row -->
 								
+								
+								
+								<div class="hr hr32 hr-dotted"></div>
+
+								
+								<div class="space-6"></div>
+									<div class="col-sm-12 infobox-container">
+									<h3>تصرفات الشهر الحالي</h3>
+									<?php
+									$month = date("n"); 
+									$numofday = date("j"); 
+									if($numofday > "25"):
+										$month=$month+1;
+									endif;
+									$monthminus1=$month-1;
+									$monthminus2=$month-2;
+									$monthminus3=$month-3;
+									$year = date("Y"); 
+									$iduser = $_SESSION["idusers"];
+									$casecount=mysqli_query($sqlcon, "
+									SELECT
+									  COUNT(*) AS casecount
+									FROM
+									  case_has_action
+									  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+									WHERE (case_has_action.insert_date BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And users.idusers = $idusers");
+									$casecountrow_action = mysqli_fetch_assoc($casecount);
+									
+									$casecount=mysqli_query($sqlcon, "
+									SELECT
+									  COUNT(*) AS casecount
+									FROM
+									  case_has_court_session
+									  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+									WHERE (case_has_court_session.insert_date BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And users.idusers = $idusers");
+									$casecountrow_court = mysqli_fetch_assoc($casecount);
+										
+									?>
+										<div class="infobox infobox-blue2">
+											<div class="infobox-progress">
+												<div class="easy-pie-chart percentage" data-percent="100" data-size="46">
+													<span class="percent"><?php echo $casecountrow_action['casecount'] + $casecountrow_court['casecount'] ?></span>
+												</div>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-text">الإجمالي</span>
+
+												<div class="infobox-content">
+													من 26\<?php echo $monthminus1;?> إلى 25\<?php echo $month;?>
+												</div>
+											</div>
+										</div>
+ 									</div>							
+									<div class="col-sm-12 infobox-container">
+								<h3>تصرفات الشهر السابق</h3>					
+									<div class="col-sm-12 infobox-container">
+									<?php
+										$iduser = $_SESSION["idusers"];
+										$casecount=mysqli_query($sqlcon, "
+									SELECT
+									  COUNT(*) AS casecount
+									FROM
+									  case_has_action
+									  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+									WHERE (case_has_action.insert_date BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And users.idusers = $idusers");
+									$casecountrow_action = mysqli_fetch_assoc($casecount);
+									
+									$casecount=mysqli_query($sqlcon, "
+									SELECT
+									  COUNT(*) AS casecount
+									FROM
+									  case_has_court_session
+									  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+									WHERE (case_has_court_session.insert_date BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And users.idusers = $idusers");
+									$casecountrow_court = mysqli_fetch_assoc($casecount);
+									?>
+										<div class="infobox infobox-blue2">
+											<div class="infobox-progress">
+												<div class="easy-pie-chart percentage" data-percent="100" data-size="46">
+													<span class="percent"><?php echo $casecountrow_action['casecount'] + $casecountrow_court['casecount']  ?></span>
+												</div>
+											</div>
+
+											<div class="infobox-data">
+												<span class="infobox-text">الإجمالي</span>
+
+												<div class="infobox-content">
+													من 26\<?php echo $monthminus2;?> إلى 25\<?php echo $monthminus1;?>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div><!-- /.row -->
+								<div class="row">
+								</div>
 								
 								<div class="space"></div>
 								<div class="hr hr32 hr-dotted"></div>
@@ -643,7 +732,7 @@ $y++;
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017
+							&copy; 2016-2017
 						</span>
 					</div>
 				</div>

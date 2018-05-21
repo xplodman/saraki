@@ -1,7 +1,7 @@
 ﻿<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 	<link rel="icon" type="image/png" href="assets/favicon.png" />
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 	<?php session_start();
 		if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 			{
@@ -12,7 +12,7 @@
 
 		if (isset($_SESSION['authenticate']))
 		{
-		 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+		 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 			echo"<script>alert('15 Minutes over!');</script>";
 			unset($_SESSION['authenticate']);
 				header('Location: assets/redi/logout.php');

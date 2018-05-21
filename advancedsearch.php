@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 		
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
@@ -16,7 +16,7 @@
 			
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				echo"<script>alert('15 Minutes over!');</script>";
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');
@@ -280,22 +280,29 @@
 
 
 $query="
-Select `case`.casenum,
-`case`.idcase,
-`case`.caseyear,
-casetype.casetypename,
-sarki.idsarki,
-departs.departname,
-`case`.createdate,
-`case`.casetype2_idcasetype2,
-`users`.idusers,
-`users`.nickname
-From `case`
-Inner Join departs On departs.iddeparts = `case`.departs_iddeparts
-Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-Inner Join sarki On `case`.sarki_idsarki = sarki.idsarki
-Inner Join users On users.idusers = sarki.idusers 
-Where 2=2
+SELECT
+  `case`.casenum,
+  `case`.idcase,
+  `case`.caseyear,
+  casetype.casetypename,
+  sarki.idsarki,
+  departs.departname,
+  `case`.createdate,
+  `case`.casetype2_idcasetype2,
+  users.idusers,
+  users.nickname
+FROM
+  `case`
+  INNER JOIN departs ON departs.iddeparts = `case`.departs_iddeparts
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN sarki ON `case`.sarki_idsarki = sarki.idsarki
+  INNER JOIN users ON users.idusers = sarki.idusers
+  INNER JOIN pros ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  2 = 2 AND
+  overallpros_has_users.users_idusers = $admin_id
 ";
 if (!empty($_POST['casenum'])) {
 	$casenum=$_POST['casenum'];
@@ -349,7 +356,8 @@ if(trim($user) != ''){
 									
 
 											?>
-											<form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+											<form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+
 											<div class="form-group">
 												<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> الأسم </label>
 												<div class="col-sm-8">
@@ -490,11 +498,11 @@ WHERE
 												</div>
 
 											</div>
+											</form>
 										<div class="pull-right tableTools-container"></div>
 										</a>
 										</div>
 										
-									</form>
 										<!-- div.table-responsive -->
 
 										<!-- div.dataTables_borderWrap -->
@@ -560,7 +568,7 @@ WHERE
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017<? echo $varb;?>
+							&copy; 2016-2017<? echo $varb;?>
 						</span>
 					</div>
 				</div>
@@ -1066,7 +1074,7 @@ WHERE
 			
 			});
 		</script>
-		
+
 		<script type="text/javascript">
 			jQuery(function($){
 			    var demo1 = $('select[name="material_matid1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});

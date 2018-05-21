@@ -4,7 +4,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 	
 
-<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 
 
 		<?php session_start();
@@ -19,7 +19,7 @@
 
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				echo"<script>alert('15 Minutes over!');</script>";
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');
@@ -297,15 +297,7 @@
 								<div>
 									<form method="post" action="assets/redi/edituser.php?idusers=<?php echo $dataentry_user_id?>" method="post">
 										<div id="user-profile-1" class="user-profile row">
-											<div class="col-xs-12 col-sm-3 center">
-												<div>
-													<div class="space-12"></div>
-													<span class="profile-picture">
-														<img id="avatar" onerror="this.src='assets/images/avatars/profile-pic.jpg'" src="assets/images/avatars/<?php echo $userinfores['idusers'] ;?>.jpg" />
-													</span>
-													<div class="space-4"></div>
-												</div>
-											</div>
+											
 											<div class="col-xs-12 col-sm-9">
 												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
@@ -347,7 +339,7 @@
 										</div>
 										<?php }; ?>
 										<div class="hr hr32 hr-dotted"></div>
-										<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="form-field-13">
+										<select multiple="multiple" size="5" name="duallistbox_demo1[]" id="form-field-13">
 											<?php
 												$result2 = mysqli_query($sqlcon, "
 												Select pros.prosname,
@@ -400,6 +392,228 @@
 										</div>
 									</form>
 								</div>
+								<div class="row">
+										<div class="col-sm-12">
+										<h3>كشف بالحضور و الإنصراف</h3>
+										<div class="widget-box">
+											<div class="widget-header">
+												<div class="pull-right">
+													<div class="tableTools-container2"></div>
+												</div>
+												<div class="pull-LEFT">
+													<h4 class="smaller">
+														<small>كشف حضور و إنصراف للمدخل</small>
+													</h4>
+												</div>
+											</div>
+											<div class="widget-body">
+													<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+														<thead>
+															<tr>
+																<th>الأسم</th>
+																<th>التاريخ</th>
+																<th>وقت الحضور</th>
+																<th>Ip address الدخول</th>
+																<th>موقع الدخول</th>
+																<th>وقت الإنصراف</th>
+																<th>Ip address الخروج</th>
+																<th>موقع الخروج</th>
+															</tr>
+														</thead>
+														<tbody>
+														<?php
+														$result4 = mysqli_query($sqlcon,"
+															SELECT
+  pros.prosname,
+  attendance.attendanceid,
+  attendance.checkindate,
+  attendance.ip_address AS ip_address_real,
+  attendance.ip_address_2 AS ip_address_2_real,
+  (CASE
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.10'
+    THEN 'IT رمل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.50'
+    THEN 'غرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.51'
+    THEN 'شئون مالية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.52'
+    THEN 'الأحداث'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.53'
+    THEN 'الجمرك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.54'
+    THEN 'سيدي جابر'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.55'
+    THEN 'اللبان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.56'
+    THEN 'العطارين'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.58'
+    THEN 'المنتزة ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.50'
+    THEN 'المنتزة أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.20'
+    THEN 'الميناء'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.42'
+    THEN 'مينا البصل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.41'
+    THEN 'كرموز'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.40'
+    THEN 'محرم بك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.30'
+    THEN 'عامرية أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.31'
+    THEN 'عامرية ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.32'
+    THEN 'الدخيلة'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '40.60'
+    THEN 'برج العرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.6'
+    THEN 'رمل أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.22'
+    THEN 'رمل ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.4'
+    THEN 'شرق الكلية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.2'
+    THEN 'إستئناف'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.8'
+    THEN 'باب شرقي'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address, '.', 3), '.', -2) = '31.17'
+    THEN 'المنشية'
+    ELSE 'OTHERS'
+  END) AS ip_address,
+  (CASE
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.10'
+    THEN 'IT رمل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.50'
+    THEN 'غرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.51'
+    THEN 'شئون مالية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.52'
+    THEN 'الأحداث'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.53'
+    THEN 'الجمرك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.54'
+    THEN 'سيدي جابر'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.55'
+    THEN 'اللبان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.56'
+    THEN 'العطارين'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.58'
+    THEN 'المنتزة ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.50'
+    THEN 'المنتزة أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.20'
+    THEN 'الميناء'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.42'
+    THEN 'مينا البصل'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.41'
+    THEN 'كرموز'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.40'
+    THEN 'محرم بك'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.30'
+    THEN 'عامرية أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.31'
+    THEN 'عامرية ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.32'
+    THEN 'الدخيلة'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '40.60'
+    THEN 'برج العرب'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.6'
+    THEN 'رمل أول'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.22'
+    THEN 'رمل ثان'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.4'
+    THEN 'شرق الكلية'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.2'
+    THEN 'إستئناف'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.8'
+    THEN 'باب شرقي'
+    WHEN SubString_Index(SubString_Index(attendance.ip_address_2, '.', 3), '.', -2) = '31.17'
+    THEN 'المنشية'
+    ELSE 'OTHERS'
+  END) AS ip_address_2,
+  Date_Format(attendance.checkouttime, '%h:%i %p') AS checkouttime,
+  users.nickname,
+  users.idusers,
+  Date_Format(attendance.checkintime, '%h:%i %p') AS checkintime
+FROM
+  attendance
+  INNER JOIN users ON users.idusers = attendance.idusers
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros.idpros = pros_has_users.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  attendance.idusers = '$dataentry_user_id'
+GROUP BY
+  attendance.checkindate,
+  users.idusers,
+  overallpros_has_users.users_idusers
+ORDER BY
+  attendance.checkindate DESC
+LIMIT 30") or die(mysqli_error($sqlcon));
+															while($row4 = mysqli_fetch_assoc($result4))
+																{
+																?>
+																	<tr>
+																		<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+																		<td><?php echo $row4['checkindate'] ?></td>
+																		<td>
+																		<?php
+															$dateinlate = "09:15 AM";
+															$dateinnormal = "09:00 AM";
+															$dateinearly = "08:45 AM";
+															$dateinearly=date("h:i A",strtotime($dateinearly));
+															$dateinlate=date("h:i A",strtotime($dateinlate));
+															$dateinnormal=date("h:i A",strtotime($dateinnormal));
+															if(($dateinearly > $row4['checkintime'])):
+															$varb='<span class="btn btn-xs btn-success">';
+															elseif(($dateinlate < $row4['checkintime'])):
+															$varb='<span class="btn btn-xs btn-danger">';
+															else:
+															$varb='<span class="btn btn-xs btn-warning">';
+																endif;
+																echo $varb.$row4['checkintime'];?></span>
+
+																		</td>
+																		<td><?php echo $row4['ip_address_real'] ?></td>
+																		<td><?php echo $row4['ip_address'] ?></td>
+																		<td>
+
+
+																<?php
+																$dateoutlate = "03:00 PM";
+
+																$dateoutearly = "02:00 PM";
+
+																$dateoutearly=date("h:i A",strtotime($dateoutearly));
+																$dateoutlate=date("h:i A",strtotime($dateoutlate));
+
+																if(($dateoutearly > $row4["checkouttime"])):
+																$varb='<span class="btn btn-xs btn-danger">';
+
+																elseif(($dateoutlate > $row4["checkouttime"])):
+																$varb='<span class="btn btn-xs btn-warning">';
+
+																else:
+																$varb='<span class="btn btn-xs btn-success">';
+																endif;
+																echo $varb.$row4['checkouttime'];?></span>
+
+
+																</td>
+																<td><?php echo $row4['ip_address_2_real'] ?></td>
+																<td><?php echo $row4['ip_address_2'] ?></td>
+
+																	</tr>
+																<?php
+																};
+															?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+									</div><!-- /.col -->
+								</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -412,7 +626,7 @@
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017<? echo $varb;?>
+							&copy; 2016-2017<? echo $varb;?>
 						</span>
 					</div>
 				</div>
@@ -1030,9 +1244,7 @@
 				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
 					bAutoWidth: false,
-					"aoColumns": [
-					  null, { "bSortable": false }, null,null, { "bSortable": false }, null, { "bSortable": false }
-					],
+					
 					"aaSorting": [],
 					
 					

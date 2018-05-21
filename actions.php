@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 	<style type="text/css">
 		@font-face {
 			font-family: "My Custom Font";
@@ -24,7 +24,7 @@
 
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				echo"<script>alert('15 Minutes over!');</script>";
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');
@@ -424,10 +424,307 @@ FROM
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
+								<?php
+								if($_SESSION['securitylvl'] == "a")
+								{
+									$admin_id=$_SESSION['admin_id'];
+									$case_has_action_query="
+SELECT
+  `case`.casenum,
+  `case`.caseyear,
+  casetype.casetypename,
+  departs.departname,
+  action.action_name,
+  users.nickname,
+  users.idusers,
+  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate
+FROM
+  case_has_action
+  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+  INNER JOIN action ON case_has_action.action_action_id = action.action_id
+  INNER JOIN pros ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+";
+								}else
+								{
+									$case_has_action_query="
+SELECT
+  `case`.casenum,
+  `case`.caseyear,
+  casetype.casetypename,
+  departs.departname,
+  action.action_name,
+  users.nickname,
+  users.idusers,
+  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate
+FROM
+  case_has_action
+  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN users ON case_has_action.users_idusers = users.idusers
+  INNER JOIN action ON case_has_action.action_action_id = action.action_id
+Where users.idusers =$_SESSION[idusers]
+";
+								}
 
+
+								if($_SESSION['securitylvl'] == "a")
+								{
+									$admin_id=$_SESSION['admin_id'];
+									$court_has_session_query = "SELECT
+  case_has_court_session.session_date,
+  court_session.court_session_name,
+  pros.prosname,
+  users.idusers,
+  users.nickname,
+  casetype.casetypename,
+  `case`.casenum,
+  `case`.caseyear,
+  departs.departname,
+  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate
+FROM
+  case_has_court_session
+  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
+  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'";
+								}else
+								{
+									$court_has_session_query = "
+SELECT
+  case_has_court_session.session_date,
+  court_session.court_session_name,
+  pros.prosname,
+  users.idusers,
+  users.nickname,
+  casetype.casetypename,
+  `case`.casenum,
+  `case`.caseyear,
+  departs.departname,
+  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate
+FROM
+  case_has_court_session
+  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
+  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
+  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
+  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
+  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
+  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
+Where users.idusers =$_SESSION[idusers]";
+								}
+								if (!empty($_POST['casenum'])) {
+									$casenum=$_POST['casenum'];
+									if(trim($casenum) != ''){
+										$court_has_session_query .= " AND  `case`.casenum='$casenum'";
+										$case_has_action_query .= " AND  `case`.casenum='$casenum'";
+									}
+								}
+
+								if (!empty($_POST['year'])) {
+									$year=$_POST['year'];
+									if(trim($year) != ''){
+										$court_has_session_query .= " AND  `case`.caseyear='$year'";
+										$case_has_action_query .= " AND  `case`.caseyear='$year'";
+									}}
+
+								if (!empty($_POST['type'])) {
+									$type=$_POST['type'];
+									if(trim($type) != ''){
+										$court_has_session_query .= " AND  casetype.idcasetype='$type'";
+										$case_has_action_query .= " AND  casetype.idcasetype='$type'";
+									}}
+
+								if (!empty($_POST['depart'])) {
+									$depart=$_POST['depart'];
+									if(trim($depart) != ''){
+										$court_has_session_query .= " AND  departs.iddeparts='$depart'";
+										$case_has_action_query .= " AND  departs.iddeparts='$depart'";
+									}}
+
+								if (!empty($_POST['from'])) {
+									$from=$_POST['from'];
+									if(trim($from) != ''){
+										$court_has_session_query .= " AND  case_has_court_session.insert_date >= '$from'";
+										$case_has_action_query .= " AND  `case_has_action`.insert_date >= '$from'";
+									}}
+
+								if (!empty($_POST['to'])) {
+									$to=$_POST['to'];
+									if(trim($to) != ''){
+										$court_has_session_query .= " AND  case_has_court_session.insert_date >= '$to'";
+										$case_has_action_query .= " AND  `case_has_action`.insert_date >= '$to'";
+									}
+								}
+
+								if (!empty($_POST['user'])) {
+									$user=$_POST['user'];
+									if(trim($user) != ''){
+										$court_has_session_query .= " AND  `users`.idusers = '$user'";
+										$case_has_action_query .= " AND  `users`.idusers = '$user'";
+									}
+								}
+								$court_has_session_query .= " Limit 500";
+								$case_has_action_query .= " Limit 500";
+								?>
 								<div class="row">
 									<div class="row">
 										<div class="col-xs-12">
+											<form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+												<div class="form-group">
+													<?php
+													$securitylvl=$_SESSION['securitylvl'];
+													if($securitylvl == "a" ){
+														?>
+														<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> الأسم </label>
+														<div class="col-sm-8">
+															<select class="multiselect" id="form-field-4" name="user">
+																<option selected="selected" value="" >--إختار المدخل--</option>
+																<?php
+																$result222 = mysqli_query($sqlcon, "SELECT
+  users.idusers,
+  users.username,
+  users.nickname
+FROM
+  users
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+GROUP BY
+  users.idusers
+ORDER BY
+  users.nickname");
+																while ($row222 = $result222->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $row222['idusers'] ?>"<?php if (!empty($user)) {if($row222['idusers']==$user) echo 'selected="selected"'; }?> > <?php echo $row222['nickname']?> </option>
+																<?php } ?>
+															</select>
+														</div>
+														<br>
+														<br>
+													<?php
+													}
+													?>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> رقم القضية </label>
+													<div class="col-sm-8">
+														<input type="text" value="<?php if (!empty($casenum)) { echo $casenum; }?>" class="input-sm" id="spinner5" name="casenum"/>
+													</div>
+													<br>
+													<br>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> سنة القضية </label>
+													<div class="col-sm-8">
+														<input type="text" value="<?php if (!empty($year)) { echo $year; }?>" class="input-sm" id="spinner5" name="year"/>
+													</div>
+													<br>
+													<br>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> الجدول </label>
+													<div class="col-sm-8">
+														<select class="multiselect" id="form-field-4" name="type">
+															<option selected="selected" value="" >--إختار الجدول--</option>
+															<?php
+															$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+															while ($row2 = $result2->fetch_assoc()) {
+																?>
+																<option value="<?php echo $row2['idcasetype'] ?>"
+																	<?php
+
+																	if (!empty($type)) {
+																		if($row2['idcasetype']==$type)
+																			echo 'selected="selected"';
+																	}
+
+																	?>
+																> <?php echo $row2['casetypename']?> </option>
+															<?php } ?>
+														</select>
+													</div>
+													<br>
+													<br>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> القسم </label>
+													<div class="col-sm-8">
+														<select class="multiselect" id="form-field-4" name="depart">
+															<option selected="selected" value="">--إختار القسم--</option>
+															<?php
+															if($_SESSION['securitylvl'] == "a")
+															{
+																$result2 = mysqli_query($sqlcon, "SELECT
+  departs.departname,
+  departs.iddeparts
+FROM
+  departs
+  INNER JOIN pros ON pros.idpros = departs.pros_idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id'
+  GROUP BY departs.iddeparts");
+																while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $row2['iddeparts'] ?>"
+																		<?php
+
+																		if (!empty($depart)) {
+																			if($row2['iddeparts']==$depart)
+																				echo 'selected="selected"';
+																		}
+
+																		?>
+																	> <?php echo $row2['departname']?> </option>
+																<?php };
+															}else
+															{
+																$result2 = mysqli_query($sqlcon, "Select departs.departname,
+																		  departs.iddeparts,
+																		  users.idusers
+																		From users
+																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		  Inner Join departs On departs.pros_idpros = pros.idpros
+																		Where users.idusers =$_SESSION[idusers]");
+																while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																<?php };
+															}
+															?>
+														</select>
+													</div>
+													<br>
+													<br>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> تاريخ إدراج التصرف </label>
+													<div class="col-sm-5">
+														<input type="text" value="<?php if (!empty($from)) { echo $from; }?>" class="date-picker" "id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" name="from"/>
+														إلى
+														<input type="text" value="<?php if (!empty($to)) { echo $to; }?>" class="date-picker2" "id-date-picker-2" type="text" data-date-format="yyyy-mm-dd" name="to"/>
+														من
+													</div>
+													<br>
+													<br>
+													<label class="col-sm-1 control-label no-padding-right" for="form-field-4">  </label>
+													<div class="col-sm-8">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Search
+														</button>
+													</div>
+
+												</div>
+											</form>
 											<div class="clearfix">
 												<div class="pull-right tableTools-container"></div>
 												<?php
@@ -472,143 +769,59 @@ FROM
 												<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 													<thead>
 													<tr>
-														<th>الرقم</th>
-														<th>السنة</th>
-														<th>الجدول</th>
-														<th>القسم</th>
+														<th><span  class="text-warning"> الرقم </span > / <span  class="text-info"> السنة </span > - <span  class="text-danger"> الجدول </span > - <span  class="text-success"> القسم </span ></th>
 														<th>نوع التصرف</th>
                                                         <th>منشئ التصرف</th>
+                                                        <th>تاريخ إدراج التصرف</th>
 													</tr>
 													</thead>
 
 													<tbody>
 													<?php
-													if($_SESSION['securitylvl'] == "a")
-													{
-														$admin_id=$_SESSION['admin_id'];
-														$result4 = mysqli_query($sqlcon,"SELECT
-  `case`.casenum,
-  `case`.caseyear,
-  casetype.casetypename,
-  departs.departname,
-  action.action_name,
-  users.nickname,
-  users.idusers
-FROM
-  case_has_action
-  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
-  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
-  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
-  INNER JOIN users ON case_has_action.users_idusers = users.idusers
-  INNER JOIN action ON case_has_action.action_action_id = action.action_id
-  INNER JOIN pros ON departs.pros_idpros = pros.idpros
-  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-WHERE
-  overallpros_has_users.users_idusers = '$admin_id'") or die(mysqli_error($sqlcon));
-													}else
-													{
-														$result4 = mysqli_query($sqlcon,"
-SELECT
-  `case`.casenum,
-  `case`.caseyear,
-  casetype.casetypename,
-  departs.departname,
-  action.action_name,
-  users.nickname,
-  users.idusers
-FROM
-  case_has_action
-  INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
-  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
-  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
-  INNER JOIN users ON case_has_action.users_idusers = users.idusers
-  INNER JOIN action ON case_has_action.action_action_id = action.action_id
-															Where users.idusers =$_SESSION[idusers]") or die(mysqli_error($sqlcon));
-													}
-													while($row4 = mysqli_fetch_assoc($result4))
+													$case_has_action_result = mysqli_query($sqlcon, $case_has_action_query);
+													while($case_has_action_info = mysqli_fetch_assoc($case_has_action_result))
 													{
 
 														?>
 														<tr>
-															<td><?php echo $row4['casenum'] ?></td>
-															<td><?php echo $row4['caseyear'] ?></td>
-															<td><?php echo $row4['casetypename'] ?></td>
-                                                            <td><?php echo $row4['departname'] ?></td>
-                                                            <td><?php echo $row4['action_name'] ?></td>
+															<td><span  class="text-warning"> <?php echo $case_has_action_info['casenum'] ?> </span > / <span  class="text-info"> <?php echo $case_has_action_info['caseyear'] ?> </span > - <span  class="text-success"> <?php echo $case_has_action_info['departname'] ?> </span > - <span  class="text-danger"> <?php echo $case_has_action_info['casetypename'] ?> </span ></td>
+                                                            <td>
+																<span class="text-info">
+																	<?php
+																		echo $case_has_action_info['action_name']
+																	?>
+																</span>
+															</td>
 															<?php if($_SESSION['securitylvl'] == "a"){?>
-																<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+																<td><a class="green" href="userprofile.php?idusers=<?php echo $case_has_action_info['idusers'] ?>"><?php echo $case_has_action_info['nickname'] ?></a></td>
 															<?php }else{?>
-																<td><?php echo $row4['nickname'] ?></a></td>
+																<td><?php echo $case_has_action_info['nickname'] ?></a></td>
 															<?php };?>
+															<td><?php echo $case_has_action_info['createdate'] ?></a></td>
 														</tr>
 														<?php
 													};
 													?>
 													<?php
-													if($_SESSION['securitylvl'] == "a")
-													{
-														$admin_id=$_SESSION['admin_id'];
-														$result4 = mysqli_query($sqlcon,"SELECT
-  case_has_court_session.session_date,
-  court_session.court_session_name,
-  pros.prosname,
-  users.idusers,
-  users.nickname,
-  casetype.casetypename,
-  `case`.casenum,
-  `case`.caseyear,
-  departs.departname
-FROM
-  case_has_court_session
-  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
-  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
-  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
-  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
-  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
-  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
-  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-WHERE
-  overallpros_has_users.users_idusers = '$admin_id'") or die(mysqli_error($sqlcon));
-													}else
-													{
-														$result4 = mysqli_query($sqlcon,"
-SELECT
-  case_has_court_session.session_date,
-  court_session.court_session_name,
-  pros.prosname,
-  users.idusers,
-  users.nickname,
-  casetype.casetypename,
-  `case`.casenum,
-  `case`.caseyear,
-  departs.departname
-FROM
-  case_has_court_session
-  INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
-  INNER JOIN pros ON court_session.pros_idpros = pros.idpros
-  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
-  INNER JOIN `case` ON case_has_court_session.case_id = `case`.idcase
-  INNER JOIN casetype ON `case`.casetype_idcasetype = casetype.idcasetype
-  INNER JOIN departs ON `case`.departs_iddeparts = departs.iddeparts
-															Where users.idusers =$_SESSION[idusers]") or die(mysqli_error($sqlcon));
-													}
-													while($row4 = mysqli_fetch_assoc($result4))
+													$court_has_session_result = mysqli_query($sqlcon, $court_has_session_query);
+
+													while($court_has_session_info = mysqli_fetch_assoc($court_has_session_result))
 													{
 
 														?>
 														<tr>
-															<td><?php echo $row4['casenum'] ?></td>
-															<td><?php echo $row4['caseyear'] ?></td>
-															<td><?php echo $row4['casetypename'] ?></td>
-															<td><?php echo $row4['departname'] ?></td>
-															<td><?php echo "إحالة إلى ".$row4['court_session_name'] ?></td>
+															<td><span class="text-warning"> <?php echo $court_has_session_info['casenum'] ?> </span > / <span  class="text-info"> <?php echo $court_has_session_info['caseyear'] ?> </span > - <span  class="text-success"> <?php echo $court_has_session_info['departname'] ?> </span > - <span  class="text-danger"> <?php echo $court_has_session_info['casetypename'] ?> </span ></td>
+															<td>
+																<span class="text-danger">
+																	<?php echo "إحالة إلى ".$court_has_session_info['court_session_name'] ?>
+																</span >
+															</td>
 															<?php if($_SESSION['securitylvl'] == "a"){?>
-																<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+																<td><a class="green" href="userprofile.php?idusers=<?php echo $court_has_session_info['idusers'] ?>"><?php echo $court_has_session_info['nickname'] ?></a></td>
 															<?php }else{?>
-																<td><?php echo $row4['nickname'] ?></a></td>
+																<td><?php echo $court_has_session_info['nickname'] ?></a></td>
 															<?php };?>
+															<td><?php echo $court_has_session_info['createdate'] ?></a></td>
 														</tr>
 														<?php
 													};
@@ -638,7 +851,7 @@ FROM
 													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> نوع الكشف </label>
 													<div class="col-sm-8">
 														<div class="input-group">
-															<input type="radio" name='case_statement_type' value='non_sequential' data-id="sequential" placeholder="aa"> كشف غير مسلسل </input>
+															<input type="radio" name='case_statement_type' value='non_sequential' data-id="sequential"> كشف غير مسلسل </input>
 														</div>
 														<div class="input-group">
 															<input type="radio" name='case_statement_type' value='sequential' data-id="non_sequential" > كشف مسلسل </input>
@@ -814,7 +1027,8 @@ FROM
 															<?php
 															$result2 = mysqli_query($sqlcon, "SELECT
   court_session.id_court_session,
-  court_session.court_session_name
+  court_session.court_session_name,
+  pros.prosname
 FROM
   court_session
   INNER JOIN pros ON court_session.pros_idpros = pros.idpros
@@ -823,7 +1037,7 @@ WHERE
   pros_has_users.idusers = '$idusers'");
 															while ($row2 = $result2->fetch_assoc()) {
 																?>
-																<option value="<?php echo $row2['id_court_session'] ?>"> <?php echo $row2['court_session_name']?> </option>
+																<option value="<?php echo $row2['id_court_session'] ?>"> <?php echo $row2['court_session_name']." - ".$row2['prosname']?> </option>
 															<?php } ?>
 														</select>
 													</div>
@@ -926,7 +1140,7 @@ WHERE
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017<? echo $varb;?>
+							&copy; 2016-2017<? echo $varb;?>
 						</span>
 					</div>
 				</div>
@@ -1278,7 +1492,14 @@ WHERE
 
 				//datepicker plugin
 				//link
-
+				$('.date-picker').datepicker({
+					autoclose: true,
+					todayHighlight: true
+				})
+				$('.date-picker2').datepicker({
+					autoclose: true,
+					todayHighlight: true
+				})
 				//show datepicker when clicking on the icon
 				.next().on(ace.click_event, function(){
 					$(this).prev().focus();
@@ -1425,224 +1646,7 @@ WHERE
 
 			});
 		</script>
-		<script type="text/javascript">
-			jQuery(function($){
-			    var demo1 = $('select[name="students_stid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-				var container1 = demo1.bootstrapDualListbox('getContainer');
-				container1.find('.btn').addClass('btn-white btn-info btn-bold');
 
-				/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-				$('.rating').raty({
-					'cancel' : true,
-					'half': true,
-					'starType' : 'i'
-					/**,
-
-					'click': function() {
-						setRatingColors.call(this);
-					},
-					'mouseover': function() {
-						setRatingColors.call(this);
-					},
-					'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-				})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-				//////////////////
-				//select2
-				$('.select2').css('width','200px').select2({allowClear:true})
-				$('#select2-multiple-style .btn').on('click', function(e){
-					var target = $(this).find('input[type=radio]');
-					var which = parseInt(target.val());
-					if(which == 2) $('.select2').addClass('tag-input-style');
-					 else $('.select2').removeClass('tag-input-style');
-				});
-
-				//////////////////
-				$('.multiselect').multiselect({
-				 enableFiltering: true,
-				 enableHTML: true,
-				 buttonClass: 'btn btn-white btn-primary',
-				 templates: {
-					button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-					ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-					filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-					filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-					li: '<li><a tabindex="0"><label></label></a></li>',
-			        divider: '<li class="multiselect-item divider"></li>',
-			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-				 }
-				});
-
-
-				///////////////////
-
-				//typeahead.js
-				//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-				var substringMatcher = function(strs) {
-					return function findMatches(q, cb) {
-						var matches, substringRegex;
-
-						// an array that will be populated with substring matches
-						matches = [];
-
-						// regex used to determine if a string contains the substring `q`
-						substrRegex = new RegExp(q, 'i');
-
-						// iterate through the pool of strings and for any string that
-						// contains the substring `q`, add it to the `matches` array
-						$.each(strs, function(i, str) {
-							if (substrRegex.test(str)) {
-								// the typeahead jQuery plugin expects suggestions to a
-								// JavaScript object, refer to typeahead docs for more info
-								matches.push({ value: str });
-							}
-						});
-
-						cb(matches);
-					}
-				 }
-
-				 $('input.typeahead').typeahead({
-					hint: true,
-					highlight: true,
-					minLength: 1
-				 }, {
-					name: 'states',
-					displayKey: 'value',
-					source: substringMatcher(ace.vars['US_STATES']),
-					limit: 10
-				 });
-
-
-				///////////////
-
-
-				//in ajax mode, remove remaining elements before leaving page
-				$(document).one('ajaxloadstart.page', function(e) {
-					$('[class*=select2]').remove();
-					$('select[name="students_stid[]"]').bootstrapDualListbox('destroy');
-					$('.rating').raty('destroy');
-					$('.multiselect').multiselect('destroy');
-				});
-
-			});
-		</script>
-		<script type="text/javascript">
-			jQuery(function($){
-			    var demo1 = $('select[name="material_matid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-				var container1 = demo1.bootstrapDualListbox('getContainer');
-				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-
-				/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-				$('.rating').raty({
-					'cancel' : true,
-					'half': true,
-					'starType' : 'i'
-					/**,
-
-					'click': function() {
-						setRatingColors.call(this);
-					},
-					'mouseover': function() {
-						setRatingColors.call(this);
-					},
-					'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-				})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-				//////////////////
-				//select2
-				$('.select2').css('width','200px').select2({allowClear:true})
-				$('#select2-multiple-style .btn').on('click', function(e){
-					var target = $(this).find('input[type=radio]');
-					var which = parseInt(target.val());
-					if(which == 2) $('.select2').addClass('tag-input-style');
-					 else $('.select2').removeClass('tag-input-style');
-				});
-
-				//////////////////
-				$('.multiselect').multiselect({
-				 enableFiltering: true,
-				 enableHTML: true,
-				 buttonClass: 'btn btn-white btn-primary',
-				 templates: {
-					button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-					ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-					filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-					filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-					li: '<li><a tabindex="0"><label></label></a></li>',
-			        divider: '<li class="multiselect-item divider"></li>',
-			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-				 }
-				});
-
-
-				///////////////////
-
-				//typeahead.js
-				//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-				var substringMatcher = function(strs) {
-					return function findMatches(q, cb) {
-						var matches, substringRegex;
-
-						// an array that will be populated with substring matches
-						matches = [];
-
-						// regex used to determine if a string contains the substring `q`
-						substrRegex = new RegExp(q, 'i');
-
-						// iterate through the pool of strings and for any string that
-						// contains the substring `q`, add it to the `matches` array
-						$.each(strs, function(i, str) {
-							if (substrRegex.test(str)) {
-								// the typeahead jQuery plugin expects suggestions to a
-								// JavaScript object, refer to typeahead docs for more info
-								matches.push({ value: str });
-							}
-						});
-
-						cb(matches);
-					}
-				 }
-
-				 $('input.typeahead').typeahead({
-					hint: true,
-					highlight: true,
-					minLength: 1
-				 }, {
-					name: 'states',
-					displayKey: 'value',
-					source: substringMatcher(ace.vars['US_STATES']),
-					limit: 10
-				 });
-
-
-				///////////////
-
-
-				//in ajax mode, remove remaining elements before leaving page
-				$(document).one('ajaxloadstart.page', function(e) {
-					$('[class*=select2]').remove();
-					$('select[name="material_matid[]"]').bootstrapDualListbox('destroy');
-					$('.rating').raty('destroy');
-					$('.multiselect').multiselect('destroy');
-				});
-
-			});
-		</script>
 		<script type="text/javascript">
 			jQuery(function($){
 			    var demo1 = $('select[name="material_matid1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
@@ -1981,6 +1985,7 @@ WHERE
 		$('.multi-field-wrapper').each(function() {
 			var $wrapper = $('.multi-fields', this);
 			$(".add-field", $(this)).click(function(e) {
+
 				$('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('#case_number').val('').focus();
 			});
 			$('.multi-field .remove-field', $wrapper).click(function() {

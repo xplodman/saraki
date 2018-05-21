@@ -39,7 +39,7 @@
 
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				echo"<script>alert('15 Minutes over!');</script>";
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');

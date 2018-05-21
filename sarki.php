@@ -4,7 +4,7 @@
 	<link rel="icon" type="image/png" href="assets/favicon.png" />
 
 
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 
 	<style type="text/css">
 		@font-face {
@@ -27,7 +27,7 @@
 
 	if (isset($_SESSION['authenticate']))
 	{
-		if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
+		if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 			echo"<script>alert('15 Minutes over!');</script>";
 			unset($_SESSION['authenticate']);
 			header('Location: assets/redi/logout.php');
@@ -747,7 +747,7 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 			<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017<? echo $varb;?>
+							&copy; 2016-2017<? echo $varb;?>
 						</span>
 			</div>
 		</div>

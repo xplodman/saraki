@@ -2,22 +2,18 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	<meta http-equiv="refresh" content="900;url=assets/redi/logout.php" />
+	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 		<?php
 			session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 						{
-											header('Location: assets/redi/logout.php');
-											$fh = fopen('/tmp/track.txt','a');
-											fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-											fclose($fh);
+							header('Location: assets/redi/logout.php');
+							exit;
 						};
 			{$_SESSION['authenticate']="true";}
-
 			if (isset($_SESSION['authenticate']))
 			{
-			 if(time() - $_SESSION['timestamp'] > 900) { //subtract new timestamp from the old one
-				echo"<script>alert('15 Minutes over!');</script>";
+			 if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
 				unset($_SESSION['authenticate']);
 					header('Location: assets/redi/logout.php');
 			} else {
@@ -167,7 +163,7 @@
 								<div class="pull-left width-50">
 									<div class="ace-settings-item">
 										<div class="pull-left">
-											<select id="skin-colorpicker" class="hide">
+											<select class="multiselect" id="skin-colorpicker" class="hide">
 												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
 												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
 												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
@@ -320,7 +316,7 @@
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select required id="form-field-44" name="idusers">
+														<select class="multiselect" required id="form-field-44" name="idusers">
 															<option value="" >أسم المستخدم</option>
 															<?php
 																$result22 = mysqli_query($sqlcon, "SELECT
@@ -342,7 +338,7 @@ WHERE
 
 															<?php } ?>
 														</select>
-													<select id="form-field-4" name="type2">
+													<select class="multiselect" id="form-field-4" name="type2">
 														<option selected="selected" value="1 , 2" >الكل</option>
 														<?php
 														$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
@@ -376,7 +372,7 @@ WHERE
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 													<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-														<select id="form-field-44" name="overallprosid">
+														<select class="multiselect" id="form-field-44" name="overallprosid">
 															<option value="" >الكل</option>
 															<?php
 																$result22 = mysqli_query($sqlcon, "SELECT
@@ -410,7 +406,7 @@ WHERE
 										<div class="col-sm-12">
 											<input required type="text" autocomplete="off" class="date-picker3" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="week_start"/>
 											<input required type="text" autocomplete="off" class="date-picker4" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="week_end"/>
-											<select id="form-field-44" name="prosid">
+											<select class="multiselect" id="form-field-44" name="prosid">
 												<option value="" >الكل</option>
 												<?php
 												$result22 = mysqli_query($sqlcon, "SELECT
@@ -428,7 +424,7 @@ WHERE
 
 												<?php } ?>
 											</select>
-											<select id="form-field-4" name="type2">
+											<select class="multiselect" id="form-field-4" name="type2">
 												<option selected="selected" value="" >الكل</option>
 												<?php
 												$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
@@ -464,7 +460,7 @@ WHERE
 <!--												<div class="col-sm-12">-->
 <!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-1" placeholder="من" type="text" data-date-format="yyyy/m" name="from_month"/>-->
 <!--													<input required type="text" autocomplete="off" class="data_month_picker" "id-date-picker-2" placeholder="إلى" type="text" data-date-format="yyyy/m" name="to_month"/>-->
-<!--													<select id="form-field-44" name="overallprosid">-->
+<!--													<select class="multiselect" id="form-field-44" name="overallprosid">-->
 <!--														<option value="" >الكل</option>-->
 <!--														--><?php
 //														$result22 = mysqli_query($sqlcon, "SELECT
@@ -725,7 +721,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">We.code</span>
-							Application &copy; 2016-2017
+							&copy; 2016-2017
 						</span>
 					</div>
 				</div>
@@ -1258,224 +1254,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 
 			});
 		</script>
-		<script type="text/javascript">
-			jQuery(function($){
-			    var demo1 = $('select[name="students_stid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-				var container1 = demo1.bootstrapDualListbox('getContainer');
-				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-
-				/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-				$('.rating').raty({
-					'cancel' : true,
-					'half': true,
-					'starType' : 'i'
-					/**,
-
-					'click': function() {
-						setRatingColors.call(this);
-					},
-					'mouseover': function() {
-						setRatingColors.call(this);
-					},
-					'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-				})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-				//////////////////
-				//select2
-				$('.select2').css('width','200px').select2({allowClear:true})
-				$('#select2-multiple-style .btn').on('click', function(e){
-					var target = $(this).find('input[type=radio]');
-					var which = parseInt(target.val());
-					if(which == 2) $('.select2').addClass('tag-input-style');
-					 else $('.select2').removeClass('tag-input-style');
-				});
-
-				//////////////////
-				$('.multiselect').multiselect({
-				 enableFiltering: true,
-				 enableHTML: true,
-				 buttonClass: 'btn btn-white btn-primary',
-				 templates: {
-					button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-					ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-					filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-					filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-					li: '<li><a tabindex="0"><label></label></a></li>',
-			        divider: '<li class="multiselect-item divider"></li>',
-			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-				 }
-				});
-
-
-				///////////////////
-
-				//typeahead.js
-				//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-				var substringMatcher = function(strs) {
-					return function findMatches(q, cb) {
-						var matches, substringRegex;
-
-						// an array that will be populated with substring matches
-						matches = [];
-
-						// regex used to determine if a string contains the substring `q`
-						substrRegex = new RegExp(q, 'i');
-
-						// iterate through the pool of strings and for any string that
-						// contains the substring `q`, add it to the `matches` array
-						$.each(strs, function(i, str) {
-							if (substrRegex.test(str)) {
-								// the typeahead jQuery plugin expects suggestions to a
-								// JavaScript object, refer to typeahead docs for more info
-								matches.push({ value: str });
-							}
-						});
-
-						cb(matches);
-					}
-				 }
-
-				 $('input.typeahead').typeahead({
-					hint: true,
-					highlight: true,
-					minLength: 1
-				 }, {
-					name: 'states',
-					displayKey: 'value',
-					source: substringMatcher(ace.vars['US_STATES']),
-					limit: 10
-				 });
-
-
-				///////////////
-
-
-				//in ajax mode, remove remaining elements before leaving page
-				$(document).one('ajaxloadstart.page', function(e) {
-					$('[class*=select2]').remove();
-					$('select[name="students_stid[]"]').bootstrapDualListbox('destroy');
-					$('.rating').raty('destroy');
-					$('.multiselect').multiselect('destroy');
-				});
-
-			});
-		</script>
-		<script type="text/javascript">
-			jQuery(function($){
-			    var demo1 = $('select[name="material_matid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-				var container1 = demo1.bootstrapDualListbox('getContainer');
-				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-
-				/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-				$('.rating').raty({
-					'cancel' : true,
-					'half': true,
-					'starType' : 'i'
-					/**,
-
-					'click': function() {
-						setRatingColors.call(this);
-					},
-					'mouseover': function() {
-						setRatingColors.call(this);
-					},
-					'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-				})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-				//////////////////
-				//select2
-				$('.select2').css('width','200px').select2({allowClear:true})
-				$('#select2-multiple-style .btn').on('click', function(e){
-					var target = $(this).find('input[type=radio]');
-					var which = parseInt(target.val());
-					if(which == 2) $('.select2').addClass('tag-input-style');
-					 else $('.select2').removeClass('tag-input-style');
-				});
-
-				//////////////////
-				$('.multiselect').multiselect({
-				 enableFiltering: true,
-				 enableHTML: true,
-				 buttonClass: 'btn btn-white btn-primary',
-				 templates: {
-					button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-					ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-					filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-					filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-					li: '<li><a tabindex="0"><label></label></a></li>',
-			        divider: '<li class="multiselect-item divider"></li>',
-			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-				 }
-				});
-
-
-				///////////////////
-
-				//typeahead.js
-				//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-				var substringMatcher = function(strs) {
-					return function findMatches(q, cb) {
-						var matches, substringRegex;
-
-						// an array that will be populated with substring matches
-						matches = [];
-
-						// regex used to determine if a string contains the substring `q`
-						substrRegex = new RegExp(q, 'i');
-
-						// iterate through the pool of strings and for any string that
-						// contains the substring `q`, add it to the `matches` array
-						$.each(strs, function(i, str) {
-							if (substrRegex.test(str)) {
-								// the typeahead jQuery plugin expects suggestions to a
-								// JavaScript object, refer to typeahead docs for more info
-								matches.push({ value: str });
-							}
-						});
-
-						cb(matches);
-					}
-				 }
-
-				 $('input.typeahead').typeahead({
-					hint: true,
-					highlight: true,
-					minLength: 1
-				 }, {
-					name: 'states',
-					displayKey: 'value',
-					source: substringMatcher(ace.vars['US_STATES']),
-					limit: 10
-				 });
-
-
-				///////////////
-
-
-				//in ajax mode, remove remaining elements before leaving page
-				$(document).one('ajaxloadstart.page', function(e) {
-					$('[class*=select2]').remove();
-					$('select[name="material_matid[]"]').bootstrapDualListbox('destroy');
-					$('.rating').raty('destroy');
-					$('.multiselect').multiselect('destroy');
-				});
-
-			});
-		</script>
+		
 		<script type="text/javascript">
 			jQuery(function($){
 			    var demo1 = $('select[name="material_matid1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
