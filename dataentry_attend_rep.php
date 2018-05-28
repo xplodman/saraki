@@ -4,7 +4,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>تقرير متابعة الغياب و الحضور</title>
+		<title>تقرير متابعة الحضور و الغياب</title>
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 		<!-- text fonts -->
@@ -25,6 +25,8 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.table2excel.min.js"></script>
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
@@ -38,7 +40,7 @@
 		$end_date3=$_POST['date_end'];
 			$query = "select ca.nickname";
 		while (strtotime($date) <= strtotime($end_date)) {
-			$query .= ", max(case when ca.db_date = '$date' then coalesce(p.checkintime , 'غياب') end) `$date`";
+			$query .= ", max(case when ca.db_date = '$date' then CONCAT_WS(' / ', TIME_FORMAT(p.checkintime, '%l:%i%p'), TIME_FORMAT(p.checkouttime, '%l:%i%p')) end) `$date`";
 			$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
 		}
 	$query .= "
@@ -96,14 +98,14 @@
 							<div>
 								<font size="5" style="bold" >
 									<b>
-										<span>تقرير متابعة الغياب و الحضور  من <?php echo $date3; ?> إلى <?php echo $end_date3; ?></span>
+										<span>تقرير متابعة الحضور و الغياب  عن يوم <?php echo $date3; ?> و حتى يوم <?php echo $end_date3; ?></span>
 									</b>
 								</font>
 							</div>
 						</div>
 					</div>
 					<br>
-					<table  border="5" align="center"  style="width:98%">
+					<table  border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 1">
 						<tr>
 							<td width="5%" align="center">
 								<font size="3" style="bold" >
@@ -112,7 +114,7 @@
 							</td>
 							<td width="15%" align="center">
 								<font size="3" style="bold" >
-									<b>إسم المستخدم</b>
+									<b>الإسم</b>
 								</font>
 							</td>
 							<?php 
@@ -120,8 +122,8 @@
 									{
 										?>
 										<td align="center">
-											<font  style="bold" >
-											<b><?php echo $date2; ?></b>
+											<font size="3" style="bold" >
+											<b><?php echo $date2 ; ?></b>
 											</font>
 										</td>
 										<?php
@@ -146,7 +148,14 @@
                                     $len=count($row);
                                     for ($i=0;$i<$len;$i++){
                                         ?>
-                                        <td align="center"><?php echo $row[$i]; ?></td>
+                                        <td align="center">
+											<?php
+												if ($row[$i]== '')
+													echo "غياب";
+												else
+													echo $row[$i];
+											?>
+										</td>
                                         <?php
                                     }
                                     ?>
@@ -194,4 +203,16 @@
 <!--	<script type="text/javascript">-->
 <!--		window.onload = replaceDigits-->
 <!--	</script>-->
+	<script>
+		$(function() {
+			$(".table2excel").table2excel({
+				name: "Excel Document Name",
+				filename: "تقرير الغياب",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+		});
+	</script>
 </html>

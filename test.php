@@ -1,34 +1,12 @@
-<html>
-<head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-</head>
-<body>
+<?php 
+	require 'assets\redi\sqlcon.php';
+session_start();
+$max_case_has_action_id = mysqli_query($sqlcon, "SELECT Max(case_has_action.case_has_action_id) AS Max_case_has_action_id FROM   case_has_action");
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(document).on("submit", "form", function(e){
+$max_case_has_action_id = mysqli_fetch_row($max_case_has_action_id);
+$max_case_has_action_id = implode("", $max_case_has_action_id);
+echo $max_case_has_action_id;
+$max_case_has_action_id =$max_case_has_action_id+1;
+echo $max_case_has_action_id;
 
-            e.preventDefault(e);
-                    return  false;
-
-            });
-
-        });
-
-    });
-</script>
-
-<p>Box Set 1</p>
-<ul>
-    <form action="http://google.com" method="GET">
-        <li><input id="checkbox" name="checkbox[]" type="checkbox" value="Box 1"><label>Box 1</label></li>
-        <li><input id="checkbox" name="checkbox[]" type="checkbox" value="Box 2"><label>Box 2</label></li>
-        <li><input id="checkbox" name="checkbox[]" type="checkbox" value="Box 3"><label>Box 3</label></li>
-        <li><input id="checkbox" name="checkbox[]" type="checkbox" value="Box 4"><label>Box 4</label></li>
-</ul>
-<input type="submit" value="Test Required" id="checkBtn">
-    </form>
-
-
-</body>
-</html>
+?>

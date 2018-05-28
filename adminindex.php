@@ -279,7 +279,7 @@
 											</div>
 										</form>
 										<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير غياب و حضور مدخلي البيانات</h3>
+									<h3>تقرير حضور و غياب مدخلي البيانات</h3>
 										<form class="form-horizontal" method="post" action="dataentry_attend_rep.php"  target="_blank">
 											<div class="form-group">
 												<div class="col-sm-12">

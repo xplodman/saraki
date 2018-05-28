@@ -136,7 +136,7 @@ GROUP BY
 						</div>
 					</div>
 					<br>
-					<table border="5" align="center"  style="width:98%" class="table2excel">
+					<table border="5" align="center"  style="width:98%" id="table2excel" class="table2excel">
 						<tr>
 							<td width="10%" align="center">
 								<font size="3" style="bold" >
@@ -256,4 +256,10 @@ GROUP BY
 		</div>
 		<!-- /.row -->
 	</body>
+<script>
+	$("#table2excel").table2excel({
+		name: "Worksheet Name",
+		filename: "SomeFile" //do not include extension
+	});
+</script>
 </html>

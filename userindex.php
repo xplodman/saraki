@@ -133,6 +133,7 @@
 				</div>
 			</div><!-- /.navbar-container -->
 		</div>
+
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
@@ -382,10 +383,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 											</div>
 
 											<div class="infobox-data">
-												<span class="infobox-text"><?php echo $casecountrow['casetypename']." ".$casecountrow['departname']?></span>
-
-												<div class="infobox-content">
-													<?php echo $casecountrow['caseyear'] ?>
+												<div class="infobox-content"><?php echo $casecountrow['casetypename']." ".$casecountrow['departname']?> / <?php echo $casecountrow['caseyear'] ?>
 												</div>
 											</div>
 										</div>

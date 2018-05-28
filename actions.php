@@ -437,7 +437,8 @@ SELECT
   action.action_name,
   users.nickname,
   users.idusers,
-  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate
+  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate,
+  case_has_action_id
 FROM
   case_has_action
   INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
@@ -462,7 +463,8 @@ SELECT
   action.action_name,
   users.nickname,
   users.idusers,
-  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate
+  Date_Format(`case_has_action`.insert_date, '%d/%m/%Y') AS createdate,
+  case_has_action_id
 FROM
   case_has_action
   INNER JOIN `case` ON case_has_action.case_idcase = `case`.idcase
@@ -488,7 +490,8 @@ Where users.idusers =$_SESSION[idusers]
   `case`.casenum,
   `case`.caseyear,
   departs.departname,
-  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate
+  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate,
+  case_has_court_session_id
 FROM
   case_has_court_session
   INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
@@ -514,7 +517,8 @@ SELECT
   `case`.casenum,
   `case`.caseyear,
   departs.departname,
-  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate
+  Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate,
+  case_has_court_session_id
 FROM
   case_has_court_session
   INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
@@ -576,8 +580,11 @@ Where users.idusers =$_SESSION[idusers]";
 										$case_has_action_query .= " AND  `users`.idusers = '$user'";
 									}
 								}
+								$case_has_action_query .= " ORDER BY case_has_action.case_has_action_id DESC";
+								$case_has_action_query .= " Limit 500";		
+
+								$court_has_session_query .= " ORDER BY case_has_court_session_id DESC";
 								$court_has_session_query .= " Limit 500";
-								$case_has_action_query .= " Limit 500";
 								?>
 								<div class="row">
 									<div class="row">
@@ -746,10 +753,6 @@ WHERE
 												}
 												?>
 											</div>
-											<div class="table-header">
-												نتائج البحث عن التصرفات
-											</div>
-
 											<!-- div.table-responsive -->
 											<!--
                                                 <style>
@@ -769,6 +772,7 @@ WHERE
 												<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 													<thead>
 													<tr>
+														<th><span  class="text-warning"> ID </span ></th>
 														<th><span  class="text-warning"> الرقم </span > / <span  class="text-info"> السنة </span > - <span  class="text-danger"> الجدول </span > - <span  class="text-success"> القسم </span ></th>
 														<th>نوع التصرف</th>
                                                         <th>منشئ التصرف</th>
@@ -784,6 +788,7 @@ WHERE
 
 														?>
 														<tr>
+															<td><span  class="text-warning"> <?php echo $case_has_action_info['case_has_action_id'] ?> </span ></td>
 															<td><span  class="text-warning"> <?php echo $case_has_action_info['casenum'] ?> </span > / <span  class="text-info"> <?php echo $case_has_action_info['caseyear'] ?> </span > - <span  class="text-success"> <?php echo $case_has_action_info['departname'] ?> </span > - <span  class="text-danger"> <?php echo $case_has_action_info['casetypename'] ?> </span ></td>
                                                             <td>
 																<span class="text-info">
@@ -810,6 +815,7 @@ WHERE
 
 														?>
 														<tr>
+															<td><span  class="text-warning"> <?php echo $case_has_action_info['case_has_court_session_id'] ?> </span ></td>
 															<td><span class="text-warning"> <?php echo $court_has_session_info['casenum'] ?> </span > / <span  class="text-info"> <?php echo $court_has_session_info['caseyear'] ?> </span > - <span  class="text-success"> <?php echo $court_has_session_info['departname'] ?> </span > - <span  class="text-danger"> <?php echo $court_has_session_info['casetypename'] ?> </span ></td>
 															<td>
 																<span class="text-danger">
@@ -1046,7 +1052,7 @@ WHERE
 													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> تاريخ الجلسة </label>
 													<div class="col-sm-8">
 														<div class="input-group">
-															<input required class="form-control date-picker" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"  autocomplete="off"/>
+															<input required class="form-control date-picker_days" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"  autocomplete="off"/>
 															<span class="input-group-addon">
 																<i class="fa fa-calendar bigger-110"></i>
 															</span>
@@ -2014,12 +2020,12 @@ WHERE
 				url: "assets/redi/get_court_days_on.php",
 				data: "court_id="+val,
 				success: function(data){
-					$('.date-picker').datepicker({
+					$('.date-picker_days').datepicker({
 						autoclose: true,
 						todayHighlight: true,
 						daysOfWeekDisabled: data
 					})
-					$( ".date-picker" ).datepicker(refresh);
+					$( ".date-picker_days" ).datepicker(refresh);
 				}
 			});
 		}

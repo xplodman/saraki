@@ -3,6 +3,12 @@
 require 'sqlcon.php';
 session_start();
 
+$max_case_has_court_session_id = mysqli_query($sqlcon, "SELECT Max(case_has_court_session.case_has_court_session_id) AS Max_case_has_court_session_id FROM case_has_court_session");
+
+$max_case_has_court_session_id = mysqli_fetch_row($max_case_has_court_session_id);
+$max_case_has_court_session_id = implode("", $max_case_has_court_session_id);
+$max_case_has_court_session_id = $max_case_has_court_session_id+1;
+
 $idusers=$_SESSION["idusers"];
 
 $date=$_POST['date'];
@@ -79,7 +85,8 @@ for($y=0 ; $y < $len_case_number ; $y++)  // insert into case has action
 
     $case_id = mysqli_fetch_assoc($case_id_query);
 
-    $insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_court_session` (`case_id`, `court_session_id`, `session_date`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`) VALUES ('$case_id[idcase]', '$court_id', '$date', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers');");
+    $insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_court_session` (`case_id`, `court_session_id`, `session_date`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`, `case_has_court_session_id`) VALUES ('$case_id[idcase]', '$court_id', '$date', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers', '$max_case_has_court_session_id');");
+	
 
     if ($insert_case_action === false) {
         array_push($failed_in_action_case_number, $case_number[$y]);

@@ -3,8 +3,15 @@
 require 'sqlcon.php';
 session_start();
 
-if ($_POST['case_statement_type']=='non_sequential'){
+$max_case_has_action_id = mysqli_query($sqlcon, "SELECT Max(case_has_action.case_has_action_id) AS Max_case_has_action_id FROM   case_has_action");
 
+$max_case_has_action_id = mysqli_fetch_row($max_case_has_action_id);
+$max_case_has_action_id = implode("", $max_case_has_action_id);
+$max_case_has_action_id =$max_case_has_action_id+1;
+
+if ($_POST['case_statement_type']=='non_sequential'){
+	
+	
     $idusers=$_SESSION["idusers"];
 
     $case_number=$_POST['case_number'];
@@ -84,8 +91,8 @@ if ($_POST['case_statement_type']=='non_sequential'){
 
         $case_id = mysqli_fetch_assoc($case_id_query);
 
-        $insert_case_action = mysqli_query($sqlcon, "    INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`) VALUES ('$case_id[idcase]', '$action_type[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers');");
-
+        $insert_case_action = mysqli_query($sqlcon, "    INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`, `case_has_action_id`) VALUES ('$case_id[idcase]', '$action_type[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers', '$max_case_has_action_id');");
+		
         if ($insert_case_action === false) {
             array_push($failed_in_action_case_number, $case_number[$y]);
             array_push($failed_in_action_case_year, $case_year[$y]);
@@ -217,8 +224,8 @@ if ($_POST['case_statement_type']=='non_sequential'){
 				
 			$case_id = mysqli_fetch_assoc($case_id_query);
 
-			$insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`) VALUES ('$case_id[idcase]', '$action_type_sequential[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers');");
-
+			$insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`, `case_has_action_id`) VALUES ('$case_id[idcase]', '$action_type_sequential[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers', '$max_case_has_action_id');");
+					
 				if ($insert_case_action === false) {
 					array_push($failed_in_action_case_number, $case_number[$y]);
 					array_push($failed_in_action_case_year, $case_year[$y]);
