@@ -5,12 +5,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions.php" afterPath="$PROJECT_DIR$/actions.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/adminindex.php" afterPath="$PROJECT_DIR$/adminindex.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/jquery.table2excel.min.js" afterPath="$PROJECT_DIR$/assets/js/jquery.table2excel.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/redi/insert_actions.php" afterPath="$PROJECT_DIR$/assets/redi/insert_actions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/redi/insert_court_actions.php" afterPath="$PROJECT_DIR$/assets/redi/insert_court_actions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataentry_attend_rep.php" afterPath="$PROJECT_DIR$/dataentry_attend_rep.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/full_dataentry_rep.php" afterPath="$PROJECT_DIR$/full_dataentry_rep.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.php" afterPath="$PROJECT_DIR$/test.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sarki.php" afterPath="$PROJECT_DIR$/sarki.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search.php" afterPath="$PROJECT_DIR$/search.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/userindex.php" afterPath="$PROJECT_DIR$/userindex.php" />
     </list>
     <ignored path="saraki.iws" />
@@ -33,47 +29,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="actions.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/actions.php">
+      <file leaf-file-name="userindex.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/userindex.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="2019" column="36" selection-start-line="2019" selection-start-column="36" selection-end-line="2019" selection-end-column="36" />
+            <state relative-caret-position="4061">
+              <caret line="131" column="45" selection-start-line="131" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding>
-                <marker date="1527519102863" expanded="true" signature="8814:8883" ph="SELECT caset... casetype" />
-                <marker date="1527519102863" expanded="true" signature="9127:9190" ph="SELECT depar... departs" />
-                <marker date="1527519102863" expanded="true" signature="18948:19866" ph="SELECT `case... case_has_action" />
-                <marker date="1527519102863" expanded="true" signature="19928:20566" ph="SELECT `case... case_has_action" />
-                <marker date="1527519102863" expanded="true" signature="20733:21784" ph="SELECT case_... case_has_court_session" />
-                <marker date="1527519102863" expanded="true" signature="21849:22675" ph="SELECT case_... case_has_court_session" />
-                <marker date="1527519102863" expanded="true" signature="25621:26117" ph="SELECT users... users" />
-                <marker date="1527519102863" expanded="true" signature="27591:27615" ph="SELECT * FRO... casetype" />
-                <marker date="1527519102863" expanded="true" signature="28558:28952" ph="SELECT depar... departs" />
-                <marker date="1527519102863" expanded="true" signature="29482:29889" ph="Select depar... users" />
-                <marker date="1527519102863" expanded="true" signature="39100:39124" ph="SELECT * FRO... casetype" />
-                <marker date="1527519102863" expanded="true" signature="39609:39789" ph="Select depar... departs" />
-                <marker date="1527519102863" expanded="true" signature="40115:40522" ph="Select depar... users" />
-                <marker date="1527519102863" expanded="true" signature="41076:41098" ph="SELECT * FRO... action" />
-                <marker date="1527519102863" expanded="true" signature="42525:42549" ph="SELECT * FRO... casetype" />
-                <marker date="1527519102863" expanded="true" signature="43023:43203" ph="Select depar... departs" />
-                <marker date="1527519102863" expanded="true" signature="43529:43936" ph="Select depar... users" />
-                <marker date="1527519102863" expanded="true" signature="44479:44501" ph="SELECT * FRO... action" />
-                <marker date="1527519102863" expanded="true" signature="47268:47553" ph="SELECT court... court_session" />
-                <marker date="1527519102863" expanded="true" signature="49800:49824" ph="SELECT * FRO... casetype" />
-                <marker date="1527519102863" expanded="true" signature="50849:51029" ph="Select depar... departs" />
-                <marker date="1527519102863" expanded="true" signature="51754:52161" ph="Select depar... users" />
-                <marker date="1527519102863" expanded="true" signature="61305:61337" ph="..." />
+                <marker date="1527636610667" expanded="true" signature="10252:11055" ph="Select Count... case" />
+                <marker date="1527636610667" expanded="true" signature="11871:12528" ph="Select Count... case" />
+                <marker date="1527636610667" expanded="true" signature="13408:14217" ph="Select Count... case" />
+                <marker date="1527636610667" expanded="true" signature="15054:15717" ph="Select Count... case" />
+                <marker date="1527636610667" expanded="true" signature="17023:17319" ph="SELECT COUNT... case_has_action" />
+                <marker date="1527636610667" expanded="true" signature="17458:17775" ph="SELECT COUNT... case_has_court_session" />
+                <marker date="1527636610667" expanded="true" signature="18753:19055" ph="SELECT COUNT... case_has_action" />
+                <marker date="1527636610667" expanded="true" signature="19194:19517" ph="SELECT COUNT... case_has_court_session" />
+                <marker date="1527636610667" expanded="true" signature="21249:21550" ph="Select pros.... users" />
+                <marker date="1527636610667" expanded="true" signature="21715:22482" ph="Select Count... case" />
+                <marker date="1527636610667" expanded="true" signature="23728:24438" ph="Select pros.... attendance" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="get_court_days_on.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/redi/get_court_days_on.php">
+      <file leaf-file-name="sarki.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sarki.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state relative-caret-position="4588">
+              <caret line="148" column="26" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="26" />
               <folding>
-                <marker date="1524539772979" expanded="true" signature="350:465" ph="SELECT court... court_session" />
+                <marker date="1527636932640" expanded="true" signature="14927:15798" ph="SELECT depar... sarki" />
+                <marker date="1527636932640" expanded="true" signature="15924:16867" ph="Select depar... sarki" />
+                <marker date="1527636932640" expanded="true" signature="18061:18195" ph="Select Count... case" />
+                <marker date="1527636932640" expanded="true" signature="24242:24266" ph="SELECT * FRO... casetype" />
+                <marker date="1527636932640" expanded="true" signature="24896:25076" ph="Select depar... departs" />
+                <marker date="1527636932640" expanded="true" signature="25367:25774" ph="Select depar... users" />
+                <marker date="1527636932640" expanded="true" signature="26465:26490" ph="SELECT * FRO... casetype2" />
+                <marker date="1527636932640" expanded="true" signature="33773:33805" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="search.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/search.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="173">
+              <caret line="355" column="0" selection-start-line="355" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
+              <folding>
+                <marker date="1527636961885" expanded="true" signature="10111:10938" ph="Select `case... case" />
+                <marker date="1527636961885" expanded="true" signature="11062:11894" ph="Select `case... case" />
+                <marker date="1527636961885" expanded="true" signature="12017:12819" ph="Select `case... case" />
+                <marker date="1527636961885" expanded="true" signature="12907:13768" ph="Select `case... case" />
+                <marker date="1527636961885" expanded="true" signature="14878:14902" ph="SELECT * FRO... casetype" />
+                <marker date="1527636961885" expanded="true" signature="15559:15739" ph="Select depar... departs" />
+                <marker date="1527636961885" expanded="true" signature="16058:16465" ph="Select depar... users" />
+                <marker date="1527636961885" expanded="true" signature="25259:25291" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actions.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/actions.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4464">
+              <caret line="144" column="34" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
+              <folding>
+                <marker date="1527636976526" expanded="true" signature="9078:9147" ph="SELECT caset... casetype" />
+                <marker date="1527636976526" expanded="true" signature="9391:9454" ph="SELECT depar... departs" />
+                <marker date="1527636976526" expanded="true" signature="19212:20130" ph="SELECT `case... case_has_action" />
+                <marker date="1527636976526" expanded="true" signature="20192:20830" ph="SELECT `case... case_has_action" />
+                <marker date="1527636976526" expanded="true" signature="20997:22048" ph="SELECT case_... case_has_court_session" />
+                <marker date="1527636976526" expanded="true" signature="22113:22939" ph="SELECT case_... case_has_court_session" />
+                <marker date="1527636976526" expanded="true" signature="25885:26381" ph="SELECT users... users" />
+                <marker date="1527636976526" expanded="true" signature="27855:27879" ph="SELECT * FRO... casetype" />
+                <marker date="1527636976526" expanded="true" signature="28822:29216" ph="SELECT depar... departs" />
+                <marker date="1527636976526" expanded="true" signature="29746:30153" ph="Select depar... users" />
+                <marker date="1527636976526" expanded="true" signature="39364:39388" ph="SELECT * FRO... casetype" />
+                <marker date="1527636976526" expanded="true" signature="39873:40053" ph="Select depar... departs" />
+                <marker date="1527636976526" expanded="true" signature="40379:40786" ph="Select depar... users" />
+                <marker date="1527636976526" expanded="true" signature="41340:41362" ph="SELECT * FRO... action" />
+                <marker date="1527636976526" expanded="true" signature="42789:42813" ph="SELECT * FRO... casetype" />
+                <marker date="1527636976526" expanded="true" signature="43287:43467" ph="Select depar... departs" />
+                <marker date="1527636976526" expanded="true" signature="43793:44200" ph="Select depar... users" />
+                <marker date="1527636976526" expanded="true" signature="44743:44765" ph="SELECT * FRO... action" />
+                <marker date="1527636976526" expanded="true" signature="47532:47817" ph="SELECT court... court_session" />
+                <marker date="1527636976526" expanded="true" signature="50064:50088" ph="SELECT * FRO... casetype" />
+                <marker date="1527636976526" expanded="true" signature="51113:51293" ph="Select depar... departs" />
+                <marker date="1527636976526" expanded="true" signature="52018:52425" ph="Select depar... users" />
+                <marker date="1527636976526" expanded="true" signature="61569:61601" ph="..." />
               </folding>
             </state>
           </provider>
@@ -107,7 +151,6 @@
         <option value="$PROJECT_DIR$/full_dataentry_rep_x.php" />
         <option value="$PROJECT_DIR$/full_prosrep.php" />
         <option value="$PROJECT_DIR$/assets/redi/insertsarki.php" />
-        <option value="$PROJECT_DIR$/sarki.php" />
         <option value="$PROJECT_DIR$/assets/sidebar.php" />
         <option value="$PROJECT_DIR$/assets/redi/get_court_days_on.php" />
         <option value="$PROJECT_DIR$/assets/redi/insert_court_actions.php" />
@@ -120,11 +163,15 @@
         <option value="$PROJECT_DIR$/assets/redi/edit_court.php" />
         <option value="$PROJECT_DIR$/advancedsearch.php" />
         <option value="$PROJECT_DIR$/assets/header.php" />
-        <option value="$PROJECT_DIR$/userindex.php" />
-        <option value="$PROJECT_DIR$/adminindex.php" />
         <option value="$PROJECT_DIR$/full_dataentry_rep.php" />
         <option value="$PROJECT_DIR$/dataentry_attend_rep.php" />
+        <option value="$PROJECT_DIR$/adminindex.php" />
+        <option value="$PROJECT_DIR$/dataentry_daily_attend_rep.php" />
+        <option value="$PROJECT_DIR$/assets/redi/check_out.php" />
+        <option value="$PROJECT_DIR$/userindex.php" />
+        <option value="$PROJECT_DIR$/sarki.php" />
         <option value="$PROJECT_DIR$/actions.php" />
+        <option value="$PROJECT_DIR$/search.php" />
       </list>
     </option>
   </component>
@@ -177,13 +224,13 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\wamp\www\saraki\" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\wamp\www\saraki\assets\redi" />
       <recent name="C:\wamp\www\saraki" />
       <recent name="C:\wamp\www\saraki\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp\www\saraki\" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.advancedsearch.php">
@@ -261,11 +308,16 @@
       <workItem from="1527368671297" duration="590000" />
       <workItem from="1527467680825" duration="6155000" />
       <workItem from="1527518312176" duration="802000" />
+      <workItem from="1527534493848" duration="585000" />
+      <workItem from="1527537056758" duration="94000" />
+      <workItem from="1527633652171" duration="3137000" />
+      <workItem from="1527636843436" duration="177000" />
+      <workItem from="1527680496083" duration="114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81385000" />
+    <option name="totallyTimeSpent" value="85492000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="0" />
@@ -315,19 +367,167 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/userindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4061">
+          <caret line="131" column="45" selection-start-line="131" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding>
+            <marker date="1527636610667" expanded="true" signature="10252:11055" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="11871:12528" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="13408:14217" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="15054:15717" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="17023:17319" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="17458:17775" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="18753:19055" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="19194:19517" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="21249:21550" ph="Select pros.... users" />
+            <marker date="1527636610667" expanded="true" signature="21715:22482" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="23728:24438" ph="Select pros.... attendance" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sarki.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4588">
+          <caret line="148" column="26" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="26" />
+          <folding>
+            <marker date="1527636932640" expanded="true" signature="14927:15798" ph="SELECT depar... sarki" />
+            <marker date="1527636932640" expanded="true" signature="15924:16867" ph="Select depar... sarki" />
+            <marker date="1527636932640" expanded="true" signature="18061:18195" ph="Select Count... case" />
+            <marker date="1527636932640" expanded="true" signature="24242:24266" ph="SELECT * FRO... casetype" />
+            <marker date="1527636932640" expanded="true" signature="24896:25076" ph="Select depar... departs" />
+            <marker date="1527636932640" expanded="true" signature="25367:25774" ph="Select depar... users" />
+            <marker date="1527636932640" expanded="true" signature="26465:26490" ph="SELECT * FRO... casetype2" />
+            <marker date="1527636932640" expanded="true" signature="33773:33805" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1527636961885" expanded="true" signature="10111:10938" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="11062:11894" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="12017:12819" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="12907:13768" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="14878:14902" ph="SELECT * FRO... casetype" />
+            <marker date="1527636961885" expanded="true" signature="15559:15739" ph="Select depar... departs" />
+            <marker date="1527636961885" expanded="true" signature="16058:16465" ph="Select depar... users" />
+            <marker date="1527636961885" expanded="true" signature="25259:25291" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4464">
+          <caret line="144" column="34" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
+          <folding>
+            <marker date="1527636976526" expanded="true" signature="9078:9147" ph="SELECT caset... casetype" />
+            <marker date="1527636976526" expanded="true" signature="9391:9454" ph="SELECT depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="19212:20130" ph="SELECT `case... case_has_action" />
+            <marker date="1527636976526" expanded="true" signature="20192:20830" ph="SELECT `case... case_has_action" />
+            <marker date="1527636976526" expanded="true" signature="20997:22048" ph="SELECT case_... case_has_court_session" />
+            <marker date="1527636976526" expanded="true" signature="22113:22939" ph="SELECT case_... case_has_court_session" />
+            <marker date="1527636976526" expanded="true" signature="25885:26381" ph="SELECT users... users" />
+            <marker date="1527636976526" expanded="true" signature="27855:27879" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="28822:29216" ph="SELECT depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="29746:30153" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="39364:39388" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="39873:40053" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="40379:40786" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="41340:41362" ph="SELECT * FRO... action" />
+            <marker date="1527636976526" expanded="true" signature="42789:42813" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="43287:43467" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="43793:44200" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="44743:44765" ph="SELECT * FRO... action" />
+            <marker date="1527636976526" expanded="true" signature="47532:47817" ph="SELECT court... court_session" />
+            <marker date="1527636976526" expanded="true" signature="50064:50088" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="51113:51293" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="52018:52425" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="61569:61601" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/userindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3937">
+          <caret line="127" column="74" selection-start-line="127" selection-start-column="65" selection-end-line="127" selection-end-column="74" />
+          <folding>
+            <marker date="1527636610667" expanded="true" signature="10252:11055" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="11871:12528" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="13408:14217" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="15054:15717" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="17023:17319" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="17458:17775" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="18753:19055" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="19194:19517" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="21249:21550" ph="Select pros.... users" />
+            <marker date="1527636610667" expanded="true" signature="21715:22482" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="23728:24438" ph="Select pros.... attendance" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/logout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/check_out.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataentry_attend_rep.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6696">
+          <caret line="216" column="13" selection-start-line="216" selection-start-column="13" selection-end-line="216" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/ace.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataentry_attend_rep.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/get_court_days_on.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/adminindex.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8711">
           <caret line="281" column="39" selection-start-line="281" selection-start-column="39" selection-end-line="281" selection-end-column="39" />
-          <folding>
-            <marker date="1527471928987" expanded="true" signature="13132:13586" ph="SELECT * FRO... users" />
-            <marker date="1527471928987" expanded="true" signature="14040:14065" ph="SELECT * FRO... casetype2" />
-            <marker date="1527471928987" expanded="true" signature="15613:15814" ph="SELECT * FRO... overallpros" />
-            <marker date="1527471928987" expanded="true" signature="17204:17500" ph="SELECT pros.... overallpros" />
-            <marker date="1527471928987" expanded="true" signature="17925:17950" ph="SELECT * FRO... casetype2" />
-            <marker date="1527471928987" expanded="true" signature="21630:28060" ph="SELECT pros.... attendance" />
-            <marker date="1527471928987" expanded="true" signature="36831:36863" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -360,13 +560,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/userindex.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="151" column="24" selection-start-line="151" selection-start-column="24" selection-end-line="151" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="643">
@@ -388,68 +581,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataentry_attend_rep.php">
+    <entry file="file://$PROJECT_DIR$/assets/redi/get_court_days_on.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="279">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/ace.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="4" column="17664" selection-start-line="4" selection-start-column="17661" selection-end-line="4" selection-end-column="17664" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/adminindex.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="281" column="39" selection-start-line="281" selection-start-column="39" selection-end-line="281" selection-end-column="39" />
+        <state relative-caret-position="392">
+          <caret line="299" column="217" selection-start-line="299" selection-start-column="207" selection-end-line="299" selection-end-column="217" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataentry_daily_attend_rep.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataentry_attend_rep.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="137" column="29" selection-start-line="136" selection-start-column="28" selection-end-line="137" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/insert_actions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9649">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/check_out.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/redi/logout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/userindex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4061">
+          <caret line="131" column="45" selection-start-line="131" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding>
-            <marker date="1527471928987" expanded="true" signature="13132:13586" ph="SELECT * FRO... users" />
-            <marker date="1527471928987" expanded="true" signature="14040:14065" ph="SELECT * FRO... casetype2" />
-            <marker date="1527471928987" expanded="true" signature="15613:15814" ph="SELECT * FRO... overallpros" />
-            <marker date="1527471928987" expanded="true" signature="17204:17500" ph="SELECT pros.... overallpros" />
-            <marker date="1527471928987" expanded="true" signature="17925:17950" ph="SELECT * FRO... casetype2" />
-            <marker date="1527471928987" expanded="true" signature="21630:28060" ph="SELECT pros.... attendance" />
-            <marker date="1527471928987" expanded="true" signature="36831:36863" ph="..." />
+            <marker date="1527636610667" expanded="true" signature="10252:11055" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="11871:12528" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="13408:14217" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="15054:15717" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="17023:17319" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="17458:17775" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="18753:19055" ph="SELECT COUNT... case_has_action" />
+            <marker date="1527636610667" expanded="true" signature="19194:19517" ph="SELECT COUNT... case_has_court_session" />
+            <marker date="1527636610667" expanded="true" signature="21249:21550" ph="Select pros.... users" />
+            <marker date="1527636610667" expanded="true" signature="21715:22482" ph="Select Count... case" />
+            <marker date="1527636610667" expanded="true" signature="23728:24438" ph="Select pros.... attendance" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/redi/get_court_days_on.php">
+    <entry file="file://$PROJECT_DIR$/sarki.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        <state relative-caret-position="4588">
+          <caret line="148" column="26" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="26" />
           <folding>
-            <marker date="1524539772979" expanded="true" signature="350:465" ph="SELECT court... court_session" />
+            <marker date="1527636932640" expanded="true" signature="14927:15798" ph="SELECT depar... sarki" />
+            <marker date="1527636932640" expanded="true" signature="15924:16867" ph="Select depar... sarki" />
+            <marker date="1527636932640" expanded="true" signature="18061:18195" ph="Select Count... case" />
+            <marker date="1527636932640" expanded="true" signature="24242:24266" ph="SELECT * FRO... casetype" />
+            <marker date="1527636932640" expanded="true" signature="24896:25076" ph="Select depar... departs" />
+            <marker date="1527636932640" expanded="true" signature="25367:25774" ph="Select depar... users" />
+            <marker date="1527636932640" expanded="true" signature="26465:26490" ph="SELECT * FRO... casetype2" />
+            <marker date="1527636932640" expanded="true" signature="33773:33805" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/actions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="2019" column="36" selection-start-line="2019" selection-start-column="36" selection-end-line="2019" selection-end-column="36" />
+        <state relative-caret-position="4464">
+          <caret line="144" column="34" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
           <folding>
-            <marker date="1527519102863" expanded="true" signature="8814:8883" ph="SELECT caset... casetype" />
-            <marker date="1527519102863" expanded="true" signature="9127:9190" ph="SELECT depar... departs" />
-            <marker date="1527519102863" expanded="true" signature="18948:19866" ph="SELECT `case... case_has_action" />
-            <marker date="1527519102863" expanded="true" signature="19928:20566" ph="SELECT `case... case_has_action" />
-            <marker date="1527519102863" expanded="true" signature="20733:21784" ph="SELECT case_... case_has_court_session" />
-            <marker date="1527519102863" expanded="true" signature="21849:22675" ph="SELECT case_... case_has_court_session" />
-            <marker date="1527519102863" expanded="true" signature="25621:26117" ph="SELECT users... users" />
-            <marker date="1527519102863" expanded="true" signature="27591:27615" ph="SELECT * FRO... casetype" />
-            <marker date="1527519102863" expanded="true" signature="28558:28952" ph="SELECT depar... departs" />
-            <marker date="1527519102863" expanded="true" signature="29482:29889" ph="Select depar... users" />
-            <marker date="1527519102863" expanded="true" signature="39100:39124" ph="SELECT * FRO... casetype" />
-            <marker date="1527519102863" expanded="true" signature="39609:39789" ph="Select depar... departs" />
-            <marker date="1527519102863" expanded="true" signature="40115:40522" ph="Select depar... users" />
-            <marker date="1527519102863" expanded="true" signature="41076:41098" ph="SELECT * FRO... action" />
-            <marker date="1527519102863" expanded="true" signature="42525:42549" ph="SELECT * FRO... casetype" />
-            <marker date="1527519102863" expanded="true" signature="43023:43203" ph="Select depar... departs" />
-            <marker date="1527519102863" expanded="true" signature="43529:43936" ph="Select depar... users" />
-            <marker date="1527519102863" expanded="true" signature="44479:44501" ph="SELECT * FRO... action" />
-            <marker date="1527519102863" expanded="true" signature="47268:47553" ph="SELECT court... court_session" />
-            <marker date="1527519102863" expanded="true" signature="49800:49824" ph="SELECT * FRO... casetype" />
-            <marker date="1527519102863" expanded="true" signature="50849:51029" ph="Select depar... departs" />
-            <marker date="1527519102863" expanded="true" signature="51754:52161" ph="Select depar... users" />
-            <marker date="1527519102863" expanded="true" signature="61305:61337" ph="..." />
+            <marker date="1527636976526" expanded="true" signature="9078:9147" ph="SELECT caset... casetype" />
+            <marker date="1527636976526" expanded="true" signature="9391:9454" ph="SELECT depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="19212:20130" ph="SELECT `case... case_has_action" />
+            <marker date="1527636976526" expanded="true" signature="20192:20830" ph="SELECT `case... case_has_action" />
+            <marker date="1527636976526" expanded="true" signature="20997:22048" ph="SELECT case_... case_has_court_session" />
+            <marker date="1527636976526" expanded="true" signature="22113:22939" ph="SELECT case_... case_has_court_session" />
+            <marker date="1527636976526" expanded="true" signature="25885:26381" ph="SELECT users... users" />
+            <marker date="1527636976526" expanded="true" signature="27855:27879" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="28822:29216" ph="SELECT depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="29746:30153" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="39364:39388" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="39873:40053" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="40379:40786" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="41340:41362" ph="SELECT * FRO... action" />
+            <marker date="1527636976526" expanded="true" signature="42789:42813" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="43287:43467" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="43793:44200" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="44743:44765" ph="SELECT * FRO... action" />
+            <marker date="1527636976526" expanded="true" signature="47532:47817" ph="SELECT court... court_session" />
+            <marker date="1527636976526" expanded="true" signature="50064:50088" ph="SELECT * FRO... casetype" />
+            <marker date="1527636976526" expanded="true" signature="51113:51293" ph="Select depar... departs" />
+            <marker date="1527636976526" expanded="true" signature="52018:52425" ph="Select depar... users" />
+            <marker date="1527636976526" expanded="true" signature="61569:61601" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="355" column="0" selection-start-line="355" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
+          <folding>
+            <marker date="1527636961885" expanded="true" signature="10111:10938" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="11062:11894" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="12017:12819" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="12907:13768" ph="Select `case... case" />
+            <marker date="1527636961885" expanded="true" signature="14878:14902" ph="SELECT * FRO... casetype" />
+            <marker date="1527636961885" expanded="true" signature="15559:15739" ph="Select depar... departs" />
+            <marker date="1527636961885" expanded="true" signature="16058:16465" ph="Select depar... users" />
+            <marker date="1527636961885" expanded="true" signature="25259:25291" ph="..." />
           </folding>
         </state>
       </provider>

@@ -27,6 +27,8 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.table2excel.js"></script>
 	<?php
 		require 'assets/redi/sqlcon.php';
 		$day = date('w');
@@ -126,7 +128,7 @@ ORDER BY
 						</div>
 					</div>
 					<br>
-					<table border="5" align="center"  style="width:98%" class="table2excel">
+					<table border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 2">
 						<tr>
 							<td width="2%" align="center">
 								<font size="3" style="bold" >
@@ -227,4 +229,16 @@ ORDER BY
 		</div>
 		<!-- /.row -->
 	</body>
+	<script>
+		$(function() {
+			$(".table2excel").table2excel({
+				name: "Excel Document Name",
+				filename: "تقرير",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+		});
+	</script>
 </html>

@@ -1,12 +1,55 @@
-<?php 
-	require 'assets\redi\sqlcon.php';
-session_start();
-$max_case_has_action_id = mysqli_query($sqlcon, "SELECT Max(case_has_action.case_has_action_id) AS Max_case_has_action_id FROM   case_has_action");
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery Boilerplate</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="../dist/jquery.table2excel.js"></script>
+	</head>
+	<body>
+		<table class="table2excel" data-tableName="Test Table 1">
+			<thead>
+				<tr class="noExl"><td>This shouldn't get exported</td><td>This shouldn't get exported either</td></tr>
+				<tr><td>This Should get exported as a header</td><td>This should too</td></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>data1a with a <a href="#">link one</a> and <a href="#">link two</a>.</td>
+					<td>data1b with a <img src="image_file.jpg" alt="image">.</td></tr>
+				<tr>
+					<td>data2a with a <input tyle="text" value="text value">.</td>
+					<td>data2b with a <input tyle="text" value="second text value">.</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr><td colspan="2">This footer spans 2 cells</td></tr>
+			</tfoot>
+		</table>
 
-$max_case_has_action_id = mysqli_fetch_row($max_case_has_action_id);
-$max_case_has_action_id = implode("", $max_case_has_action_id);
-echo $max_case_has_action_id;
-$max_case_has_action_id =$max_case_has_action_id+1;
-echo $max_case_has_action_id;
+		<table class="table2excel" data-tableName="Test Table 2">
+			<thead>
+				<tr class="noExl"><td>This shouldn't get exported</td><td>This shouldn't get exported either</td></tr>
+				<tr><td>This Should get exported as a header</td><td>This should too</td></tr>
+			</thead>
+			<tbody>
+				<tr><td>data1a</td><td>data1b</td></tr>
+				<tr><td>data2a</td><td>data2b</td></tr>
+			</tbody>
+			<tfoot>
+				<tr><td colspan="2">This footer spans 2 cells</td></tr>
+			</tfoot>
+		</table>
 
-?>
+		<script>
+			$(function() {
+				$(".table2excel").table2excel({
+					name: "Excel Document Name",
+					filename: "myFileName" + new Date().toISOString().replace(/[\-\:\.]/g, ""),
+					fileext: ".xls",
+					exclude_img: true,
+					exclude_links: true,
+					exclude_inputs: true
+				});
+			});
+		</script>
+	</body>
+</html>

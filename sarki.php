@@ -135,6 +135,18 @@
 					</a>
 
 					<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+						<?php
+						if($securitylvl == "d" ):
+							?>
+							<li>
+								<a href="assets/redi/check_out.php">
+									<i class="ace-icon fa fa-child"></i>
+									تسجيل إنصراف
+								</a>
+							</li>
+							<?php
+						endif;
+						?>
 						<li>
 							<a href="assets/redi/logout.php">
 								<i class="ace-icon fa fa-power-off"></i>

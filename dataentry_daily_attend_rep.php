@@ -26,25 +26,17 @@
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
 		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.table2excel.js"></script>
+		<script src="assets/js/jquery.table2excel.min.js"></script>
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
 	session_start();
 	$admin_id = $_SESSION["admin_id"];
-		$date=$_POST['date_start'];
-		$date2=$_POST['date_start'];
-		$date3=$_POST['date_start'];
-		$end_date=$_POST['date_end'];
-		$end_date2=$_POST['date_end'];
-		$end_date3=$_POST['date_end'];
-			$query = "select ca.nickname";
-		while (strtotime($date) <= strtotime($end_date)) {
-			$query .= ", max(case when ca.db_date = '$date' then CONCAT_WS(' / ', TIME_FORMAT(p.checkintime, '%l:%i%p'), TIME_FORMAT(p.checkouttime, '%l:%i%p')) end) `$date`";
-			$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
-		}
-	$query .= "
-	from
+	$date=$_POST['daily_date'];
+	$query = "select ca.nickname
+, min(case when ca.db_date = '$date' then TIME_FORMAT(p.checkintime, '%l:%i%p') end) `checkintime`
+, max(case when ca.db_date = '$date' then TIME_FORMAT(p.checkouttime, '%l:%i%p') end) `checkouttime`
+from
 	(
 	  select c.db_date, a.nickname, a.idusers
 	  from time_dimension c
@@ -60,11 +52,11 @@
 	  on ca.idusers = p.idusers
 	  and ca.db_date = p.checkindate
 	group by ca.idusers, ca.nickname
-	order by ca.idusers;";	
+	order by ca.idusers;";
 	$result = mysqli_query($sqlcon, $query);
 	?>
 
-<body>
+<body onload="window.print()">
 		<div class="page-header">
 			<div class="row">
 				<div class="col-xs-12">
@@ -98,79 +90,70 @@
 							<div>
 								<font size="5" style="bold" >
 									<b>
-										<span>تقرير متابعة الحضور و الغياب  عن يوم <?php echo $date3; ?> و حتى يوم <?php echo $end_date3; ?></span>
+										<span>تقرير متابعة الحضور و الغياب لمدخلي البيانات عن يوم <?php echo $date;?></span>
 									</b>
 								</font>
 							</div>
 						</div>
 					</div>
 					<br>
-					<table  border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 2">
+					<table  border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 1">
 						<tr>
 							<td width="5%" align="center">
 								<font size="3" style="bold" >
 									<b>#</b>
 								</font>
 							</td>
-							<td width="15%" align="center">
+							<td width="45%" align="center">
 								<font size="3" style="bold" >
 									<b>الإسم</b>
 								</font>
 							</td>
-							<?php 
-									while (strtotime($date2) <= strtotime($end_date2))
-									{
-										?>
-										<td align="center">
-											<font size="3" style="bold" >
-											<b><?php echo $date2 ; ?></b>
-											</font>
-										</td>
-										<?php
-										$date2 = date("Y-m-d", strtotime("+1 day", strtotime($date2)));
-									}
-							?>
+							<td align="center">
+								<font size="3" style="bold" >
+								<b>وقت الحضور</b>
+								</font>
+							</td>
+							<td align="center">
+								<font size="3" style="bold" >
+									<b>وقت الإنصراف</b>
+								</font>
+							</td>
 						</tr>
-						
 						<?php
 						$row_numbers=1;
-							while($row = mysqli_fetch_array($result))
-							{
-                                foreach ($row as $key => $value) {
-                                    if (!is_int($key)) {
-                                        unset($row[$key]);
-                                    }
-                                }
-                                ?>
-								<tr>
-								<td align="center"><?php echo $row_numbers; ?></td>
-                                    <?php
-                                    $len=count($row);
-                                    for ($i=0;$i<$len;$i++){
-                                        ?>
-                                        <td align="center">
-											<?php
-												if ($row[$i]== '')
-													echo "غياب";
-												else
-													echo $row[$i];
-											?>
-										</td>
-                                        <?php
-                                    }
-                                    ?>
-								</tr>
-							<?php
-							$date3 = date("Y-m-d", strtotime("+1 day", strtotime($date3)));
-							$row_numbers++;
-							};
-							
+						while($row = mysqli_fetch_array($result))
+						{
 							?>
+							<tr>
+								<td align="center"><?php echo $row_numbers; ?></td>
+								<td align="center"><?php echo $row['nickname']; ?></td>
+
+									<?php
+										if ($row['checkintime']==''){
+											?>
+												<td colspan="2" align="center"> غياب</td>
+											<?php
+											goto end_while;
+										}else{
+											?>
+												<td align="center"><?php echo $row['checkintime']; ?></td>
+											<?php
+										}
+									?>
+
+								<td align="center"><?php echo $row['checkouttime']; ?></td>
+								<?php end_while: ?>
+							</tr>
+						<?php
+						$row_numbers++;
+						}
+						?>
+
 					</table>
 					<div class="col-xs-12" align="right">
 						<div>
 							<font size="2" style="bold" >
-								<br>
 								<b>
 									<span>تحريراً في <?php echo date("Y/m/d"); ?></span>
 								</b>
@@ -203,16 +186,16 @@
 <!--	<script type="text/javascript">-->
 <!--		window.onload = replaceDigits-->
 <!--	</script>-->
-	<script>
-		$(function() {
-			$(".table2excel").table2excel({
-				name: "Excel Document Name",
-				filename: "تقرير",
-				fileext: ".xls",
-				exclude_img: true,
-				exclude_links: true,
-				exclude_inputs: true
-			});
-		});
-	</script>
+<!--	<script>-->
+<!--		$(function() {-->
+<!--			$(".table2excel").table2excel({-->
+<!--				name: "Excel Document Name",-->
+<!--				filename: "تقرير الغياب",-->
+<!--				fileext: ".xls",-->
+<!--				exclude_img: true,-->
+<!--				exclude_links: true,-->
+<!--				exclude_inputs: true-->
+<!--			});-->
+<!--		});-->
+<!--	</script>-->
 </html>

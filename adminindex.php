@@ -279,7 +279,7 @@
 											</div>
 										</form>
 										<div class="hr hr32 hr-dotted"></div>
-									<h3>تقرير حضور و غياب مدخلي البيانات</h3>
+									<h3>تقرير حضور و غياب مدخلي البيانات عن فترة</h3>
 										<form class="form-horizontal" method="post" action="dataentry_attend_rep.php"  target="_blank">
 											<div class="form-group">
 												<div class="col-sm-12">
@@ -292,9 +292,22 @@
 												</div>
 											</div>
 										</form>
+										<div class="hr hr32 hr-dotted"></div>
+										<h3>تقرير حضور و غياب مدخلي البيانات عن يوم</h3>
+										<form class="form-horizontal" method="post" action="dataentry_daily_attend_rep.php"  target="_blank">
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="اليوم" type="text" data-date-format="yyyy/mm/dd" name="daily_date"/>
+													<button class="btn btn-info"  type="Submit"  name="submit">
+														<i class="ace-icon fa fa-print bigger-150"></i>
+														Print
+													</button>
+												</div>
+											</div>
+										</form>
 									</div><!-- /.row -->
 								</div><!-- /.row -->
-								
+						<!-- /
 								<div class="hr hr32 hr-dotted"></div>
 									<h3>تقرير تفصيلي بالقضايا لجميع مدخلي البيانات</h3>
 										<form class="form-horizontal" method="post" action="full_dataentry_rep.php"  target="_blank">
@@ -309,6 +322,7 @@
 												</div>
 											</div>
 										</form>
+										 -->
 								<div class="hr hr32 hr-dotted"></div>
 									<h3>تقرير تفصيلي بالقضايا للمستخدم</h3>
 										<form class="form-horizontal" method="post" action="full_dataentry_rep_x.php"  target="_blank">

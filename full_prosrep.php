@@ -25,6 +25,8 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.table2excel.js"></script>
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
@@ -83,10 +85,10 @@
 									<td align="center">النيابة العامة</td>
 								</tr>
 								<tr>
-									<td align="center">مركز معلومات النيابة العامة</td>
+									<td align="center">مكتب النائب العام</td>
 								</tr>
 								<tr>
-									<td align="center">فرع الإسكندرية</td>
+									<td align="center">مركز معلومات النيابة العامة</td>
 								</tr>
 							</table>
 						</b>
@@ -112,7 +114,7 @@
 						</div>
 					</div>
 					<br>
-					<table border="5" align="center"  style="width:98%" class="table2excel">
+					<table border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 2">
 						<tr>
 							<td width="2%" align="center">
 								<font size="3" style="bold" >
@@ -219,5 +221,17 @@
 	</script>
 	<script type="text/javascript">
 		window.onload = replaceDigits
+	</script>
+	<script>
+		$(function() {
+			$(".table2excel").table2excel({
+				name: "Excel Document Name",
+				filename: "تقرير",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+		});
 	</script>
 </html>
