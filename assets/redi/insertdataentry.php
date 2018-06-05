@@ -22,26 +22,21 @@ session_start();
 
 	if ( $result1 ) 
 	{ 
-	mysqli_commit($sqlcon);
-	
-	$maxid = mysqli_query($sqlcon, "SELECT MAX(idusers) FROM users");
-	$maxidrow = mysqli_fetch_row($maxid);
-	$comma_separated = implode("", $maxidrow);
-	$len = count($pros);
-	for($x=0 ; $x < $len ; $x++){
-	  $result133 = mysqli_query($sqlcon, "INSERT INTO `pic`.`pros_has_users` (`idpros`, `idusers`) VALUES ('$pros[$x]','$comma_separated');");
-	}
-	mysqli_commit($sqlcon);
-	header('Location: ../../users.php?backresult=1');
-	$fh = fopen('/tmp/track.txt','a');
-	fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-	fclose($fh);
-	exit;
+		mysqli_commit($sqlcon);
+		
+		$maxid = mysqli_query($sqlcon, "SELECT MAX(idusers) FROM users");
+		$maxidrow = mysqli_fetch_row($maxid);
+		$comma_separated = implode("", $maxidrow);
+		$len = count($pros);
+		for($x=0 ; $x < $len ; $x++){
+		  $result133 = mysqli_query($sqlcon, "INSERT INTO `pic`.`pros_has_users` (`idpros`, `idusers`) VALUES ('$pros[$x]','$comma_separated');");
+		}
+		mysqli_commit($sqlcon);
+		header('Location: ../../users.php?backresult=1');
+		exit;
 	}
 	{ 
-	header('Location: ../../users.php?backresult=0');
-	$fh = fopen('/tmp/track.txt','a');
-	fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-	fclose($fh);
+		header('Location: ../../users.php?backresult=0');
+		exit;
 	}  
 ?>

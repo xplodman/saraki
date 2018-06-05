@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6d30545c-9edc-433b-b132-b9de146e017e" name="Default" comment="" />
+    <list default="true" id="6d30545c-9edc-433b-b132-b9de146e017e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/redi/insertdataentry.php" afterPath="$PROJECT_DIR$/assets/redi/insertdataentry.php" />
+    </list>
     <ignored path="saraki.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -22,35 +24,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="actions.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/actions.php">
+      <file leaf-file-name="advancedsearch.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/advancedsearch.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="643">
-              <caret line="144" column="34" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
+            <state relative-caret-position="279">
+              <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
               <folding>
-                <marker date="1527636976526" expanded="true" signature="9078:9147" ph="SELECT caset... casetype" />
-                <marker date="1527636976526" expanded="true" signature="9391:9454" ph="SELECT depar... departs" />
-                <marker date="1527636976526" expanded="true" signature="19212:20130" ph="SELECT `case... case_has_action" />
-                <marker date="1527636976526" expanded="true" signature="20192:20830" ph="SELECT `case... case_has_action" />
-                <marker date="1527636976526" expanded="true" signature="20997:22048" ph="SELECT case_... case_has_court_session" />
-                <marker date="1527636976526" expanded="true" signature="22113:22939" ph="SELECT case_... case_has_court_session" />
-                <marker date="1527636976526" expanded="true" signature="25885:26381" ph="SELECT users... users" />
-                <marker date="1527636976526" expanded="true" signature="27855:27879" ph="SELECT * FRO... casetype" />
-                <marker date="1527636976526" expanded="true" signature="28822:29216" ph="SELECT depar... departs" />
-                <marker date="1527636976526" expanded="true" signature="29746:30153" ph="Select depar... users" />
-                <marker date="1527636976526" expanded="true" signature="39364:39388" ph="SELECT * FRO... casetype" />
-                <marker date="1527636976526" expanded="true" signature="39873:40053" ph="Select depar... departs" />
-                <marker date="1527636976526" expanded="true" signature="40379:40786" ph="Select depar... users" />
-                <marker date="1527636976526" expanded="true" signature="41340:41362" ph="SELECT * FRO... action" />
-                <marker date="1527636976526" expanded="true" signature="42789:42813" ph="SELECT * FRO... casetype" />
-                <marker date="1527636976526" expanded="true" signature="43287:43467" ph="Select depar... departs" />
-                <marker date="1527636976526" expanded="true" signature="43793:44200" ph="Select depar... users" />
-                <marker date="1527636976526" expanded="true" signature="44743:44765" ph="SELECT * FRO... action" />
-                <marker date="1527636976526" expanded="true" signature="47532:47817" ph="SELECT court... court_session" />
-                <marker date="1527636976526" expanded="true" signature="50064:50088" ph="SELECT * FRO... casetype" />
-                <marker date="1527636976526" expanded="true" signature="51113:51293" ph="Select depar... departs" />
-                <marker date="1527636976526" expanded="true" signature="52018:52425" ph="Select depar... users" />
-                <marker date="1527636976526" expanded="true" signature="61569:61601" ph="..." />
+                <marker date="1525515717461" expanded="true" signature="9912:10694" ph="SELECT `case... case" />
+                <marker date="1525515717461" expanded="true" signature="12315:12811" ph="SELECT users... users" />
+                <marker date="1525515717461" expanded="true" signature="14546:14570" ph="SELECT * FRO... casetype" />
+                <marker date="1525515717461" expanded="true" signature="15529:15923" ph="SELECT depar... departs" />
+                <marker date="1525515717461" expanded="true" signature="16479:16886" ph="Select depar... users" />
+                <marker date="1525515717461" expanded="true" signature="26480:26512" ph="..." />
               </folding>
             </state>
           </provider>
@@ -247,12 +232,12 @@
       <workItem from="1527636843436" duration="177000" />
       <workItem from="1527680496083" duration="114000" />
       <workItem from="1527755568109" duration="592000" />
-      <workItem from="1528158817164" duration="220000" />
+      <workItem from="1528158817164" duration="754000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86304000" />
+    <option name="totallyTimeSpent" value="86838000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="1" />
@@ -296,8 +281,13 @@
           <url>file://$PROJECT_DIR$/dataentry_attend_rep.php</url>
           <line>32</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/advancedsearch.php</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -827,6 +817,21 @@
             <marker date="1527636976526" expanded="true" signature="51113:51293" ph="Select depar... departs" />
             <marker date="1527636976526" expanded="true" signature="52018:52425" ph="Select depar... users" />
             <marker date="1527636976526" expanded="true" signature="61569:61601" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advancedsearch.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+          <folding>
+            <marker date="1525515717461" expanded="true" signature="9912:10694" ph="SELECT `case... case" />
+            <marker date="1525515717461" expanded="true" signature="12315:12811" ph="SELECT users... users" />
+            <marker date="1525515717461" expanded="true" signature="14546:14570" ph="SELECT * FRO... casetype" />
+            <marker date="1525515717461" expanded="true" signature="15529:15923" ph="SELECT depar... departs" />
+            <marker date="1525515717461" expanded="true" signature="16479:16886" ph="Select depar... users" />
+            <marker date="1525515717461" expanded="true" signature="26480:26512" ph="..." />
           </folding>
         </state>
       </provider>
