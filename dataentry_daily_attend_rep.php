@@ -27,6 +27,7 @@
 		<![endif]-->
 		<script src="assets/js/jquery.min.js"></script>
 		<script src="assets/js/jquery.table2excel.min.js"></script>
+		
 	</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
@@ -57,6 +58,7 @@ from
 	?>
 
 <body onload="window.print()">
+<div id="page-content">
 		<div class="page-header">
 			<div class="row">
 				<div class="col-xs-12">
@@ -155,18 +157,20 @@ from
 						<div>
 							<font size="2" style="bold" >
 								<b>
-									<span>تحريراً في <?php echo date("Y/m/d"); ?></span>
+									<span>تحريراً في <?php echo date("Y/n/j"); ?></span>
 								</b>
 							</font>
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- PAGE CONTENT ENDS -->
 			</div>
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->
+				</div>
+
 	</body>
 <!--	<script language="JavaScript" type="text/javascript">-->
 <!--		var replaceDigits = function() {-->
@@ -186,16 +190,16 @@ from
 <!--	<script type="text/javascript">-->
 <!--		window.onload = replaceDigits-->
 <!--	</script>-->
-<!--	<script>-->
-<!--		$(function() {-->
-<!--			$(".table2excel").table2excel({-->
-<!--				name: "Excel Document Name",-->
-<!--				filename: "تقرير الغياب",-->
-<!--				fileext: ".xls",-->
-<!--				exclude_img: true,-->
-<!--				exclude_links: true,-->
-<!--				exclude_inputs: true-->
-<!--			});-->
-<!--		});-->
-<!--	</script>-->
+<script>
+		$(function() {
+			$(".table2excel").table2excel({
+				name: "Excel Document Name",
+				filename: "تقرير",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+		});
+	</script>
 </html>
