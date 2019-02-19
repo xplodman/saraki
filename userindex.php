@@ -76,7 +76,7 @@
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+				<button type="button" class="navbar-toggle menu-toggler pull-right" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
 
 					<span class="icon-bar"></span>
@@ -272,17 +272,8 @@
 									<div class="col-sm-12 infobox-container">
 									<h3>إيراد الشهر الحالي</h3>
 									<?php
-									$month = date("n"); 
-									$numofday = date("j"); 
-									if($numofday > "25"):
-										$month=$month+1;
-									endif;
-									$monthminus1=$month-1;
-									$monthminus2=$month-2;
-									$monthminus3=$month-3;
-									$year = date("Y"); 
 										$iduser = $_SESSION["idusers"];
-										$casecount=mysqli_query($sqlcon, "Select Count(`case`.idcase) As casecount,
+										$query="Select Count(`case`.idcase) As casecount,
   departs.departname,
   users.nickname,
   `case`.caseyear,
@@ -293,7 +284,7 @@ From `case`
   Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
   Inner Join users On users.idusers = sarki.idusers
   Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And
+WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL 1 MONTH, '%Y-%m-%d %H:%i:%s') )  And
   users.idusers = $idusers  
 										Group By departs.departname,
 										  users.nickname,
@@ -302,7 +293,8 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$mo
 										  casetype.casetypename
 										Order By departs.departname,
 										  `case`.caseyear,
-										  casetype.casetypename");
+										  casetype.casetypename";
+										$casecount=mysqli_query($sqlcon, $query);
 										while($casecountrow = mysqli_fetch_assoc($casecount))
 															{
 									?>
@@ -333,7 +325,7 @@ From `case`
   Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
   Inner Join users On users.idusers = sarki.idusers
   Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And
+WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL 1 MONTH, '%Y-%m-%d %H:%i:%s') )  And
   users.idusers = $idusers  
 										
 										Order By departs.departname,
@@ -353,7 +345,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$mo
 												<span class="infobox-text">الإجمالي</span>
 
 												<div class="infobox-content">
-													من 26\<?php echo $monthminus1;?> إلى 25\<?php echo $month;?>
+												<?php echo " من " .date('n/j', strtotime('first day of this month'))." إلى ".date('n/j', strtotime('last day of this month'));?>
 												</div>
 											</div>
 										</div>
@@ -374,7 +366,7 @@ From `case`
   Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
   Inner Join users On users.idusers = sarki.idusers
   Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And
+WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL -1 MONTH, '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') )  And
   users.idusers = $idusers  
 										Group By departs.departname,
 										  users.nickname,
@@ -415,7 +407,7 @@ From `case`
   Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
   Inner Join users On users.idusers = sarki.idusers
   Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And
+WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL -1 MONTH, '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') )  And
   users.idusers = $idusers  
 										
 										Order By departs.departname,
@@ -435,7 +427,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 												<span class="infobox-text">الإجمالي</span>
 
 												<div class="infobox-content">
-													من 26\<?php echo $monthminus2;?> إلى 25\<?php echo $monthminus1;?>
+												<?php echo " من " .date('n/j', strtotime('first day of last month'))." إلى ".date('n/j', strtotime('last day of last month'));?>
 												</div>
 											</div>
 										</div>
@@ -452,15 +444,6 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 									<div class="col-sm-12 infobox-container">
 									<h3>تصرفات الشهر الحالي</h3>
 									<?php
-									$month = date("n"); 
-									$numofday = date("j"); 
-									if($numofday > "25"):
-										$month=$month+1;
-									endif;
-									$monthminus1=$month-1;
-									$monthminus2=$month-2;
-									$monthminus3=$month-3;
-									$year = date("Y"); 
 									$iduser = $_SESSION["idusers"];
 									$casecount=mysqli_query($sqlcon, "
 									SELECT
@@ -468,7 +451,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 									FROM
 									  case_has_action
 									  INNER JOIN users ON case_has_action.users_idusers = users.idusers
-									WHERE (case_has_action.insert_date BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And users.idusers = $idusers");
+									WHERE (case_has_action.insert_date BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL 1 MONTH, '%Y-%m-%d %H:%i:%s'))  And users.idusers = $idusers");
 									$casecountrow_action = mysqli_fetch_assoc($casecount);
 									
 									$casecount=mysqli_query($sqlcon, "
@@ -477,7 +460,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 									FROM
 									  case_has_court_session
 									  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
-									WHERE (case_has_court_session.insert_date BETWEEN '$year-$monthminus1-26 00:00:00' AND '$year-$month-26 00:00:00')  And users.idusers = $idusers");
+									WHERE (case_has_court_session.insert_date BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL 1 MONTH, '%Y-%m-%d %H:%i:%s'))  And users.idusers = $idusers");
 									$casecountrow_court = mysqli_fetch_assoc($casecount);
 										
 									?>
@@ -492,7 +475,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 												<span class="infobox-text">الإجمالي</span>
 
 												<div class="infobox-content">
-													من 26\<?php echo $monthminus1;?> إلى 25\<?php echo $month;?>
+												<?php echo " من " .date('n/j', strtotime('first day of this month'))." إلى ".date('n/j', strtotime('last day of this month'));?>
 												</div>
 											</div>
 										</div>
@@ -508,7 +491,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 									FROM
 									  case_has_action
 									  INNER JOIN users ON case_has_action.users_idusers = users.idusers
-									WHERE (case_has_action.insert_date BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And users.idusers = $idusers");
+									WHERE (case_has_action.insert_date BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL -1 MONTH, '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s'))  And users.idusers = $idusers");
 									$casecountrow_action = mysqli_fetch_assoc($casecount);
 									
 									$casecount=mysqli_query($sqlcon, "
@@ -517,7 +500,7 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 									FROM
 									  case_has_court_session
 									  INNER JOIN users ON case_has_court_session.users_idusers = users.idusers
-									WHERE (case_has_court_session.insert_date BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$monthminus1-26 00:00:00')  And users.idusers = $idusers");
+									WHERE (case_has_court_session.insert_date BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL -1 MONTH, '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s'))  And users.idusers = $idusers");
 									$casecountrow_court = mysqli_fetch_assoc($casecount);
 									?>
 										<div class="infobox infobox-blue2">
@@ -531,8 +514,10 @@ WHERE (`case`.createdate BETWEEN '$year-$monthminus2-26 00:00:00' AND '$year-$mo
 												<span class="infobox-text">الإجمالي</span>
 
 												<div class="infobox-content">
-													من 26\<?php echo $monthminus2;?> إلى 25\<?php echo $monthminus1;?>
+												<?php echo " من " .date('n/j', strtotime('first day of last month'))." إلى ".date('n/j', strtotime('last day of last month'));
+												?>
 												</div>
+
 											</div>
 										</div>
 									</div>
@@ -684,7 +669,7 @@ $y++;
 															$dateinearly=date("h:i A",strtotime($dateinearly));
 															$dateinlate=date("h:i A",strtotime($dateinlate));
 															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinearly > $row4['checkintime'])):
+															if(($dateinnormal >= $row4['checkintime'])):
 															$varb='<span class="btn btn-xs btn-success">';
 															elseif(($dateinlate < $row4['checkintime'])):
 															$varb='<span class="btn btn-xs btn-danger">';

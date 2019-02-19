@@ -79,6 +79,43 @@ function active($currect_page){
 						</a>
 						<b class="arrow"></b>
 					</li>
+					<li class="<?php active('investigations.php')?>">
+						<a href="investigations.php">
+							<i class="menu-icon fa fa-book"></i>
+							<span class="menu-text"> حصر التحقيق </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="<?php active('investigation_rep.php')?>">
+						<a href="investigation_rep.php">
+							<i class="menu-icon fa fa-book"></i>
+							<span class="menu-text">  تقرير حصر التحقيق </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="<?php active('requests.php')?>">
+						<a href="requests.php">
+							<i class="menu-icon fa fa-medkit"></i>
+							<span class="menu-text">  طلبات الإستئذان/الأجازات </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<?php
+					if($_SESSION['securitylvl'] == "a")
+					{
+						if($_SESSION['admin_id'] == "1")
+						{ ?>
+						<li class="<?php active('cj_data.php')?>">
+							<a href="cj_data.php">
+								<i class="menu-icon fa fa-bitbucket"></i>
+								<span class="menu-text"> CJ data </span>
+							</a>
+							<b class="arrow"></b>
+						</li>
+						<?PHP 
+						} 
+					}
+					?>
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

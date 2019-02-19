@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+	  xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	
-
 <meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
-
-
+	<style type="text/css">
+		@font-face {
+			font-family: "My Custom Font";
+			src: url(/fonts/2.otf) format("truetype");
+		}
+		div.customfont { 
+			font-family: "My Custom Font", Verdana, Tahoma;
+		}
+	</style>
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 				{
@@ -25,11 +31,12 @@
 					header('Location: assets/redi/logout.php');
 			} else {
 				$_SESSION['timestamp'] = time(); //set new timestamp
-					}}
+					}
+			}
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8">
-		<title>Admin profile</title>
+		<title>طلبات الإستئذان/الأجازات</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -74,8 +81,6 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-
-
 	</head>
 
 	<body class="no-skin">
@@ -115,31 +120,30 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
 										else
 											{echo "Unknow";};
 										?>
-										<?php
-							if($securitylvl == "a")
-								{
-									
-								}else
-								{
-									header('Location: index.php');
-									$fh = fopen('/tmp/track.txt','a');
-									fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-									fclose($fh);
-									exit;
-								}; ?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<?php
+								if($securitylvl == "d" ):
+									?>
+									<li>
+										<a href="assets/redi/check_out.php">
+											<i class="ace-icon fa fa-child"></i>
+											تسجيل إنصراف
+										</a>
+									</li>
+									<?php
+								endif;
+								?>
 								<li>
 									<a href="assets/redi/logout.php">
 										<i class="ace-icon fa fa-power-off"></i>
@@ -153,7 +157,7 @@
 			</div><!-- /.navbar-container -->
 		</div>
 
-		<div class="main-container ace-save-state" id="main-container">
+		<div class="customfont  main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
@@ -232,31 +236,12 @@
 
 						<div class="page-header">
 							<h1>
-								 الصفحة الشخصية
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									<?php
-										require 'assets/redi/sqlcon.php';
-										if (isset($_SESSION['authenticate']))
-											{
-												$nickname=$_SESSION['nickname'];
-												$prosname=$_SESSION['prosname'];
-												$securitylvl=$_SESSION['securitylvl'];
-												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
-
-													echo $nickname;
-											}
-										else
-											{echo "Unknow";};
-										?>
-								</small>
+								طلبات الإستئذان/الأجازات
 							</h1>
 						</div><!-- /.page-header -->
-						
-						<?php 
+
+						<?php
 							require 'assets/redi/sqlcon.php';
-							
 							if (isset($_GET['backresult']))
 						{
 							$backresult=$_GET['backresult'];
@@ -270,7 +255,7 @@
 										<strong class="green">
 											تمت العملية بنجاح
 										</strong>
-									</div>								
+									</div>
 								 <?php
 							} elseif ($backresult ==  "0") {
 								 ?>
@@ -284,131 +269,451 @@
 									</strong>
 								</div>
 								<?php
+									}elseif ($backresult ==  "2") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+                                        لم تتم العملية بنجاح بالكامل
+										<br>
+											<?php
+                                            $failed_in_action_case_number = $_SESSION["failed_in_action_case_number"];
+                                            $failed_in_action_case_year = $_SESSION["failed_in_action_case_year"];
+                                            $failed_in_action_case_type = $_SESSION["failed_in_action_case_type"];
+                                            $failed_in_action_case_depart = $_SESSION["failed_in_action_case_depart"];
+                                            $case_failed_count = sizeof($failed_in_action_case_number);
+                                            echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية";
+                                            for($len=0 ; $len < $case_failed_count ; $len++)
+                                            {
+                                                echo "<br>".$failed_in_action_case_number[$len]." / ".$failed_in_action_case_year[$len]." ".$failed_in_action_case_type[$len]." ".$failed_in_action_case_depart[$len];
+                                            }
+                                            unset($_SESSION['failed_in_action_case_number']);
+                                            unset($_SESSION['failed_in_action_case_year']);
+                                            unset($_SESSION['failed_in_action_case_type']);
+                                            unset($_SESSION['failed_in_action_case_depart']);
+                                            ?>
+									</strong>
+								</div>
+								<?php
+									}elseif ($backresult ==  "3") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+                                     <strong class="red">
+                                         لم تتم العملية بنجاح بالكامل
+                                         <br>
+                                         <?php
+                                         $not_found_case_number = $_SESSION["not_found_case_number"];
+                                         $not_found_case_year = $_SESSION["not_found_case_year"];
+                                         $not_found_case_type = $_SESSION["not_found_case_type"];
+                                         $not_found_case_depart = $_SESSION["not_found_case_depart"];
+                                         $case_failed_count = sizeof($not_found_case_number);
+                                         echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية لكونها غير مدرجة بالنظام";
+                                         for($len=0 ; $len < $case_failed_count ; $len++)
+                                         {
+                                             echo "<br>".$not_found_case_number[$len]." / ".$not_found_case_year[$len]." ".$casetype_array[$not_found_case_type[$len]]." ".$depart_array[$not_found_case_depart[$len]];
+                                         }
+                                         unset($_SESSION['not_found_case_number']);
+                                         unset($_SESSION['not_found_case_year']);
+                                         unset($_SESSION['not_found_case_type']);
+                                         unset($_SESSION['not_found_case_depart']);
+                                         ?>
+                                     </strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "4") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+                                        <br>
+                                        <?php
+                                        $not_found_case_number = $_SESSION["not_found_case_number"];
+                                        $not_found_case_year = $_SESSION["not_found_case_year"];
+                                        $not_found_case_type = $_SESSION["not_found_case_type"];
+                                        $not_found_case_depart = $_SESSION["not_found_case_depart"];
+                                        $case_failed_count = sizeof($not_found_case_number);
+                                        echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية لكونها غير مدرجة بالنظام";
+                                        for($len=0 ; $len < $case_failed_count ; $len++)
+                                        {
+                                            echo "<br>".$not_found_case_number[$len]." / ".$not_found_case_year[$len]." ".$casetype_array[$not_found_case_type[$len]]." ".$depart_array[$not_found_case_depart[$len]];
+                                        }
+                                        unset($_SESSION['not_found_case_number']);
+                                        unset($_SESSION['not_found_case_year']);
+                                        unset($_SESSION['not_found_case_type']);
+                                        unset($_SESSION['not_found_case_depart']);
+                                        ?>
+                                        <br>
+                                        <br>
+                                        <?php
+                                        $failed_in_action_case_number = $_SESSION["failed_in_action_case_number"];
+                                        $failed_in_action_case_year = $_SESSION["failed_in_action_case_year"];
+                                        $failed_in_action_case_type = $_SESSION["failed_in_action_case_type"];
+                                        $failed_in_action_case_depart = $_SESSION["failed_in_action_case_depart"];
+                                        $case_failed_count = sizeof($failed_in_action_case_number);
+                                        echo "هناك مشكلة في إضافة بعض التصرفات على الأرقام التالية";
+                                        for($len=0 ; $len < $case_failed_count ; $len++)
+                                        {
+                                            echo "<br>".$failed_in_action_case_number[$len]." / ".$failed_in_action_case_year[$len]." ".$failed_in_action_case_type[$len]." ".$failed_in_action_case_depart[$len];
+                                        }
+                                        unset($_SESSION['failed_in_action_case_number']);
+                                        unset($_SESSION['failed_in_action_case_year']);
+                                        unset($_SESSION['failed_in_action_case_type']);
+                                        unset($_SESSION['failed_in_action_case_depart']);
+                                        ?>
+									</strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "5") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo "لم يتم الإكتمال من مرحلة الكشف المسلسل";
+										?>
+									</strong>
+								</div>
+								<?php
+									}
+									elseif ($backresult ==  "5") {
+								 ?>
+								 <div class="alert alert-block alert-danger">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									<i class="ace-icon fa fa-times red"></i>
+									<strong class="red">
+										لم تتم العملية بنجاح
+										<br>
+											<?php
+											echo "لابد من ان يكون بداية الكشف أقل من نهاية الكشف و ليس العكس";
+										?>
+									</strong>
+								</div>
+								<?php
 									}
 										}
 
+								?>
 
-								$idusers=$_GET['idusers'];
-								$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`=$idusers");
-								while($userinfores = mysqli_fetch_assoc($result))
-															{	
-													?>								
+
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<div>
-									<form method="post" action="assets/redi/editadmin.php?idusers=<?php echo $idusers?>" method="post">
-										<div id="user-profile-1" class="user-profile row">
-											<div class="col-xs-12 col-sm-3 center">
-												<div>
-													<div class="space-12"></div>
-													<span class="profile-picture">
-														<img id="avatar" onerror="this.src='assets/images/avatars/profile-pic.jpg'" src="assets/images/avatars/<?php echo $userinfores['idusers'] ;?>.jpg" />
-													</span>
-													<div class="space-4"></div>
-												</div>
+								<div class="row">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="clearfix">
+												<div class="pull-right tableTools-container"></div>
+<!--												--><?php
+//												if (isset($_SESSION['securitylvl']))
+//												{
+//													$securitylvl=$_SESSION['securitylvl'];
+//													if($securitylvl == "d" ):
+//														?>
+														<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+															<i class="ace-icon fa fa-plus-square-o"></i>
+															<b>إضافة طلب إذن/أجازة</b></font>
+														</a>
+<!--														--><?php
+//													endif;
+//												}
+//												?>
 											</div>
-											<div class="col-xs-12 col-sm-9">
-												<div class="profile-user-info profile-user-info-striped">
-													<div class="profile-info-row">
-														<div class="profile-info-name">Nickname</div>
+											<!-- div.table-responsive -->
+											<!--
+                                                <style>
+                                                   table {border-collapse:collapse; table-layout:fixed; width:30px;}
+                                                   table td {border:solid 1px #fab; width:100px; word-wrap:break-word;}
+                                                </style>
+                                            -->
+											<style type='text/css'>
+												table { table-layout:fixed; /* nothing here - table is block, so should auto expand to as large as it can get without causing scrollbars? */ }
+												.left { text-align:center; }
+												.right { text-align:right; }
+												.middle { text-align:left; /* expand this column to as large as it can get within table? */}
+												.wrap { word-wrap:break-word; /* use up entire cell this div is contained in? */ }
+											</style>
+											<!-- div.dataTables_borderWrap -->
+											<div>
+												<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+													<thead>
+													<tr>
+														<th>id</th>
+														<th>نوع الطلب</th>
+														<th>من تاريخ</th>
+														<th>إلى تاريخ</th>
+														<th>السبب</th>
+														<th>حالة الطلب</th>
+														<th>تاريخ الطلب</th>
+														<th>أسم الطالب</th>
+														<th>يتبع لـ</th>
+														<th>النيابات التابع لها</th>
+														<?php
+														if($_SESSION['securitylvl'] == "a")
+														{
+														?>
+															<th>أسم المتصرف في الطلب</th>
+															<th>تاريخ التصرف في الطلب</th>
+															<th>الرد</th>
+														<?php
+														}
+														?>
+													</tr>
+													</thead>
 
-														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['nickname'] ;?>" type="text" class="form-control" name="nickname" >
-														</div>
-													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Username</div>
+													<tbody>
+													<?php
+													if($_SESSION['securitylvl'] == "a")
+													{
+														$admin_id=$_SESSION['admin_id'];
+														$result4 = mysqli_query($sqlcon,"SELECT
+  request.request_id,
+  request.request_type,
+  request.request_from,
+  request.request_to,
+  request.request_reason,
+  request.request_status,
+  users.nickname,
+  users.idusers,
+  users1.nickname AS nickname1,
+  request.request_date,
+  Date_Format(request.request_done_date, '%d/%m/%Y') AS request_done_date,
+  outsource_company.outsource_company_name
+FROM
+  request
+  LEFT JOIN users ON request.users_idusers = users.idusers
+  LEFT JOIN users users1 ON request.request_done_by = users1.idusers
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 
-														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['username'] ;?>" type="text" class="form-control" name="username" >
-														</div>
-													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Password</div>
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id' 
+  GROUP BY
+  request.request_id
+  ORDER BY
+  request.request_id DESC") or die(mysqli_error($sqlcon));
+													}else
+													{
+														$result4 = mysqli_query($sqlcon,"SELECT
+  request.request_id,
+  request.request_type,
+  request.request_from,
+  request.request_to,
+  request.request_reason,
+  request.request_status,
+  users.nickname,
+  users.idusers,
+  users1.nickname AS nickname1,
+  request.request_date,
+  Date_Format(request.request_done_date, '%d/%m/%Y') AS request_done_date,
+  outsource_company.outsource_company_name
+FROM
+  request
+  LEFT JOIN users ON request.users_idusers = users.idusers
+  LEFT JOIN users users1 ON request.request_done_by = users1.idusers
+  INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
+WHERE
+  request.users_idusers = $_SESSION[idusers] 
+  GROUP BY
+  request.request_id
+  ORDER BY
+  request.request_id DESC") or die(mysqli_error($sqlcon));
+													}
+													while($row4 = mysqli_fetch_assoc($result4))
+													{
 
-														<div class="profile-info-value">
-															<input required value="<?php echo $userinfores['password'] ;?>" type="text" class="form-control" name="password" >
-														</div>
-													</div>
-													<div class="profile-info-row">
-														<div class="profile-info-name">Security level</div>
+														?>
+														<tr>
+															<td><a class="red" ><?php echo $row4['request_id'] ?></a></td>
+															<td class="middle wrap">
+																<?php
+																if ($row4['request_type']=='1'){
+																	echo 'أجازة';
+																}elseif($row4['request_type']=='2'){
+																	echo 'إذن حضور';
+																}elseif($row4['request_type']=='3'){
+																	echo 'إذن إنصراف';
+																}
+																?>
+															</td>
+															<td><?php echo $row4['request_from'];?></td>
+															<td><?php echo $row4['request_to'];?></td>
+															<td><?php echo $row4['request_reason'] ?></td>
+															<td>
+																<?php
+																if ($row4['request_status']=='0'){
+																	?>
+																	<button class="btn btn-xs btn-info"> تحت الفحص</button>
+																<?php
+																}elseif($row4['request_status']=='1'){
+																	?>
+																	<button class="btn btn-xs btn-success"> تم القبول</button>
+																<?php
+																}elseif($row4['request_status']=='9'){
+																	?>
+																	<button class="btn btn-xs btn-danger"> تم الرفض</button>
+																<?php
+																}
+																?>
+															</td>
+															<td><?php echo $row4['request_date'] ?></td>
+															<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+															<td><?php echo $row4['outsource_company_name'] ?></td>
+															<td>
+																<p class="big">
+																	<?php
+																	$matresult = mysqli_query($sqlcon, "
+																		Select pros.prosname,
+																		  pros.idpros 
+																		From pros_has_users
+																		  Inner Join users On users.idusers = pros_has_users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		Where users.idusers ='".$row4['idusers']."'");
+																			$color = "purple";
+																			while ($row = $matresult->fetch_assoc()) {
+																				$prosid= $row['idpros'];
+																				$prosname= $row['prosname'];
+																				echo '<a href="'?>prosprofile.php?idpros=<?php echo $prosid ;
+																				echo '" class="btn btn-xs btn-'.$color.'">';
+																				echo $prosname;
+																				echo '</a>'."&nbsp;";
+																			};
+																			
+																	?>
+																</p>
+															</td>
 
-														<div class="profile-info-value">
-															<select id="form-field-4" name="securitylvl">
-																<option value="0" <?php if($userinfores['securitylvl']=="0") echo 'selected="selected"'; ?> > معطل </option>
-																<option value="d" <?php if($userinfores['securitylvl']=="d") echo 'selected="selected"'; ?> > داتا انتري </option>
-																<option value="a" <?php if($userinfores['securitylvl']=="a") echo 'selected="selected"'; ?> > Administrator </option>
-															</select>
-														</div>
-													</div>
-												</div>
+															<?php
+															if($_SESSION['securitylvl'] == "a")
+															{
+																?>
+																<td><?php echo $row4['nickname1'] ?></td>
+
+																<td><?php echo $row4['request_done_date'] ?></td>
+																
+																<td>
+																<?php
+																if ($row4['request_status']=='0'){
+																	?>
+																	<a class="btn btn-xs btn-success" href="assets/redi/update_request.php?request_id=<?php echo $row4['request_id'] ?>&request_status=1"><?php echo 'قبول' ?></a>
+																<a class="btn btn-xs btn-danger" href="assets/redi/update_request.php?request_id=<?php echo $row4['request_id'] ?>&request_status=9"><?php echo 'رفض' ?></a>
+																<?php
+																}
+																?>
+																
+																</td>
+																<?php
+															}
+															?>
+														</tr>
+														<?php
+													};
+													?>
+													</tbody>
+												</table>
 											</div>
 										</div>
-										<?php }; ?>
-										<div class="hr hr32 hr-dotted"></div>
-										<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="form-field-13">
-											<?php
-												$result2 = mysqli_query($sqlcon, "
-												SELECT
-  overallpros.overallprosid,
-  overallpros.overallprosname,
-  users.idusers
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
-WHERE
-  users.idusers = '$idusers'");
-												while ($row2 = $result2->fetch_assoc()) {
-												?>												
-											<option selected value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-											<?php
-											$result2 = mysqli_query($sqlcon, "
-												SELECT
-  overallpros.overallprosid,
-  overallpros.overallprosname
-FROM
-  overallpros
-WHERE overallpros.overallprosid NOT IN (SELECT
-  overallpros.overallprosid
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
-WHERE
-  users.idusers = '$idusers')");
-											while ($row2 = $result2->fetch_assoc()) {
-												?>
-												<option value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-										</select>
-										<div class="clearfix form-actions">
-											<div class="center">
-												<button class="btn btn-info"  type="Submit"  name="submit">
-													<i class="ace-icon fa fa-check bigger-110"></i>
-													Submit
-												</button>
+									</div>
 
-												&nbsp; &nbsp; &nbsp;
-												<button class="btn" type="reset" >
-													<i class="ace-icon fa fa-undo bigger-110"></i>
-													Reset
-												</button>
+								</div><!-- /.row -->
+
+								<!-- /.modal-dialog -->
+
+								<div id="modal-add" class="modal fade" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header no-padding">
+												<div class="table-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														<span class="white">&times;</span>
+													</button>
+													إضافة طلب
+												</div>
 											</div>
+											<form class="form-horizontal" method="post" action="assets/redi/insert_request.php">
+
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> نوع الطلب </label>
+													<div class="col-sm-8">
+														<div class="input-group">
+															<input type="radio" name='request_type' value='vacation' data-id="excuses"> أجازة </input>
+														</div>
+														<div class="input-group">
+															<input type="radio" name='request_type' value='excuses' data-id="vacation"> إذن </input>
+														</div>
+													</div>
+												</div>
+												<div id="vacation" class="hidden form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> طلب أجازة </label>
+													<div class="col-sm-9">
+														<div class="multi-field-wrapper2">
+															<div class="multi-fields2">
+																<div class="multi-field2">
+																	<input  type="text" class="input-sm date-picker col-sm-2" id="vacation_from"  data-date-format="yyyy-mm-dd" name="vacation_from" placeholder="من"/>
+																	<input  type="text" class="input-sm date-picker col-sm-2" id="vacation_to"  data-date-format="yyyy-mm-dd"  name="vacation_to" placeholder="إلى"/>
+																	<textarea  type="text" class="input-sm col-sm-7" id="vacation_reason" name="vacation_reason" placeholder="السبب"/></textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div id="excuses" class="hidden form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> طلب إذن </label>
+													<div class="col-sm-9">
+														<input  type="text" class="input-sm date-picker col-sm-2" id="excuses_date"   data-date-format="yyyy-mm-dd" name="excuses_date" placeholder="يوم"/>
+														<input type="radio" name='excuses_type' value='1'> حضور </input>
+														<input type="radio" name='excuses_type' value='2'> إنصراف </input>
+													</div>
+													<div class="col-sm-9">
+														<textarea  type="text" class="input-sm col-sm-7" id="excuses_reason" name="excuses_reason" placeholder="السبب و المدة"/></textarea>
+													</div>
+												</div>
+												<div class="clearfix form-actions">
+													<div class="col-md-offset-3 col-md-9">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Submit
+														</button>
+
+														&nbsp; &nbsp; &nbsp;
+														<button class="btn" type="reset">
+															<i class="ace-icon fa fa-undo bigger-110"></i>
+															Reset
+														</button>
+													</div>
+												</div>
+											</form>
 										</div>
-									</form>
-								</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div>
+						</div><!-- /.row -->
+
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
-					</div><!-- /.page-content -->
-				</div>
 			</div><!-- /.main-content -->
 
 			<div class="footer">
@@ -448,7 +753,7 @@ WHERE
 		<script src="assets/js/bootstrap-multiselect.min.js"></script>
 		<script src="assets/js/select2.min.js"></script>
 		<script src="assets/js/jquery-typeahead.js"></script>
-		
+
 		<!--[if lte IE 8]>
 		  <script src="assets/js/excanvas.min.js"></script>
 		<![endif]-->
@@ -496,12 +801,12 @@ WHERE
 						inp.value="This text field is disabled!";
 					}
 				});
-			
-			
+
+
 				if(!ace.vars['touch']) {
-					$('.chosen-select').chosen({allow_single_deselect:true}); 
+					$('.chosen-select').chosen({allow_single_deselect:true});
 					//resize the chosen on window resize
-			
+
 					$(window)
 					.off('resize.chosen')
 					.on('resize.chosen', function() {
@@ -518,8 +823,8 @@ WHERE
 							 $this.next().css({'width': $this.parent().width()});
 						})
 					});
-			
-			
+
+
 					$('#chosen-multiple-style .btn').on('click', function(e){
 						var target = $(this).find('input[type=radio]');
 						var which = parseInt(target.val());
@@ -527,27 +832,27 @@ WHERE
 						 else $('#form-field-select-4').removeClass('tag-input-style');
 					});
 				}
-			
-			
+
+
 				$('[data-rel=tooltip]').tooltip({container:'body'});
 				$('[data-rel=popover]').popover({container:'body'});
-			
+
 				autosize($('textarea[class*=autosize]'));
-				
+
 				$('textarea.limited').inputlimiter({
 					remText: '%n character%s remaining...',
 					limitText: 'max allowed : %n.'
 				});
-			
+
 				$.mask.definitions['~']='[+-]';
 				$('.input-mask-date').mask('99/99/9999');
 				$('.input-mask-id').mask('9/99/99/99/99/99999');
 				$('.input-mask-phone').mask('(9999) 999-9999');
 				$('.input-mask-eyescript').mask('~9.99 ~9.99 999');
 				$(".input-mask-product").mask("a*-999-a999",{placeholder:" ",completed:function(){alert("You typed the following: "+this.val());}});
-			
-			
-			
+
+
+
 				$( "#input-size-slider" ).css('width','200px').slider({
 					value:1,
 					range: "min",
@@ -560,7 +865,7 @@ WHERE
 						$('#form-field-4').attr('class', sizing[val]).attr('placeholder', '.'+sizing[val]);
 					}
 				});
-			
+
 				$( "#input-span-slider" ).slider({
 					value:1,
 					range: "min",
@@ -572,9 +877,9 @@ WHERE
 						$('#form-field-5').attr('class', 'col-xs-'+val).val('.col-xs-'+val);
 					}
 				});
-			
-			
-				
+
+
+
 				//"jQuery UI Slider"
 				//range slider tooltip example
 				$( "#slider-range" ).css('height','200px').slider({
@@ -585,7 +890,7 @@ WHERE
 					values: [ 17, 67 ],
 					slide: function( event, ui ) {
 						var val = ui.values[$(ui.handle).index()-1] + "";
-			
+
 						if( !ui.handle.firstChild ) {
 							$("<div class='tooltip right in' style='display:none;left:16px;top:-6px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'></div></div>")
 							.prependTo(ui.handle);
@@ -595,15 +900,15 @@ WHERE
 				}).find('span.ui-slider-handle').on('blur', function(){
 					$(this.firstChild).hide();
 				});
-				
-				
+
+
 				$( "#slider-range-max" ).slider({
 					range: "max",
 					min: 1,
 					max: 10,
 					value: 2
 				});
-				
+
 				$( "#slider-eq > span" ).css({width:'90%', 'float':'left', margin:'15px'}).each(function() {
 					// read initial values from markup and remove that
 					var value = parseInt( $( this ).text(), 10 );
@@ -611,13 +916,13 @@ WHERE
 						value: value,
 						range: "min",
 						animate: true
-						
+
 					});
 				});
-				
+
 				$("#slider-eq > span.ui-slider-purple").slider('disable');//disable third item
-			
-				
+
+
 				$('#id-input-file-1 , #id-input-file-2').ace_file_input({
 					no_file:'No File ...',
 					btn_choose:'Choose',
@@ -632,8 +937,8 @@ WHERE
 				});
 				//pre-show a file name, for example a previously selected file
 				//$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
-			
-			
+
+
 				$('#id-input-file-3').ace_file_input({
 					style: 'well',
 					btn_choose: 'Drop files here or click to choose',
@@ -659,22 +964,22 @@ WHERE
 						//3 = 'THUMBNAIL_FAILED'
 						//alert(error_code);
 					}
-			
+
 				}).on('change', function(){
 					//console.log($(this).data('ace_input_files'));
 					//console.log($(this).data('ace_input_method'));
 				});
-				
-				
+
+
 				//$('#id-input-file-3')
 				//.ace_file_input('show_file_list', [
 					//{type: 'image', name: 'name of image', path: 'http://path/to/image/for/preview'},
 					//{type: 'file', name: 'hello.txt'}
 				//]);
-			
-				
-				
-			
+
+
+
+
 				//dynamically change allowed formats by changing allowExt && allowMime function
 				$('#id-file-format').removeAttr('checked').on('change', function() {
 					var whitelist_ext, whitelist_mime;
@@ -683,14 +988,14 @@ WHERE
 					if(this.checked) {
 						btn_choose = "Drop images here or click to choose";
 						no_icon = "ace-icon fa fa-picture-o";
-			
+
 						whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
 						whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
 					}
 					else {
 						btn_choose = "Drop files here or click to choose";
 						no_icon = "ace-icon fa fa-cloud-upload";
-						
+
 						whitelist_ext = null;//all extensions are acceptable
 						whitelist_mime = null;//all mimes are acceptable
 					}
@@ -704,23 +1009,23 @@ WHERE
 						'allowMime': whitelist_mime
 					})
 					file_input.ace_file_input('reset_input');
-					
+
 					file_input
 					.off('file.error.ace')
 					.on('file.error.ace', function(e, info) {
 						//console.log(info.file_count);//number of selected files
 						//console.log(info.invalid_count);//number of invalid files
 						//console.log(info.error_list);//a list of errors in the following format
-						
+
 						//info.error_count['ext']
 						//info.error_count['mime']
 						//info.error_count['size']
-						
+
 						//info.error_list['ext']  = [list of file names with invalid extension]
 						//info.error_list['mime'] = [list of file names with invalid mimetype]
 						//info.error_list['size'] = [list of file names with invalid size]
-						
-						
+
+
 						/**
 						if( !info.dropped ) {
 							//perhapse reset file field if files have been selected, and there are invalid files among them
@@ -728,16 +1033,16 @@ WHERE
 							e.preventDefault();//it will rest input
 						}
 						*/
-						
-						
+
+
 						//if files have been selected (not dropped), you can choose to reset input
 						//because browser keeps all selected files anyway and this cannot be changed
 						//we can only reset file field to become empty again
 						//on any case you still should check files with your server side script
 						//because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
 					});
-					
-					
+
+
 					/**
 					file_input
 					.off('file.preview.ace')
@@ -747,27 +1052,32 @@ WHERE
 						e.preventDefault();//to prevent preview
 					});
 					*/
-				
+
 				});
-			
+
 				$('#spinner1').ace_spinner({value:0,min:0,max:200,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
 				.closest('.ace-spinner')
 				.on('changed.fu.spinbox', function(){
 					//console.log($('#spinner1').val())
-				}); 
+				});
 				$('#spinner2').ace_spinner({value:0,min:0,max:10000,step:100, touch_spinner: true, icon_up:'ace-icon fa fa-caret-up bigger-110', icon_down:'ace-icon fa fa-caret-down bigger-110'});
 				$('#spinner3').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
-				$('#spinner4').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
-			
+				$('#spinner4').ace_spinner({value:0,min:-650,max:650,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
+				$('#spinner6').ace_spinner({value:-300,min:-300,max:0,step:100, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
+
 				//$('#spinner1').ace_spinner('disable').ace_spinner('value', 11);
 				//or
 				//$('#spinner1').closest('.ace-spinner').spinner('disable').spinner('enable').spinner('value', 11);//disable, enable or change value
 				//$('#spinner1').closest('.ace-spinner').spinner('value', 0);//reset to 0
-			
-			
+
+
 				//datepicker plugin
 				//link
 				$('.date-picker').datepicker({
+					autoclose: true,
+					todayHighlight: true
+				})
+				$('.date-picker2').datepicker({
 					autoclose: true,
 					todayHighlight: true
 				})
@@ -775,11 +1085,11 @@ WHERE
 				.next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
-			
+
 				//or change it into a date range picker
 				$('.input-daterange').datepicker({autoclose:true});
-			
-			
+
+
 				//to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
 				$('input[name=date-range-picker]').daterangepicker({
 					'applyClass' : 'btn-sm btn-success',
@@ -792,8 +1102,8 @@ WHERE
 				.prev().on(ace.click_event, function(){
 					$(this).next().focus();
 				});
-			
-			
+
+
 				$('#timepicker1').timepicker({
 					minuteStep: 1,
 					showSeconds: true,
@@ -808,10 +1118,10 @@ WHERE
 				}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
-				
-				
-			
-				
+
+
+
+
 				if(!ace.vars['old_ie']) $('#date-timepicker1').datetimepicker({
 				 //format: 'MM/DD/YYYY h:mm:ss A',//use this option to display seconds
 				 icons: {
@@ -828,21 +1138,21 @@ WHERE
 				}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
-				
-			
+
+
 				$('#colorpicker1').colorpicker();
 				//$('.colorpicker').last().css('z-index', 2000);//if colorpicker is inside a modal, its z-index should be higher than modal'safe
-			
+
 				$('#simple-colorpicker-1').ace_colorpicker();
 				//$('#simple-colorpicker-1').ace_colorpicker('pick', 2);//select 2nd color
 				//$('#simple-colorpicker-1').ace_colorpicker('pick', '#fbe983');//select #fbe983 color
 				//var picker = $('#simple-colorpicker-1').data('ace_colorpicker')
 				//picker.pick('red', true);//insert the color if it doesn't exist
-			
-			
+
+
 				$(".knob").knob();
-				
-				
+
+
 				var tag_input = $('#form-field-tags');
 				try{
 					tag_input.tag(
@@ -861,11 +1171,11 @@ WHERE
 						*/
 					  }
 					)
-			
+
 					//programmatically add/remove a tag
 					var $tag_obj = $('#form-field-tags').data('tag');
 					$tag_obj.add('Programmatically Added');
-					
+
 					var index = $tag_obj.inValues('some tag');
 					$tag_obj.remove(index);
 				}
@@ -874,8 +1184,8 @@ WHERE
 					tag_input.after('<textarea id="'+tag_input.attr('id')+'" name="'+tag_input.attr('name')+'" rows="3">'+tag_input.val()+'</textarea>').remove();
 					//autosize($('#form-field-tags'));
 				}
-				
-				
+
+
 				/////////
 				$('#modal-form input[type=file]').ace_file_input({
 					style:'well',
@@ -885,7 +1195,7 @@ WHERE
 					droppable:true,
 					thumbnail:'large'
 				})
-				
+
 				//chosen plugin inside a modal will have a zero width because the select element is originally hidden
 				//and its width cannot be determined.
 				//so we set the width after modal is show
@@ -905,24 +1215,25 @@ WHERE
 					$(this).find('.modal-chosen').chosen();
 				})
 				*/
-			
-				
-				
+
+
+
 				$(document).one('ajaxloadstart.page', function(e) {
 					autosize.destroy('textarea[class*=autosize]')
-					
+
 					$('.limiterBox,.autosizejs').remove();
 					$('.daterangepicker.dropdown-menu,.colorpicker.dropdown-menu,.bootstrap-datetimepicker-widget.dropdown-menu').remove();
 				});
-			
+
 			});
 		</script>
+
 		<script type="text/javascript">
 			jQuery(function($){
-			    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+			    var demo1 = $('select[name="material_matid1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
 				var container1 = demo1.bootstrapDualListbox('getContainer');
 				container1.find('.btn').addClass('btn-white btn-info btn-bold');
-			
+
 				/**var setRatingColors = function() {
 					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
 					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
@@ -932,7 +1243,7 @@ WHERE
 					'half': true,
 					'starType' : 'i'
 					/**,
-					
+
 					'click': function() {
 						setRatingColors.call(this);
 					},
@@ -943,9 +1254,9 @@ WHERE
 						setRatingColors.call(this);
 					}*/
 				})//.find('i:not(.star-raty)').addClass('grey');
-				
-				
-				
+
+
+
 				//////////////////
 				//select2
 				$('.select2').css('width','200px').select2({allowClear:true})
@@ -955,7 +1266,7 @@ WHERE
 					if(which == 2) $('.select2').addClass('tag-input-style');
 					 else $('.select2').removeClass('tag-input-style');
 				});
-				
+
 				//////////////////
 				$('.multiselect').multiselect({
 				 enableFiltering: true,
@@ -971,22 +1282,22 @@ WHERE
 			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
 				 }
 				});
-			
-				
+
+
 				///////////////////
-					
+
 				//typeahead.js
 				//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
 				var substringMatcher = function(strs) {
 					return function findMatches(q, cb) {
 						var matches, substringRegex;
-					 
+
 						// an array that will be populated with substring matches
 						matches = [];
-					 
+
 						// regex used to determine if a string contains the substring `q`
 						substrRegex = new RegExp(q, 'i');
-					 
+
 						// iterate through the pool of strings and for any string that
 						// contains the substring `q`, add it to the `matches` array
 						$.each(strs, function(i, str) {
@@ -996,11 +1307,11 @@ WHERE
 								matches.push({ value: str });
 							}
 						});
-			
+
 						cb(matches);
 					}
 				 }
-			
+
 				 $('input.typeahead').typeahead({
 					hint: true,
 					highlight: true,
@@ -1011,61 +1322,58 @@ WHERE
 					source: substringMatcher(ace.vars['US_STATES']),
 					limit: 10
 				 });
-					
-					
+
+
 				///////////////
-				
-				
+
+
 				//in ajax mode, remove remaining elements before leaving page
 				$(document).one('ajaxloadstart.page', function(e) {
 					$('[class*=select2]').remove();
-					$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
+					$('select[name="material_matid1[]"]').bootstrapDualListbox('destroy');
 					$('.rating').raty('destroy');
 					$('.multiselect').multiselect('destroy');
 				});
-			
+
 			});
 		</script>
 				<script type="text/javascript">
 			jQuery(function($) {
 				//initiate dataTables plugin
-				var myTable = 
+				var myTable =
 				$('#dynamic-table')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+				.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
-					bAutoWidth: false,
-					"aoColumns": [
-					  null, { "bSortable": false }, null,null, { "bSortable": false }, null, { "bSortable": false }
-					],
+					bAutoWidth: true,
 					"aaSorting": [],
-					
-					
+
+
 					//"bProcessing": true,
 			        //"bServerSide": true,
 			        //"sAjaxSource": "http://127.0.0.1/table.php"	,
-			
+
 					//,
 					//"sScrollY": "200px",
 					//"bPaginate": false,
-			
+
 					//"sScrollX": "100%",
 					//"sScrollXInner": "120%",
 					//"bScrollCollapse": true,
 					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
 					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-			
+
 					//"iDisplayLength": 50
-			
-			
+
+
 					select: {
 						style: 'multi'
 					}
 			    } );
-			
-				
-				
+
+
+
 				$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
-				
+
 				new $.fn.dataTable.Buttons( myTable, {
 					buttons: [
 					  {
@@ -1090,25 +1398,25 @@ WHERE
 						"className": "btn btn-white btn-primary btn-bold",
 						autoPrint: true,
 						message: 'This print was produced using the Print button for DataTables'
-					  }		  
+					  }
 					]
 				} );
 				myTable.buttons().container().appendTo( $('.tableTools-container') );
-				
+
 				//style the message box
 				var defaultCopyAction = myTable.button(1).action();
 				myTable.button(1).action(function (e, dt, button, config) {
 					defaultCopyAction(e, dt, button, config);
 					$('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
 				});
-				
-				
+
+
 				var defaultColvisAction = myTable.button(0).action();
 				myTable.button(0).action(function (e, dt, button, config) {
-					
+
 					defaultColvisAction(e, dt, button, config);
-					
-					
+
+
 					if($('.dt-button-collection > .dropdown-menu').length == 0) {
 						$('.dt-button-collection')
 						.wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
@@ -1116,9 +1424,9 @@ WHERE
 					}
 					$('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
 				});
-			
+
 				////
-			
+
 				setTimeout(function() {
 					$($('.tableTools-container')).find('a.dt-button').each(function() {
 						var div = $(this).find(' > div').first();
@@ -1126,11 +1434,11 @@ WHERE
 						else $(this).tooltip({container: 'body', title: $(this).text()});
 					});
 				}, 500);
-				
-				
-				
-				
-				
+
+
+
+
+
 				myTable.on( 'select', function ( e, dt, type, index ) {
 					if ( type === 'row' ) {
 						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
@@ -1141,55 +1449,55 @@ WHERE
 						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
 					}
 				} );
-			
-			
-			
-			
+
+
+
+
 				/////////////////////////////////
 				//table checkboxes
 				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
-				
+
 				//select/deselect all rows according to table header checkbox
 				$('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function(){
 					var th_checked = this.checked;//checkbox inside "TH" table header
-					
+
 					$('#dynamic-table').find('tbody > tr').each(function(){
 						var row = this;
 						if(th_checked) myTable.row(row).select();
 						else  myTable.row(row).deselect();
 					});
 				});
-				
+
 				//select/deselect a row when the checkbox is checked/unchecked
 				$('#dynamic-table').on('click', 'td input[type=checkbox]' , function(){
 					var row = $(this).closest('tr').get(0);
 					if(this.checked) myTable.row(row).deselect();
 					else myTable.row(row).select();
 				});
-			
-			
-			
+
+
+
 				$(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
 					e.stopImmediatePropagation();
 					e.stopPropagation();
 					e.preventDefault();
 				});
-				
-				
-				
+
+
+
 				//And for the first simple table, which doesn't have TableTools or dataTables
 				//select/deselect all rows according to table header checkbox
 				var active_class = 'active';
 				$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
 					var th_checked = this.checked;//checkbox inside "TH" table header
-					
+
 					$(this).closest('table').find('tbody > tr').each(function(){
 						var row = this;
 						if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
 						else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
 					});
 				});
-				
+
 				//select/deselect a row when the checkbox is checked/unchecked
 				$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
 					var $row = $(this).closest('tr');
@@ -1197,30 +1505,30 @@ WHERE
 					if(this.checked) $row.addClass(active_class);
 					else $row.removeClass(active_class);
 				});
-			
-				
-			
+
+
+
 				/********************************/
 				//add tooltip for small view action buttons in dropdown menu
 				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-				
+
 				//tooltip placement on right or left
 				function tooltip_placement(context, source) {
 					var $source = $(source);
 					var $parent = $source.closest('table')
 					var off1 = $parent.offset();
 					var w1 = $parent.width();
-			
+
 					var off2 = $source.offset();
 					//var w2 = $source.width();
-			
+
 					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
 					return 'left';
 				}
-				
-				
-				
-				
+
+
+
+
 				/***************/
 				$('.show-details-btn').on('click', function(e) {
 					e.preventDefault();
@@ -1228,11 +1536,11 @@ WHERE
 					$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
 				});
 				/***************/
-				
-				
-				
-				
-				
+
+
+
+
+
 				/**
 				//add horizontal scrollbars to a simple table
 				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
@@ -1244,10 +1552,64 @@ WHERE
 				  }
 				).css('padding-top', '12px');
 				*/
-			
-			
+
+
 			})
 		</script>
+		<script src="assets/js/mousetrap.min.js"></script>
+        <script>
+            Mousetrap.bind('shift+z',function (e) {
+                $("#add_un").click();
+            })
+        </script>
+	<script>
+		$('.multi-field-wrapper').each(function() {
+			var $wrapper = $('.multi-fields', this);
+			$(".add-field", $(this)).click(function(e) {
 
+				$('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('#case_number').val('').focus();
+			});
+			$('.multi-field .remove-field', $wrapper).click(function() {
+				if ($('.multi-field', $wrapper).length > 1)
+					$(this).parent('.multi-field').remove();
+			});
+		});
+	</script>
+		<script>
+			$('.multi-field-wrapper2').each(function() {
+				var $wrapper = $('.multi-fields2', this);
+				$(".add-field2", $(this)).click(function(e) {
+					$('.multi-field2:first-child', $wrapper).clone(true).appendTo($wrapper).find('#case_number_start').val('').focus();
+				});
+				$('.multi-field2 .remove-field2', $wrapper).click(function() {
+					if ($('.multi-field2', $wrapper).length > 1)
+						$(this).parent('.multi-field2').remove();
+				});
+			});
+		</script>
+	<script>
+		function get_court_days_on(val){
+			//We create ajax function
+			$.ajax({
+				type: "POST",
+				url: "assets/redi/get_court_days_on.php",
+				data: "court_id="+val,
+				success: function(data){
+					$('.date-picker_days').datepicker({
+						autoclose: true,
+						todayHighlight: true,
+						daysOfWeekDisabled: data
+					})
+					$( ".date-picker_days" ).datepicker(refresh);
+				}
+			});
+		}
+	</script>
+	<script>
+		$(':radio').change(function (event) {
+			var id = $(this).data('id');
+			$('#' + id).addClass('hidden').siblings().removeClass('hidden');
+		});
+	</script>
 	</body>
 </html>

@@ -12,18 +12,18 @@ session_start();
 	$password=$_POST['password'];
 	$pros=$_POST['material_matid1'];
 	$proscount=count($pros);
-	
-	$result1 = mysqli_query($sqlcon, "INSERT INTO `pic`.`users` (`idusers`, `username`, `password`, `nickname`, `securitylvl`) VALUES (NULL, '$username', '$password', '$nickname', 'd');"); 
+
+	$result1 = mysqli_query($sqlcon, "INSERT INTO `pic`.`users` (`idusers`, `username`, `password`, `nickname`, `securitylvl`) VALUES (NULL, '$username', '$password', '$nickname', 'd');")or die(mysqli_error($sqlcon));
 	
 	
 
 				}
 
 
-	if ( $result1 ) 
-	{ 
+	if ( $result1 )
+	{
 		mysqli_commit($sqlcon);
-		
+
 		$maxid = mysqli_query($sqlcon, "SELECT MAX(idusers) FROM users");
 		$maxidrow = mysqli_fetch_row($maxid);
 		$comma_separated = implode("", $maxidrow);
@@ -35,8 +35,8 @@ session_start();
 		header('Location: ../../users.php?backresult=1');
 		exit;
 	}
-	{ 
+	{
 		header('Location: ../../users.php?backresult=0');
 		exit;
-	}  
+	}
 ?>

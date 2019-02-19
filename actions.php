@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+	  xmlns="http://www.w3.org/1999/html">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
@@ -85,7 +86,7 @@
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+				<button type="button" class="navbar-toggle menu-toggler pull-right" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
 
 					<span class="icon-bar"></span>
@@ -530,7 +531,8 @@ SELECT
   `case`.caseyear,
   departs.departname,
   Date_Format(case_has_court_session.insert_date, '%d/%m/%Y') AS createdate,
-  case_has_court_session_id
+  case_has_court_session_id,
+  case_has_court_session.case_id
 FROM
   case_has_court_session
   INNER JOIN court_session ON case_has_court_session.court_session_id = court_session.id_court_session
@@ -752,14 +754,18 @@ WHERE
 													$securitylvl=$_SESSION['securitylvl'];
 													if($securitylvl == "d" ):
 														?>
-														<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+														<a href="#modal-add" class="btn btn-white btn-warning btn-bold" data-toggle="modal">
 															<i class="ace-icon fa fa-plus-square-o"></i>
 															<b>إضافة تصرف حفظ / أمر جنائي</b></font>
 														</a>
-                                                        <a href="#send_case_to_court" class="btn btn-white btn-info btn-bold" data-toggle="modal">
+                                                        <a href="#send_case_to_court" class="btn btn-success btn-info btn-bold" data-toggle="modal">
                                                             <i class="ace-icon fa fa-plus-square-o"></i>
                                                             <b>إضافة تصرف إحالة</b></font>
                                                         </a>
+														<a href="#modal-add-multi" class="btn btn-danger btn-info btn-bold" data-toggle="modal">
+															<i class="ace-icon fa fa-plus-square-o"></i>
+															<b>إضافة تصرف حفظ / أمر جنائي مجمع</b></font>
+														</a>
 														<?php
 													endif;
 												}
@@ -827,7 +833,7 @@ WHERE
 
 														?>
 														<tr>
-															<td><span  class="text-warning"> <?php echo $case_has_action_info['case_has_court_session_id'] ?> </span ></td>
+															<td class="text-warning"><?php echo $court_has_session_info['case_has_court_session_id'] ?></a></td>
 															<td><span class="text-warning"> <?php echo $court_has_session_info['casenum'] ?> </span > / <span  class="text-info"> <?php echo $court_has_session_info['caseyear'] ?> </span > - <span  class="text-success"> <?php echo $court_has_session_info['departname'] ?> </span > - <span  class="text-danger"> <?php echo $court_has_session_info['casetypename'] ?> </span ></td>
 															<td>
 																<span class="text-danger">
@@ -851,6 +857,102 @@ WHERE
 									</div>
 
 								</div><!-- /.row -->
+
+								<div id="modal-add-multi" class="modal fade" tabindex="-1">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header no-padding">
+												<div class="table-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														<span class="white">&times;</span>
+													</button>
+													إضافة تصرفات مجمعه لقضايا
+												</div>
+											</div>
+											<form class="form-horizontal" method="post" action="assets/redi/insert_multi_actions.php">
+												<div id="" class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> أرقام قضايا غير مسلسلة </label>
+													<div class="col-sm-9">
+														<input  type="number" class="input-sm" id="case_year" name="case_year" placeholder="سنة"/>
+														<select  id="form-field-4" name="case_type">
+															<option hidden selected="selected" disabled>--إختار الجدول--</option>
+															<?php
+															$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+															while ($row2 = $result2->fetch_assoc()) {
+																?>
+																<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
+															<?php } ?>
+														</select>
+														<select  id="form-field-4" name="case_depart">
+															<?php
+															if($_SESSION['securitylvl'] == "a")
+															{
+																$result2 = mysqli_query($sqlcon, "Select
+																  departs.departname,
+																  departs.iddeparts
+																From departs
+																  Inner Join pros On pros.idpros = departs.pros_idpros");
+																while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																<?php };
+															}else
+															{
+																$result2 = mysqli_query($sqlcon, "Select departs.departname,
+																		  departs.iddeparts,
+																		  users.idusers
+																		From users
+																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		  Inner Join departs On departs.pros_idpros = pros.idpros
+																		Where users.idusers =$_SESSION[idusers]");
+																while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
+																<?php };
+															}
+															?>
+														</select>
+														<select  id="form-field-4" name="action_type">
+															<option hidden selected="selected" disabled>--نوع التصرف--</option>
+															<?php
+															$result2 = mysqli_query($sqlcon, "SELECT * FROM `action`");
+															while ($row2 = $result2->fetch_assoc()) {
+																?>
+																<option value="<?php echo $row2['action_id'] ?>"> <?php echo $row2['action_name']?> </option>
+															<?php } ?>
+														</select>
+														<span class="help-inline">
+												<span class="middle">توضع الأرقام مفصولة ب  - مثال 250-251</span>
+											</span>
+														<div class="multi-field-wrapper">
+															<div class="multi-fields">
+																<div class="multi-field">
+																	<textarea type="number" class="input-sm col-md-8" id="case_number" name="case_number" placeholder="رقم"/></textarea>
+                                                                </div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="clearfix form-actions">
+													<div class="col-md-offset-3 col-md-9">
+														<button class="btn btn-info"  type="Submit"  name="submit">
+															<i class="ace-icon fa fa-check bigger-110"></i>
+															Submit
+														</button>
+
+														&nbsp; &nbsp; &nbsp;
+														<button class="btn" type="reset">
+															<i class="ace-icon fa fa-undo bigger-110"></i>
+															Reset
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
 
 								<div id="modal-add" class="modal fade" tabindex="-1">
 									<div class="modal-dialog">
@@ -998,8 +1100,8 @@ WHERE
 																			<option value="<?php echo $row2['action_id'] ?>"> <?php echo $row2['action_name']?> </option>
 																		<?php } ?>
 																	</select>
-                                                                    <button type="button" class="remove-field">Remove</button>
-                                                                </div>
+																	<button type="button" class="remove-field">Remove</button>
+																</div>
 															</div>
 															<button type="button" class="btn btn-minier btn-info add_button2 add-field" id="add_un">
 																<i class="ace-icon fa fa-plus"></i>Add
@@ -1025,6 +1127,7 @@ WHERE
 										</div>
 									</div><!-- /.modal-content -->
 								</div><!-- /.modal-dialog -->
+
                                 <div id="send_case_to_court" class="modal fade" tabindex="-1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -1064,7 +1167,7 @@ WHERE
 													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> تاريخ الجلسة </label>
 													<div class="col-sm-8">
 														<div class="input-group">
-															<input required class="form-control date-picker_days" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"  autocomplete="off"/>
+															<input required class="form-control" id="date_picker_days" type="text" data-date-format="yyyy-mm-dd" name="date"  autocomplete="off"/>
 															<span class="input-group-addon">
 																<i class="fa fa-calendar bigger-110"></i>
 															</span>
@@ -2032,12 +2135,13 @@ WHERE
 				url: "assets/redi/get_court_days_on.php",
 				data: "court_id="+val,
 				success: function(data){
-					$('.date-picker_days').datepicker({
+					$("#date_picker_days").datepicker("destroy");
+					$('#date_picker_days').datepicker({
 						autoclose: true,
 						todayHighlight: true,
 						daysOfWeekDisabled: data
 					})
-					$( ".date-picker_days" ).datepicker(refresh);
+					$( "#date_picker_days" ).datepicker(refresh);
 				}
 			});
 		}

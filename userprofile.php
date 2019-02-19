@@ -81,7 +81,7 @@
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+				<button type="button" class="navbar-toggle menu-toggler pull-right" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
 
 					<span class="icon-bar"></span>
@@ -334,6 +334,131 @@
 															</select>
 														</div>
 													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">National ID</div>
+														<div class="profile-info-value">
+															<input value="<?php echo $userinfores['national_id'] ;?>" type="text" class="form-control" name="national_id" >
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Mobile number</div>
+														<div class="profile-info-value">
+															<input value="<?php echo $userinfores['mob_number'] ;?>" type="text" class="form-control" name="mob_number" >
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Notes</div>
+														<div class="profile-info-value">
+															<textarea class="form-control" name="notes" ><?php echo $userinfores['notes'] ;?></textarea>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Address</div>
+														<div class="profile-info-value">
+															<textarea class="form-control" name="address" ><?php echo $userinfores['address'] ;?></textarea>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Day or night</div>
+														<div class="profile-info-value">
+														<select id="form-field-4" name="am_pm">
+																
+																<option value="am" <?php if($userinfores['am_pm']=="am") echo 'selected="selected"'; ?> > صباحي </option>
+																<option value="pm" <?php if($userinfores['am_pm']=="pm") echo 'selected="selected"'; ?> > مسائي </option>
+															</select>
+															</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">In prosecution</div>
+														<div class="profile-info-value">
+															<select id="form-field-4" name="in_idpros">
+																<?php
+																$in_idpros_q = mysqli_query($sqlcon, "SELECT
+  pros.idpros,
+  pros.prosname
+FROM
+  pros");
+																while ($in_idpros_info = $in_idpros_q->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $in_idpros_info['idpros'] ?>" <?php if($userinfores['idpros']==$in_idpros_info['idpros']) echo 'selected="selected"'; ?> > <?php echo $in_idpros_info['prosname'] ?> </option>
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Rest day</div>
+														<div class="profile-info-value">
+														<select id="form-field-4" name="rest_day">
+																<option value="Saturday" <?php if($userinfores['rest_day']=="Saturday") echo 'selected="selected"'; ?> > السبت </option>
+																<option value="Sunday" <?php if($userinfores['rest_day']=="Sunday") echo 'selected="selected"'; ?> > الأحد </option>
+																<option value="Monday" <?php if($userinfores['rest_day']=="Monday") echo 'selected="selected"'; ?> > الأثنين </option>
+																<option value="Tuesday" <?php if($userinfores['rest_day']=="Tuesday") echo 'selected="selected"'; ?> > الثلاثاء </option>
+																<option value="Wednesday" <?php if($userinfores['rest_day']=="Wednesday") echo 'selected="selected"'; ?> > الأربعاء </option>
+																<option value="Thursday" <?php if($userinfores['rest_day']=="Thursday") echo 'selected="selected"'; ?> > الخميس </option>
+																<option value="Friday" <?php if($userinfores['rest_day']=="Friday") echo 'selected="selected"'; ?> > الجمعة </option>
+															</select>
+															</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Outsource from</div>
+
+														<div class="profile-info-value">
+															<select id="form-field-4" name="outsource_company_id">
+																<?php
+																$outsource_from_q = mysqli_query($sqlcon, "SELECT
+  outsource_company.outsource_company_id,
+  outsource_company.outsource_company_name
+FROM
+  outsource_company");
+																while ($outsource_from_info = $outsource_from_q->fetch_assoc()) {
+																	?>
+																	<option value="<?php echo $outsource_from_info['outsource_company_id'] ?>" <?php if($userinfores['outsource_company_outsource_company_id']==$outsource_from_info['outsource_company_id']) echo 'selected="selected"'; ?> > <?php echo $outsource_from_info['outsource_company_name'] ?> </option>
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">Skills</div>
+
+														<div class="profile-info-value">
+															<select multiple="multiple" size="5" name="multi_skills[]" id="form-field-13">
+																<?php
+																$result2 = mysqli_query($sqlcon, "
+												SELECT
+  skills.skills_id,
+  skills.skills_name
+FROM
+  skills
+  LEFT JOIN users_has_skills ON skills.skills_id = users_has_skills.skills_skills_id
+WHERE
+  users_has_skills.users_idusers = '$dataentry_user_id'
+GROUP BY
+  skills.skills_id");
+																while ($row2 = $result2->fetch_assoc()) {
+																	$result_array[] = $row2['skills_id'];
+																	?>
+																	<option selected value="<?php echo $row2['skills_id'] ?>"> <?php echo $row2['skills_name'] ;?> </option>
+																<?php } ?>
+
+																<?php
+																$result99 = mysqli_query($sqlcon, "
+												SELECT
+  skills.skills_id,
+  skills.skills_name
+FROM
+  skills
+												WHERE  skills.skills_id NOT IN ( '" . implode($result_array, "', '") . "' )
+												Group By skills.skills_id
+												") or die(mysqli_error($sqlcon));
+																while ($row99 = $result99->fetch_assoc()) {
+																	$prosname = $row99['prosname'];
+																	$idpros = $row99['idpros'];
+																	?>
+																	<option value="<?php echo $row99['skills_id'] ?>"> <?php echo $row99['skills_name'] ;?> </option>
+																<?php } ?>
+															</select>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -545,9 +670,7 @@ FROM
 WHERE
   attendance.idusers = '$dataentry_user_id'
 GROUP BY
-  attendance.checkindate,
-  users.idusers,
-  overallpros_has_users.users_idusers
+  attendance.attendanceid
 ORDER BY
   attendance.checkindate DESC
 LIMIT 30") or die(mysqli_error($sqlcon));
@@ -1129,7 +1252,8 @@ LIMIT 30") or die(mysqli_error($sqlcon));
 		</script>
 		<script type="text/javascript">
 			jQuery(function($){
-			    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+				var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+				var demo1 = $('select[name="multi_skills[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
 				var container1 = demo1.bootstrapDualListbox('getContainer');
 				container1.find('.btn').addClass('btn-white btn-info btn-bold');
 			

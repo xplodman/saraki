@@ -34,30 +34,48 @@
 	session_start();
 	$admin_id = $_SESSION["admin_id"];
 	$date=$_POST['daily_date'];
-	$query = "select ca.nickname
-, min(case when ca.db_date = '$date' then TIME_FORMAT(p.checkintime, '%l:%i%p') end) `checkintime`
-, max(case when ca.db_date = '$date' then TIME_FORMAT(p.checkouttime, '%l:%i%p') end) `checkouttime`
-from
-	(
-	  select c.db_date, a.nickname, a.idusers
-	  from time_dimension c
-	  cross join users a
-	    INNER JOIN pros_has_users ON pros_has_users.idusers = a.idusers
-  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
-  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-	  WHERE
-      a.securitylvl = 'd' and overallpros_has_users.users_idusers = '$admin_id'
-	) ca
-	left join attendance p
-	  on ca.idusers = p.idusers
-	  and ca.db_date = p.checkindate
-	group by ca.idusers, ca.nickname
-	order by ca.idusers;";
+	$type2=$_POST['type2'];
+	$query = "
+	SELECT
+  ca.nickname,
+  ca.rest_day,
+  Min(CASE
+    WHEN ca.db_date = '$date'
+    THEN Time_Format(p.checkintime, '%l:%i%p')
+  END) checkintime,
+  Max(CASE
+    WHEN ca.db_date = '$date'
+    THEN Time_Format(p.checkouttime, '%l:%i%p')
+  END) checkouttime
+FROM
+  (SELECT
+      c.db_date,
+      a.nickname,
+      a.rest_day,
+      a.idusers,
+      a.outsource_company_outsource_company_id
+    FROM
+      time_dimension c
+      CROSS JOIN users a
+      INNER JOIN pros_has_users ON pros_has_users.idusers = a.idusers
+      INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+      INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+      INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+    WHERE
+      a.securitylvl = 'd' AND
+      overallpros_has_users.users_idusers = '$admin_id') ca
+  LEFT JOIN attendance p ON ca.idusers = p.idusers AND ca.db_date = p.checkindate
+WHERE
+  ca.outsource_company_outsource_company_id in ($type2)
+GROUP BY
+  ca.nickname,
+  ca.idusers
+ORDER BY
+  ca.idusers;";
 	$result = mysqli_query($sqlcon, $query);
 	?>
 
-<body onload="window.print()">
+<body>
 <div id="page-content">
 		<div class="page-header">
 			<div class="row">
@@ -111,6 +129,11 @@ from
 									<b>الإسم</b>
 								</font>
 							</td>
+							<td width="15%" align="center">
+								<font size="3" style="bold" >
+									<b>بوم الراحة</b>
+								</font>
+							</td>
 							<td align="center">
 								<font size="3" style="bold" >
 								<b>وقت الحضور</b>
@@ -130,6 +153,7 @@ from
 							<tr>
 								<td align="center"><?php echo $row_numbers; ?></td>
 								<td align="center"><?php echo $row['nickname']; ?></td>
+								<td align="center"><?php echo $row['rest_day']; ?></td>
 
 									<?php
 										if ($row['checkintime']==''){

@@ -32,13 +32,14 @@
 		require 'assets/redi/sqlcon.php';
 	session_start();
 	$admin_id = $_SESSION["admin_id"];
+		$type2=$_POST['type2'];
 		$date=$_POST['date_start'];
 		$date2=$_POST['date_start'];
 		$date3=$_POST['date_start'];
 		$end_date=$_POST['date_end'];
 		$end_date2=$_POST['date_end'];
 		$end_date3=$_POST['date_end'];
-			$query = "select ca.nickname";
+			$query = "select ca.nickname, ca.rest_day";
 		while (strtotime($date) <= strtotime($end_date)) {
 			$query .= ", max(case when ca.db_date = '$date' then CONCAT_WS(' / ', TIME_FORMAT(p.checkintime, '%l:%i%p'), TIME_FORMAT(p.checkouttime, '%l:%i%p')) end) `$date`";
 			$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
@@ -46,7 +47,7 @@
 	$query .= "
 	from
 	(
-	  select c.db_date, a.nickname, a.idusers
+	  select c.db_date, a.nickname,a.rest_day, a.idusers,a.outsource_company_outsource_company_id
 	  from time_dimension c
 	  cross join users a
 	    INNER JOIN pros_has_users ON pros_has_users.idusers = a.idusers
@@ -59,6 +60,8 @@
 	left join attendance p
 	  on ca.idusers = p.idusers
 	  and ca.db_date = p.checkindate
+	 WHERE
+  ca.outsource_company_outsource_company_id in ($type2)
 	group by ca.idusers, ca.nickname
 	order by ca.idusers;";	
 	$result = mysqli_query($sqlcon, $query);
@@ -115,6 +118,11 @@
 							<td width="15%" align="center">
 								<font size="3" style="bold" >
 									<b>الإسم</b>
+								</font>
+							</td>
+							<td width="15%" align="center">
+								<font size="3" style="bold" >
+									<b>بوم الراحة</b>
 								</font>
 							</td>
 							<?php 

@@ -158,10 +158,10 @@ include_once "assets/redi/sqlcon.php";
         <div class="col-lg-12">
 			<form method="post" action="assets/redi/checklogin.php">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Username" name="username" required="">
+                    <input type="text" class="form-control" placeholder="Username" name="username" required="" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" name="password" required="">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required="" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
                 </div>
                 <button type="Submit"  name="submit" class="btn btn-primary block full-width m-b">Login</button>
             </form>

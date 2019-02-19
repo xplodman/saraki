@@ -6,38 +6,10 @@
 
 	<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 
-	<style type="text/css">
-		@font-face {
-			font-family: "My Custom Font";
-			src: url(/fonts/2.otf) format("truetype");
-		}
-		div.customfont {
-			font-family: "My Custom Font", Verdana, Tahoma;
-		}
-	</style>
-	<?php session_start();
-	if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
-	{
-		header('Location: assets/redi/logout.php');
-		$fh = fopen('/tmp/track.txt','a');
-		fwrite($fh, $_SERVER['REMOTE_ADDR'].' '.date('c')."\n");
-		fclose($fh);
-	};
-	{$_SESSION['authenticate']="true";}
 
-	if (isset($_SESSION['authenticate']))
-	{
-		if(time() - $_SESSION['timestamp'] > 1500) { //subtract new timestamp from the old one
-			echo"<script>alert('15 Minutes over!');</script>";
-			unset($_SESSION['authenticate']);
-			header('Location: assets/redi/logout.php');
-		} else {
-			$_SESSION['timestamp'] = time(); //set new timestamp
-		}}
-	?>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset="utf-8">
-	<title>السراكي</title>
+	<title>User profile</title>
 
 	<meta name="description" content="overview &amp; stats" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -108,65 +80,15 @@
 			</a>
 		</div>
 
-		<div class="navbar-buttons navbar-header pull-right" role="navigation">
-			<ul class="nav ace-nav">
-				<li class="light-blue dropdown-modal">
-					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-						<img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Admin's Photo" />
-								<span class="user-info">
-									<small>Welcome,</small>
-									<?php
-									require 'assets/redi/sqlcon.php';
-									if (isset($_SESSION['authenticate']))
-									{
-										$nickname=$_SESSION['nickname'];
-										$prosname=$_SESSION['prosname'];
-										$securitylvl=$_SESSION['securitylvl'];
-										$idusers=$_SESSION['idusers'];
 
-										echo $nickname;
-									}
-									else
-									{echo "Unknow";};
-									?>
-								</span>
-
-						<i class="ace-icon fa fa-caret-down"></i>
-					</a>
-
-					<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-						<?php
-						if($securitylvl == "d" ):
-							?>
-							<li>
-								<a href="assets/redi/check_out.php">
-									<i class="ace-icon fa fa-child"></i>
-									تسجيل إنصراف
-								</a>
-							</li>
-							<?php
-						endif;
-						?>
-						<li>
-							<a href="assets/redi/logout.php">
-								<i class="ace-icon fa fa-power-off"></i>
-								Logout
-							</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
 	</div><!-- /.navbar-container -->
 </div>
 
-<div class="customfont  main-container ace-save-state" id="main-container">
+<div class="main-container ace-save-state" id="main-container">
 	<script type="text/javascript">
 		try{ace.settings.loadState('main-container')}catch(e){}
 	</script>
-	<?php
-	include_once "assets/sidebar.php";
-	?>
+
 	<div class="main-content">
 		<div class="main-content-inner">
 			<div class="page-content">
@@ -239,10 +161,23 @@
 
 				<div class="page-header">
 					<h1>
-						السراكي
+						الصفحة الشخصية
 						<small>
 							<i class="ace-icon fa fa-angle-double-right"></i>
-							بيانات عامة عن السراكي
+							<?php
+							require 'assets/redi/sqlcon.php';
+							if (isset($_SESSION['authenticate']))
+							{
+								$nickname=$_SESSION['nickname'];
+								$prosname=$_SESSION['prosname'];
+								$securitylvl=$_SESSION['securitylvl'];
+								$idusers=$_SESSION['idusers'];
+
+								echo $nickname;
+							}
+							else
+							{echo "Unknow";};
+							?>
 						</small>
 					</h1>
 				</div><!-- /.page-header -->
@@ -274,480 +209,112 @@
 							<i class="ace-icon fa fa-times red"></i>
 							<strong class="red">
 								لم تتم العملية بنجاح
-
-								<?php
-								$casenumdub=$_SESSION['casenumdub'];
-								$casenumdub = implode(",", $casenumdub);
-								?>
-								<br>
-								<?php
-								echo "الارقام المكررة هي ";
-
-								echo $casenumdub." / ";
-
-								echo $year=$_SESSION['year'];
-								echo "&ensp;";
-
-								?>
-
-
-							</strong>
-						</div>
-						<?php
-					}elseif ($backresult ==  "9") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لم تتم العملية بنجاح
-								<br>
-								<?php
-								echo "برجاء التأكد من إدخال بدايات و نهايات الكشوف";
-								?>
-							</strong>
-						</div>
-						<?php
-					}elseif ($backresult ==  "119") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لا يمكن إضافة سركي بدون نوع الإيراد
-								<br>
-							</strong>
-						</div>
-						<?php
-					}elseif ($backresult ==  "88") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لم تتم العملية بنجاح
-								<br>
-							</strong>
-						</div>
-						<?php
-					}elseif ($backresult ==  "6") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لم تتم العملية بنجاح
-								<br>
-								<?php
-								echo "لا يمكن إضافة سركي فارغ";
-								?>
-							</strong>
-						</div>
-						<?php
-					}
-					elseif ($backresult ==  "8") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لم تتم العملية بنجاح
-								<br>
-								<?php
-								echo " لا يمكن إضافة أكثر من 500 قضية في سركي واحد";
-								?>
-							</strong>
-						</div>
-						<?php
-					}
-					elseif ($backresult ==  "5") {
-						?>
-						<div class="alert alert-block alert-danger">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-							<i class="ace-icon fa fa-times red"></i>
-							<strong class="red">
-								لم تتم العملية بنجاح
-								<br>
-								<?php
-								echo "لابد من ان يكون بداية الكشف أقل من نهاية الكشف و ليس العكس";
-								?>
 							</strong>
 						</div>
 						<?php
 					}
 				}
 
+
+				$dataentry_user_id=$_GET['idusers'];
+				$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`='$dataentry_user_id'");
+				while($userinfores = mysqli_fetch_assoc($result))
+				{
 				?>
-
-
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
+						<div>
+							<form method="post" action="assets/redi/edituser_once.php?idusers=<?php echo $dataentry_user_id?>" method="post">
+								<div id="user-profile-1" class="user-profile row">
 
-						<div class="row">
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="clearfix">
-										<div class="pull-right tableTools-container"></div>
-										<?php
-										if (isset($_SESSION['securitylvl']))
-										{
-											$securitylvl=$_SESSION['securitylvl'];
-											if($securitylvl == "d" ):
-												?>
-												<a href="#modal-add" class="btn btn-white btn-info btn-bold" data-toggle="modal">
-													<i class="ace-icon fa fa-plus-square-o"></i>
-													<b>إضافة</b></font>
-												</a>
-												<?php
-											endif;
-										}
-										?>
-									</div>
-									<div class="table-header">
-										نتائج البحث عن السراكي
-									</div>
-
-									<!-- div.table-responsive -->
-									<!--
-                                        <style>
-                                           table {border-collapse:collapse; table-layout:fixed; width:30px;}
-                                           table td {border:solid 1px #fab; width:100px; word-wrap:break-word;}
-                                        </style>
-                                    -->
-									<style type='text/css'>
-										table { table-layout:fixed; /* nothing here - table is block, so should auto expand to as large as it can get without causing scrollbars? */ }
-										.left { text-align:center; }
-										.right { text-align:right; }
-										.middle { text-align:left; /* expand this column to as large as it can get within table? */}
-										.wrap { word-wrap:break-word; /* use up entire cell this div is contained in? */ }
-									</style>
-									<!-- div.dataTables_borderWrap -->
-									<div>
-										<table id="dynamic-table" class="table table-striped table-bordered table-hover">
-											<thead>
-											<tr>
-												<th>id</th>
-												<th>التاريخ</th>
-												<th>من رقم إلى رقم</th>
-												<th>السنة</th>
-												<th>الجدول</th>
-												<th>القسم</th>
-												<th>نوع </th>
-												<th>منشئ السركي</th>
-												<th>عدد القضايا</th>
-												<th>ملاحظات</th>
-											</tr>
-											</thead>
-
-											<tbody>
-											<?php
-											if($_SESSION['securitylvl'] == "a")
-											{
-												$admin_id=$_SESSION['admin_id'];
-												$result4 = mysqli_query($sqlcon,"
-
-															SELECT
-  departs.departname,
-  casetype2.casetype2name,
-  casetype.casetypename,
-  sarki.date,
-  sarki.`from`,
-  sarki.`to`,
-  sarki.year,
-  sarki.createdate,
-  sarki.updatedate,
-  sarki.idsarki,
-  sarki.notes,
-  users.idusers,
-  users.nickname
-FROM
-  sarki
-  INNER JOIN casetype2 ON casetype2.idcasetype2 = sarki.casetype2_idcasetype2
-  INNER JOIN casetype ON casetype.idcasetype = sarki.casetype_idcasetype
-  INNER JOIN departs ON departs.iddeparts = sarki.departs_iddeparts
-  INNER JOIN pros ON pros.idpros = departs.pros_idpros
-  INNER JOIN users ON sarki.idusers = users.idusers
-  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-WHERE
-  overallpros_has_users.users_idusers = '$admin_id'
-ORDER BY
-  sarki.idsarki DESC
-LIMIT 1000") or die(mysqli_error($sqlcon));
-											}else
-											{
-												$result4 = mysqli_query($sqlcon,"
-
-															Select departs.departname,
-															  casetype2.casetype2name,
-															  casetype.casetypename,
-															  sarki.date,
-															  sarki.`from`,
-															  sarki.`to`,
-															  sarki.year,
-															  sarki.createdate,
-															  sarki.updatedate,
-															  sarki.idsarki,
-															  sarki.notes,
-															  users.idusers,
-															  users.nickname
-															From sarki
-															  Inner Join casetype2 On casetype2.idcasetype2 = sarki.casetype2_idcasetype2
-															  Inner Join casetype On casetype.idcasetype = sarki.casetype_idcasetype
-															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
-															  Inner Join pros On pros.idpros = departs.pros_idpros
-															  Inner Join users On sarki.idusers = users.idusers
-															Where users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
-											}
-											while($row4 = mysqli_fetch_assoc($result4))
-											{
-
-												?>
-												<tr>
-													<?php if($securitylvl == "a") 	{?>
-														<td><a class="red" href="sarkiprofile.php?idsarki=<?php echo $row4['idsarki'] ?>"><?php echo $row4['idsarki'] ?></a></td>
-													<?php }else{ ?>
-														<td><a class="red" ><?php echo $row4['idsarki'] ?></a></td>
-													<?php };?>
-													<td><?php echo $row4['date'] ?></td>
-													<td class="middle wrap"><?php echo $row4['to'] ?></td>
-													<td><?php echo $row4['year'] ?></td>
-													<td><?php echo $row4['casetypename'] ?></td>
-													<td><?php echo $row4['departname'] ?></td>
-													<td><?php echo $row4['casetype2name'] ?></td>
-													<?php if($_SESSION['securitylvl'] == "a"){?>
-														<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
-													<?php }else{?>
-														<td><?php echo $row4['nickname'] ?></a></td>
-													<?php };?>
-													<td>
-														<?php
-														$result55 = mysqli_query($sqlcon,"
-Select Count(`case`.idcase) As countcase
-From `case`
-  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
-Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
-														$row55 = mysqli_fetch_assoc($result55);
-														if($row55['countcase'] > '0')
-														{echo $row55['countcase'];}else
-														{echo "0";}
-														?>
-													</td>														<td><?php echo $row4['notes'] ?></td>
-												</tr>
-												<?php
-											};
-											?>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-
-						</div><!-- /.row -->
-
-						<div id="modal-add" class="modal fade" tabindex="-1">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header no-padding">
-										<div class="table-header">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-												<span class="white">&times;</span>
-											</button>
-											إضافة سركي جديد
-										</div>
-									</div>
-									<form class="form-horizontal" method="post" action="assets/redi/insertsarki.php">
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> التاريخ </label>
-											<div class="col-sm-8">
-												<div class="input-group">
-													<input required class="form-control date-picker" id="form-field-5" type="text" data-date-format="yyyy-mm-dd" name="date"/>
-															<span class="input-group-addon">
-																<i class="fa fa-calendar bigger-110"></i>
-															</span>
+									<div class="col-xs-12 col-sm-9">
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="form-group">
+											<div class="profile-info-row">
+												<div class="profile-info-name">يوم الراحة</div>
+												<div class="profile-info-value">
+													<label class="checkbox-inline">
+														السبت
+													</label>
+													<input required name="rest_day" class="" type="radio" value="6">
+													<label class="checkbox-inline">
+														الأحد
+													</label>
+													<input required name="rest_day" class="" type="radio" value="0">
+													<label class="checkbox-inline">
+														الإثنين
+													</label>
+													<input required name="rest_day" class="" type="radio" value="1">
+													<label class="checkbox-inline">
+														الثلاثاء
+													</label>
+													<input required name="rest_day" class="" type="radio" value="2">
+													<label class="checkbox-inline">
+														الأربعاء
+													</label>
+													<input required name="rest_day" class="" type="radio" value="3">
+													<label class="checkbox-inline">
+														الخميس
+													</label>
+													<input required name="rest_day" class="" type="radio" value="4">
 												</div>
 											</div>
-										</div>
-										<script src="assets/js/jquery.min.js"></script>
-										<script type="text/javascript">
-											$(document).ready(function(){
-												var maxField = 15; //Input fields increment limitation
-												var addButton = $('.add_button'); //Add button selector
-												var wrapper = $('.field_wrapper'); //Input field wrapper
-												var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/><input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/><button type="button" class="btn btn-danger btn-minier remove_button" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
-												var x = 1; //Initial field counter is 1
-												$(addButton).click(function(){ //Once add button is clicked
-													if(x < maxField){ //Check maximum number of input fields
-														x++; //Increment field counter
-														$(wrapper).append(fieldHTML); // Add field html
-													}
-												});
-												$(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
-													e.preventDefault();
-													$(this).parent('div').remove(); //Remove field html
-													x--; //Decrement field counter
-												});
-											});
-										</script>
-										<script type="text/javascript">
-											$(document).ready(function(){
-												var maxField = 50; //Input fields increment limitation
-												var addButton = $('.add_button2'); //Add button selector
-												var wrapper = $('.field_wrapper2'); //Input field wrapper
-												var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/><button type="button" class="btn btn-danger btn-minier remove_button2" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
-												var x = 1; //Initial field counter is 1
-												$(addButton).click(function(){ //Once add button is clicked
-													if(x < maxField){ //Check maximum number of input fields
-														x++; //Increment field counter
-														$(wrapper).append(fieldHTML); // Add field html
-													}
-												});
-												$(wrapper).on('click', '.remove_button2', function(e){ //Once remove button is clicked
-													e.preventDefault();
-													$(this).parent('div').remove(); //Remove field html
-													x--; //Decrement field counter
-												});
-											});
-										</script>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-8">كشف مسلسل </label>
-											<div class="col-sm-8">
-												<div class="field_wrapper">
-													<div>
-														<input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/>
-														<input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/>
-														<button id="add_un" type="button" class="btn btn-minier btn-info add_button" title="Add field">
-															<i class="ace-icon fa fa-plus"></i>Add
-														</button>
+											<div class="profile-info-row">
+												<div class="profile-info-name">صباحي / مسائي</div>
+												<div class="profile-info-value">
+													<label class="checkbox-inline">
+														صباحي
+													</label>
+													<input required name="am_pm" class="" type="radio" value="am">
+													<label class="checkbox-inline">
+														مسائي
+													</label>
+													<input required name="am_pm" class="" type="radio" value="pm">
+													</div>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name">النيابة التابع لها</div>
+												<div class="profile-info-value">
+<select required class="multiselect" id="form-field-44" name="prosid">
+															<?php
+																$result2 = mysqli_query($sqlcon, "SELECT pros.idpros, pros.prosname FROM users INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers INNER JOIN pros ON pros_has_users.idpros = pros.idpros WHERE pros_has_users.idusers = $dataentry_user_id");
+														while ($row2 = $result2->fetch_assoc()) {
+																?>
+															<option value="<?php echo $row2['idpros'] ?>" > <?php echo $row2['prosname'] ?> </option>
+
+															<?php } ?>
+														</select>
 													</div>
 												</div>
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> كشف غير مسلسل </label>
-											<div class="col-sm-8">
-												<div class="field_wrapper2">
-													<div>
-														<input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/>
-														<button type="button" class="btn btn-minier btn-info add_button2" title="Add field">
-															<i class="ace-icon fa fa-plus"></i>Add
-														</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-8">  السنة </label>
-											<div class="col-sm-8">
-												<input required type="text" class="input-sm" id="spinner5" name="year"/>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> الجدول </label>
-											<div class="col-sm-8">
-												<select required id="form-field-4" name="type">
-													<option selected="selected" disabled>--إختار الجدول--</option>
-													<?php
-													$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
-													while ($row2 = $result2->fetch_assoc()) {
-														?>
-														<option value="<?php echo $row2['idcasetype'] ?>"> <?php echo $row2['casetypename']?> </option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> القسم </label>
-											<div class="col-sm-8">
-												<select required id="form-field-4" name="depart">
-													<?php
-													if($_SESSION['securitylvl'] == "a")
-													{
-														$result2 = mysqli_query($sqlcon, "Select
-																  departs.departname,
-																  departs.iddeparts
-																From departs
-																  Inner Join pros On pros.idpros = departs.pros_idpros");
-														while ($row2 = $result2->fetch_assoc()) {
-															?>
-															<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
-														<?php };
-													}else
-													{
-														$result2 = mysqli_query($sqlcon, "Select departs.departname,
-																		  departs.iddeparts,
-																		  users.idusers
-																		From users
-																		  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
-																		  Inner Join pros On pros_has_users.idpros = pros.idpros
-																		  Inner Join departs On departs.pros_idpros = pros.idpros
-																		Where users.idusers =$_SESSION[idusers]");
-														while ($row2 = $result2->fetch_assoc()) {
-															?>
-															<option value="<?php echo $row2['iddeparts'] ?>"> <?php echo $row2['departname']?> </option>
-														<?php };
-													}
-													?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-4"> نوع الإيراد </label>
-											<div class="col-sm-8">
-												<select id="form-field-4" name="type2">
-													<option selected="selected" disabled>--إختار  نوع الإيراد--</option>
-													<?php
-													$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
-													while ($row2 = $result2->fetch_assoc()) {
-														?>
-														<option value="<?php echo $row2['idcasetype2'] ?>"> <?php echo $row2['casetype2name']?> </option>
-													<?php } ?>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-8">  ملاحظات  </label>
-											<div class="col-sm-8">
-												<textarea id="form-field-8" class="autosize-transition form-control" name="notes"></textarea>
-											</div>
-										</div>
-										<div class="clearfix form-actions">
-											<div class="col-md-offset-3 col-md-9">
-												<button class="btn btn-info"  type="Submit"  name="submit">
-													<i class="ace-icon fa fa-check bigger-110"></i>
-													Submit
-												</button>
-
-												&nbsp; &nbsp; &nbsp;
-												<button class="btn" type="reset">
-													<i class="ace-icon fa fa-undo bigger-110"></i>
-													Reset
-												</button>
-											</div>
-										</div>
-									</form>
+									</div>
 								</div>
-							</div><!-- /.modal-content -->
-						</div><!-- /.modal-dialog -->
-					</div>
+								<?php }; ?>
+								<div class="hr hr32 hr-dotted"></div>
+								<div class="clearfix form-actions">
+									<div class="center">
+										<button class="btn btn-info"  type="Submit"  name="submit">
+											<i class="ace-icon fa fa-check bigger-110"></i>
+											Submit
+										</button>
+
+										&nbsp; &nbsp; &nbsp;
+										<button class="btn" type="reset" >
+											<i class="ace-icon fa fa-undo bigger-110"></i>
+											Reset
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
 				</div><!-- /.row -->
-
-				<!-- PAGE CONTENT ENDS -->
-			</div><!-- /.col -->
-		</div><!-- /.row -->
+			</div><!-- /.page-content -->
+		</div>
 	</div><!-- /.main-content -->
 
 	<div class="footer">
@@ -1096,8 +663,7 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 			});
 		$('#spinner2').ace_spinner({value:0,min:0,max:10000,step:100, touch_spinner: true, icon_up:'ace-icon fa fa-caret-up bigger-110', icon_down:'ace-icon fa fa-caret-down bigger-110'});
 		$('#spinner3').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
-		$('#spinner4').ace_spinner({value:0,min:-650,max:650,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
-		$('#spinner6').ace_spinner({value:-300,min:-300,max:0,step:100, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
+		$('#spinner4').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus', icon_down:'ace-icon fa fa-minus', btn_up_class:'btn-purple' , btn_down_class:'btn-purple'});
 
 		//$('#spinner1').ace_spinner('disable').ace_spinner('value', 11);
 		//or
@@ -1259,7 +825,8 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 </script>
 <script type="text/javascript">
 	jQuery(function($){
-		var demo1 = $('select[name="students_stid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+		var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
+		var demo1 = $('select[name="multi_skills[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
 		var container1 = demo1.bootstrapDualListbox('getContainer');
 		container1.find('.btn').addClass('btn-white btn-info btn-bold');
 
@@ -1359,225 +926,7 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 		//in ajax mode, remove remaining elements before leaving page
 		$(document).one('ajaxloadstart.page', function(e) {
 			$('[class*=select2]').remove();
-			$('select[name="students_stid[]"]').bootstrapDualListbox('destroy');
-			$('.rating').raty('destroy');
-			$('.multiselect').multiselect('destroy');
-		});
-
-	});
-</script>
-<script type="text/javascript">
-	jQuery(function($){
-		var demo1 = $('select[name="material_matid[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-		var container1 = demo1.bootstrapDualListbox('getContainer');
-		container1.find('.btn').addClass('btn-white btn-info btn-bold');
-
-		/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-		$('.rating').raty({
-			'cancel' : true,
-			'half': true,
-			'starType' : 'i'
-			/**,
-
-			 'click': function() {
-						setRatingColors.call(this);
-					},
-			 'mouseover': function() {
-						setRatingColors.call(this);
-					},
-			 'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-		})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-		//////////////////
-		//select2
-		$('.select2').css('width','200px').select2({allowClear:true})
-		$('#select2-multiple-style .btn').on('click', function(e){
-			var target = $(this).find('input[type=radio]');
-			var which = parseInt(target.val());
-			if(which == 2) $('.select2').addClass('tag-input-style');
-			else $('.select2').removeClass('tag-input-style');
-		});
-
-		//////////////////
-		$('.multiselect').multiselect({
-			enableFiltering: true,
-			enableHTML: true,
-			buttonClass: 'btn btn-white btn-primary',
-			templates: {
-				button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-				ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-				filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-				filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-				li: '<li><a tabindex="0"><label></label></a></li>',
-				divider: '<li class="multiselect-item divider"></li>',
-				liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-			}
-		});
-
-
-		///////////////////
-
-		//typeahead.js
-		//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-		var substringMatcher = function(strs) {
-			return function findMatches(q, cb) {
-				var matches, substringRegex;
-
-				// an array that will be populated with substring matches
-				matches = [];
-
-				// regex used to determine if a string contains the substring `q`
-				substrRegex = new RegExp(q, 'i');
-
-				// iterate through the pool of strings and for any string that
-				// contains the substring `q`, add it to the `matches` array
-				$.each(strs, function(i, str) {
-					if (substrRegex.test(str)) {
-						// the typeahead jQuery plugin expects suggestions to a
-						// JavaScript object, refer to typeahead docs for more info
-						matches.push({ value: str });
-					}
-				});
-
-				cb(matches);
-			}
-		}
-
-		$('input.typeahead').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-		}, {
-			name: 'states',
-			displayKey: 'value',
-			source: substringMatcher(ace.vars['US_STATES']),
-			limit: 10
-		});
-
-
-		///////////////
-
-
-		//in ajax mode, remove remaining elements before leaving page
-		$(document).one('ajaxloadstart.page', function(e) {
-			$('[class*=select2]').remove();
-			$('select[name="material_matid[]"]').bootstrapDualListbox('destroy');
-			$('.rating').raty('destroy');
-			$('.multiselect').multiselect('destroy');
-		});
-
-	});
-</script>
-<script type="text/javascript">
-	jQuery(function($){
-		var demo1 = $('select[name="material_matid1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-		var container1 = demo1.bootstrapDualListbox('getContainer');
-		container1.find('.btn').addClass('btn-white btn-info btn-bold');
-
-		/**var setRatingColors = function() {
-					$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-					$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-				}*/
-		$('.rating').raty({
-			'cancel' : true,
-			'half': true,
-			'starType' : 'i'
-			/**,
-
-			 'click': function() {
-						setRatingColors.call(this);
-					},
-			 'mouseover': function() {
-						setRatingColors.call(this);
-					},
-			 'mouseout': function() {
-						setRatingColors.call(this);
-					}*/
-		})//.find('i:not(.star-raty)').addClass('grey');
-
-
-
-		//////////////////
-		//select2
-		$('.select2').css('width','200px').select2({allowClear:true})
-		$('#select2-multiple-style .btn').on('click', function(e){
-			var target = $(this).find('input[type=radio]');
-			var which = parseInt(target.val());
-			if(which == 2) $('.select2').addClass('tag-input-style');
-			else $('.select2').removeClass('tag-input-style');
-		});
-
-		//////////////////
-		$('.multiselect').multiselect({
-			enableFiltering: true,
-			enableHTML: true,
-			buttonClass: 'btn btn-white btn-primary',
-			templates: {
-				button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-				ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-				filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-				filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-				li: '<li><a tabindex="0"><label></label></a></li>',
-				divider: '<li class="multiselect-item divider"></li>',
-				liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-			}
-		});
-
-
-		///////////////////
-
-		//typeahead.js
-		//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
-		var substringMatcher = function(strs) {
-			return function findMatches(q, cb) {
-				var matches, substringRegex;
-
-				// an array that will be populated with substring matches
-				matches = [];
-
-				// regex used to determine if a string contains the substring `q`
-				substrRegex = new RegExp(q, 'i');
-
-				// iterate through the pool of strings and for any string that
-				// contains the substring `q`, add it to the `matches` array
-				$.each(strs, function(i, str) {
-					if (substrRegex.test(str)) {
-						// the typeahead jQuery plugin expects suggestions to a
-						// JavaScript object, refer to typeahead docs for more info
-						matches.push({ value: str });
-					}
-				});
-
-				cb(matches);
-			}
-		}
-
-		$('input.typeahead').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-		}, {
-			name: 'states',
-			displayKey: 'value',
-			source: substringMatcher(ace.vars['US_STATES']),
-			limit: 10
-		});
-
-
-		///////////////
-
-
-		//in ajax mode, remove remaining elements before leaving page
-		$(document).one('ajaxloadstart.page', function(e) {
-			$('[class*=select2]').remove();
-			$('select[name="material_matid1[]"]').bootstrapDualListbox('destroy');
+			$('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
 			$('.rating').raty('destroy');
 			$('.multiselect').multiselect('destroy');
 		});
@@ -1589,12 +938,10 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 		//initiate dataTables plugin
 		var myTable =
 			$('#dynamic-table')
-				.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+			//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
-					bAutoWidth: true,
-					"aoColumns": [
-						null, null, null,null,null,null,null,null,null,null
-					],
+					bAutoWidth: false,
+
 					"aaSorting": [],
 
 
@@ -1806,11 +1153,6 @@ Where sarki.idsarki = $row4[idsarki]") or die(mysqli_error($sqlcon));
 
 	})
 </script>
-<script src="assets/js/mousetrap.min.js"></script>
-<script>
-	Mousetrap.bind('shift+z',function (e) {
-		$("#add_un").click();
-	})
-</script>
+
 </body>
 </html>

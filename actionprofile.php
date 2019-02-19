@@ -2,11 +2,7 @@
 <html lang="en">
 	<head>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
-	
-
-<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
-
-
+		<meta http-equiv="refresh" content="1500;url=assets/redi/logout.php" />
 		<?php session_start();
 			if (!isset($_SESSION['authenticate']) and $_SESSION['authenticate']!="true")
 				{
@@ -29,7 +25,7 @@
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8">
-		<title>Admin profile</title>
+		<title>sarki profile</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -74,10 +70,7 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-
-
 	</head>
-
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
@@ -90,16 +83,14 @@
 
 					<span class="icon-bar"></span>
 				</button>
-
 				<div class="navbar-header pull-left">
-								<a href="index.php" class="navbar-brand">
+					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class="fa fa-cubes"></i>
 							PIC
 						</small>
 					</a>
 				</div>
-
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
 						<li class="light-blue dropdown-modal">
@@ -115,7 +106,6 @@
 												$prosname=$_SESSION['prosname'];
 												$securitylvl=$_SESSION['securitylvl'];
 												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
 
 													echo $nickname;
 											}
@@ -228,32 +218,7 @@
 									</div>
 								</div><!-- /.pull-left -->
 							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
-
-						<div class="page-header">
-							<h1>
-								 الصفحة الشخصية
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									<?php
-										require 'assets/redi/sqlcon.php';
-										if (isset($_SESSION['authenticate']))
-											{
-												$nickname=$_SESSION['nickname'];
-												$prosname=$_SESSION['prosname'];
-												$securitylvl=$_SESSION['securitylvl'];
-												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
-
-													echo $nickname;
-											}
-										else
-											{echo "Unknow";};
-										?>
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-						
+						</div><!-- /.ace-settings-container -->	
 						<?php 
 							require 'assets/redi/sqlcon.php';
 							
@@ -281,6 +246,25 @@
 									<i class="ace-icon fa fa-times red"></i>
 									<strong class="red">
 										لم تتم العملية بنجاح
+										<?php
+											$casenumdub=$_SESSION['casenumdub'];
+											$casenumdub = implode(",", $casenumdub);
+											?>
+										<br>
+											<?php
+											echo "الارقام المكررة هي ";
+
+											echo $casenumdub." / ";
+
+											echo $year=$_SESSION['year'];
+											echo "&ensp;";
+
+											echo $casetypename=$_SESSION['casetypename'];
+											echo "&ensp;";
+
+											echo $departname=$_SESSION['departname'];
+											$idusers=$_SESSION['idusers'];
+										?>
 									</strong>
 								</div>
 								<?php
@@ -288,106 +272,205 @@
 										}
 
 
-								$idusers=$_GET['idusers'];
-								$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`=$idusers");
-								while($userinfores = mysqli_fetch_assoc($result))
+								$idsarki=$_GET['idsarki'];
+								$result=mysqli_query($sqlcon, "SELECT
+  sarki.idsarki,
+  sarki.casetype_idcasetype,
+  sarki.casetype2_idcasetype2,
+  sarki.departs_iddeparts,
+  sarki.idusers,
+  sarki.date,
+  sarki.`from`,
+  sarki.`to`,
+  sarki.year,
+  sarki.createdate,
+  sarki.updatedate,
+  sarki.notes,
+  users.nickname
+FROM
+  sarki
+  INNER JOIN users ON sarki.idusers = users.idusers WHERE `idsarki` = $idsarki");
+								while($sarkiinfores = mysqli_fetch_assoc($result))
 															{	
 													?>								
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<div>
-									<form method="post" action="assets/redi/editadmin.php?idusers=<?php echo $idusers?>" method="post">
+									<form method="post" action="assets/redi/editsarki.php?idsarki=<?php echo $idsarki?>" method="post">
+										<input type="hidden" name="idusers" value="<?php echo $sarkiinfores['idusers'] ;?>" />
 										<div id="user-profile-1" class="user-profile row">
-											<div class="col-xs-12 col-sm-3 center">
-												<div>
-													<div class="space-12"></div>
-													<span class="profile-picture">
-														<img id="avatar" onerror="this.src='assets/images/avatars/profile-pic.jpg'" src="assets/images/avatars/<?php echo $userinfores['idusers'] ;?>.jpg" />
-													</span>
-													<div class="space-4"></div>
-												</div>
-											</div>
 											<div class="col-xs-12 col-sm-9">
 												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
-														<div class="profile-info-name">Nickname</div>
+														<div class="profile-info-name">أسم مدخل البانات</div>
 
 														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['nickname'] ;?>" type="text" class="form-control" name="nickname" >
-														</div>
-													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Username</div>
-
-														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['username'] ;?>" type="text" class="form-control" name="username" >
-														</div>
-													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Password</div>
-
-														<div class="profile-info-value">
-															<input required value="<?php echo $userinfores['password'] ;?>" type="text" class="form-control" name="password" >
+															<input type="text" class="col-sm-8" type="text" value="<?php echo $sarkiinfores['nickname'] ;?>" disabled/>
 														</div>
 													</div>
 													<div class="profile-info-row">
-														<div class="profile-info-name">Security level</div>
+														<div class="profile-info-name">عدد القضايا داخل السركي</div>
 
 														<div class="profile-info-value">
-															<select id="form-field-4" name="securitylvl">
-																<option value="0" <?php if($userinfores['securitylvl']=="0") echo 'selected="selected"'; ?> > معطل </option>
-																<option value="d" <?php if($userinfores['securitylvl']=="d") echo 'selected="selected"'; ?> > داتا انتري </option>
-																<option value="a" <?php if($userinfores['securitylvl']=="a") echo 'selected="selected"'; ?> > Administrator </option>
+															<input type="text" class="col-sm-8" type="text" value="<?php $result545 = mysqli_query($sqlcon,"
+Select Count(`case`.idcase) As countcase
+From `case`
+  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
+Where sarki.idsarki = $idsarki") or die(mysqli_error($sqlcon));
+$row545 = mysqli_fetch_assoc($result545);
+if($row545['countcase'] > '0')
+{echo $row545['countcase'];}else
+{echo "0";} ?>" disabled/>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">التاريخ</div>
+
+														<div class="profile-info-value">
+															<input type="text" class="col-sm-8 date-picker" "id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" value="<?php echo $sarkiinfores['date'] ;?>" name="date"/>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">From # to #</div>
+
+														<div class="profile-info-value">
+															<input readonly="readonly" required value="<?php echo $sarkiinfores['from'] ;?>" type="text" class="form-control" name="from" >
+														</div>
+														<input type="checkbox" name="numbersedit" value="read"> To edit
+													</div>
+													<script src="assets/js/jquery.min.js"></script>
+													<script type="text/javascript">
+													$(document).ready(function(){
+														var maxField = 15; //Input fields increment limitation
+															var addButton = $('.add_button'); //Add button selector
+															var wrapper = $('.field_wrapper'); //Input field wrapper
+															var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/><input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/><button type="button" class="btn btn-danger btn-minier remove_button" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
+															var x = 1; //Initial field counter is 1
+															$(addButton).click(function(){ //Once add button is clicked
+																	if(x < maxField){ //Check maximum number of input fields
+																			x++; //Increment field counter
+																			$(wrapper).append(fieldHTML); // Add field html
+																	}
+															});
+															$(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
+																	e.preventDefault();
+																	$(this).parent('div').remove(); //Remove field html
+																	x--; //Decrement field counter
+															});
+													});
+													</script>
+													<script type="text/javascript">
+													$(document).ready(function(){
+														var maxField = 50; //Input fields increment limitation
+														var addButton = $('.add_button2'); //Add button selector
+														var wrapper = $('.field_wrapper2'); //Input field wrapper
+														var fieldHTML = '<div><input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/><button type="button" class="btn btn-danger btn-minier remove_button2" title="Remove field"><i class="ace-icon fa fa-minus"></i>Remove</button></div>'; //New input field html
+														var x = 1; //Initial field counter is 1
+														$(addButton).click(function(){ //Once add button is clicked
+															if(x < maxField){ //Check maximum number of input fields
+																x++; //Increment field counter
+																$(wrapper).append(fieldHTML); // Add field html
+															}
+														});
+														$(wrapper).on('click', '.remove_button2', function(e){ //Once remove button is clicked
+															e.preventDefault();
+															$(this).parent('div').remove(); //Remove field html
+															x--; //Decrement field counter
+														});
+													});
+													</script>
+													<div style="display:none;" class="profile-info-row read">
+														<div class="profile-info-name">كشف مسلسل</div>
+														<div class="profile-info-value">
+															<div class="field_wrapper">
+																<input type="number" class="input-sm" id="from" name="field_name1[]" placeholder="من"/>
+																<input type="number" class="input-sm" id="from" name="field_name2[]" placeholder="إلى"/>
+																<button type="button" class="btn btn-minier btn-info add_button" title="Add field">
+																	<i class="ace-icon fa fa-plus"></i>Add
+																</button>
+															</div>
+														</div>
+													</div>
+													<div style="display:none;" class="profile-info-row read">
+														<div class="profile-info-name">كشف غير مسلسل</div>
+														<div class="profile-info-value">
+															<div class="field_wrapper2">
+																<input type="number" class="input-sm" id="from" name="field_name3[]" placeholder="رقم"/>
+																<button type="button" class="btn btn-minier btn-info add_button2" title="Add field">
+																	<i class="ace-icon fa fa-plus"></i>Add
+																</button>
+															</div>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">السنة</div>
+
+														<div class="profile-info-value">
+															<input  required value="<?php echo $sarkiinfores['year'] ;?>" type="text" class="form-control" name="year" >
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">الجدول</div>
+														<div class="profile-info-value">
+															<select class="multiselect" id="form-field-4" name="type">
+																<?php
+																	$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype`");
+																	while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																<option value="<?php echo $row2['idcasetype'] ?>" <?php if($sarkiinfores['casetype_idcasetype']==$row2['idcasetype']) echo 'selected="selected"'; ?> > <?php echo $row2['casetypename'] ?> </option>
+
+																<?php } ?>
 															</select>
 														</div>
 													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">القسم</div>
+														<div class="profile-info-value">
+															<select class="multiselect" id="form-field-4" name="depart">
+																<?php
+																	$result2 = mysqli_query($sqlcon, "SELECT
+  *
+FROM
+  departs
+  INNER JOIN pros ON departs.pros_idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  overallpros_has_users.users_idusers = $idusers");
+																	while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																<option value="<?php echo $row2['iddeparts'] ?>" <?php if($sarkiinfores['departs_iddeparts']==$row2['iddeparts']) echo 'selected="selected"'; ?> > <?php echo $row2['departname'] ?> </option>
+
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">نوع الإيراد </div>
+														<div class="profile-info-value">
+															<select class="multiselect" id="form-field-4" name="type2">
+																<?php
+																	$result2 = mysqli_query($sqlcon, "SELECT * FROM `casetype2`");
+																	while ($row2 = $result2->fetch_assoc()) {
+																	?>
+																<option value="<?php echo $row2['idcasetype2'] ?>" <?php if($sarkiinfores['casetype2_idcasetype2']==$row2['idcasetype2']) echo 'selected="selected"'; ?> > <?php echo $row2['casetype2name'] ?> </option>
+
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">نوع الإيراد </div>
+														<div class="profile-info-value">
+															<textarea id="form-field-8" class="autosize-transition form-control" name="notes"   ><?php echo $sarkiinfores['notes'] ;?></textarea>
+														</div>
+													</div>
+												</div>
 												</div>
 											</div>
 										</div>
-										<?php }; ?>
-										<div class="hr hr32 hr-dotted"></div>
-										<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="form-field-13">
-											<?php
-												$result2 = mysqli_query($sqlcon, "
-												SELECT
-  overallpros.overallprosid,
-  overallpros.overallprosname,
-  users.idusers
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
-WHERE
-  users.idusers = '$idusers'");
-												while ($row2 = $result2->fetch_assoc()) {
-												?>												
-											<option selected value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-											<?php
-											$result2 = mysqli_query($sqlcon, "
-												SELECT
-  overallpros.overallprosid,
-  overallpros.overallprosname
-FROM
-  overallpros
-WHERE overallpros.overallprosid NOT IN (SELECT
-  overallpros.overallprosid
-FROM
-  overallpros
-  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
-WHERE
-  users.idusers = '$idusers')");
-											while ($row2 = $result2->fetch_assoc()) {
-												?>
-												<option value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-										</select>
+										<?php }; ?>										
 										<div class="clearfix form-actions">
 											<div class="center">
 												<button class="btn btn-info"  type="Submit"  name="submit">
@@ -400,6 +483,22 @@ WHERE
 													<i class="ace-icon fa fa-undo bigger-110"></i>
 													Reset
 												</button>
+												&nbsp; &nbsp; &nbsp;
+												<a href="assets/redi/deletesarki.php?idsarki=<?php echo $idsarki?>" class="confirmation">
+													<button class="btn btn-danger" type="button">
+														<i class="ace-icon fa fa-check bigger-110"></i>
+														Remove the sarki
+													</button>
+												</a>
+												<script type="text/javascript">
+													var elems = document.getElementsByClassName('confirmation');
+													var confirmIt = function (e) {
+														if (!confirm('Are you sure?')) e.preventDefault();
+													};
+													for (var i = 0, l = elems.length; i < l; i++) {
+														elems[i].addEventListener('click', confirmIt, false);
+													}
+												</script>
 											</div>
 										</div>
 									</form>
@@ -431,7 +530,14 @@ WHERE
 
 		<!--[if !IE]> --><!--[if !IE]> -->
 		<script src="assets/js/jquery-2.1.4.min.js"></script>
-
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input[name="numbersedit"]').click(function(){
+					var inputValue = $(this).attr("value");
+					$("." + inputValue).toggle();
+				});
+			});
+		</script>
 		<!-- <![endif]-->
 
 		<!--[if IE]>
@@ -1248,6 +1354,8 @@ WHERE
 			
 			})
 		</script>
+		
+
 
 	</body>
 </html>

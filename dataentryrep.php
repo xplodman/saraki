@@ -77,7 +77,7 @@ ORDER BY
   countcase DESC") or die(mysqli_error($sqlcon));
 ?>
 
-<body onload="window.print();">
+<body>
 <div class="page-header">
 	<div class="row">
 		<div class="col-xs-12">
@@ -136,10 +136,6 @@ ORDER BY
 						</font>
 					</td>
 				</tr>
-				<script type="text/javascript">
-					window.print();
-					window.onfocus=function(){ window.close();}
-				</script>
 				<?php
 				$x=1;
 				while($row4 = mysqli_fetch_assoc($result4))

@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	  users.idusers,
 	  users.nickname,
 	  users.securitylvl,
+	  users.info_done,
 	  users.username
 	From pros_has_users
 	  Inner Join pros On pros.idpros = pros_has_users.idpros
@@ -42,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			header('Location: ../../adminindex.php');
 			exit;
 		}elseif($row2['securitylvl'] == "d"){
+			if($row2['info_done'] == "0"){
+				header('Location: ../../data_entry_info.php?idusers='.$row2[idusers]);
+				exit;
+			}
 			$maxattendanceid = mysqli_query($sqlcon, "Select Max(`attendance`.attendanceid) From `attendance`");
 			$maxattendanceidrow = mysqli_fetch_row($maxattendanceid);
 			$maxattendanceid = implode("", $maxattendanceidrow);

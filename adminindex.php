@@ -74,7 +74,7 @@
 	<body class="no-skin">
 		<div id="navbar" class="navbar navbar-default          ace-save-state">
 			<div class="navbar-container ace-save-state" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+				<button type="button" class="navbar-toggle menu-toggler pull-right" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span>
 
 					<span class="icon-bar"></span>
@@ -285,6 +285,24 @@
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="date_start"/>
 													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="date_end"/>
+													<select class="multiselect" id="form-field-4" name="type2">
+														<option selected="selected" value="1 , 2" >الكل</option>
+														<?php
+														$result2 = mysqli_query($sqlcon, "SELECT * FROM `outsource_company`");
+														while ($row2 = $result2->fetch_assoc()) {
+															?>
+															<option value="<?php echo $row2['outsource_company_id'] ?>"
+																<?php
+
+																if (!empty($type)) {
+																	if($row2['outsource_company_id']==$type)
+																		echo 'selected="selected"';
+																}
+
+																?>
+															> <?php echo $row2['outsource_company_name']?> </option>
+														<?php } ?>
+													</select>
 													<button class="btn btn-info"  type="Submit"  name="submit">
 														<i class="ace-icon fa fa-print bigger-150"></i>
 														Print
@@ -298,6 +316,24 @@
 											<div class="form-group">
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="اليوم" type="text" data-date-format="yyyy/mm/dd" name="daily_date"/>
+													<select class="multiselect" id="form-field-4" name="type2">
+														<option selected="selected" value="1 , 2" >الكل</option>
+														<?php
+														$result2 = mysqli_query($sqlcon, "SELECT * FROM `outsource_company`");
+														while ($row2 = $result2->fetch_assoc()) {
+															?>
+															<option value="<?php echo $row2['outsource_company_id'] ?>"
+																<?php
+
+																if (!empty($type)) {
+																	if($row2['outsource_company_id']==$type)
+																		echo 'selected="selected"';
+																}
+
+																?>
+															> <?php echo $row2['outsource_company_name']?> </option>
+														<?php } ?>
+													</select>
 													<button class="btn btn-info"  type="Submit"  name="submit">
 														<i class="ace-icon fa fa-print bigger-150"></i>
 														Print
@@ -651,13 +687,14 @@ FROM
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 WHERE
-  overallpros_has_users.users_idusers = '$admin_id'
+  overallpros_has_users.users_idusers = '$admin_id' 
 GROUP BY
   attendance.checkindate,
   users.idusers,
   overallpros_has_users.users_idusers
 ORDER BY
-  attendance.checkindate DESC
+  attendance.checkindate DESC,
+  attendance.checkintime DESC
 LIMIT 100") or die(mysqli_error($sqlcon));
 															while($row4 = mysqli_fetch_assoc($result4))
 																{
@@ -673,7 +710,7 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 															$dateinearly=date("h:i A",strtotime($dateinearly));
 															$dateinlate=date("h:i A",strtotime($dateinlate));
 															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinearly > $row4['checkintime'])):
+															if(($dateinnormal >= $row4['checkintime'])):
 															$varb='<span class="btn btn-xs btn-success">';
 															elseif(($dateinlate < $row4['checkintime'])):
 															$varb='<span class="btn btn-xs btn-danger">';

@@ -391,32 +391,52 @@
 														<th>أسم الشهرة</th>
 														<th>أسم المستخدم</th>
 														<th>كلمة السر</th>
+														<th>الرقم القومي</th>
+														<th>الموبايل</th>
+														<th>يتبع لـ</th>
 														<th>النيابات التابع لها</th>
 														<th>الحالة</th>
+														<?php
+															if($admin_id == '1'){
+																?>
+																<th>الراحة</th>
+																<th>am / pm</th>
+																<?php
+															}
+														?>
 													</tr>
 												</thead>
 
 												<tbody>
 												<?php
 												if($admin_id == '1'){
-													$result4 = mysqli_query($sqlcon, "SELECT * FROM `users`");
+													$result4 = mysqli_query($sqlcon, "SELECT * FROM `users` 
+  LEFT JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id ORDER BY
+  users.securitylvl DESC,
+  users.nickname");
 												}else{
 													$result4 = mysqli_query($sqlcon, "SELECT
   users.securitylvl,
   users.idusers,
   users.username,
   users.password,
-  users.nickname
+  users.nickname,
+  users.national_id,
+  users.mob_number,
+  outsource_company.outsource_company_name
 FROM
   users
   INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
   INNER JOIN pros ON pros_has_users.idpros = pros.idpros
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  LEFT JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 WHERE
   users.securitylvl != 'a' AND
   overallpros_has_users.users_idusers = '$admin_id'
-  group by users.idusers");
+  group by users.idusers ORDER BY
+  users.securitylvl DESC,
+  users.nickname");
 												}
 														while($row4 = mysqli_fetch_assoc($result4))
 															{	
@@ -436,6 +456,9 @@ WHERE
 														</td>
 														<td><?php echo $row4['username'] ?></td>
 														<td><?php echo $row4['password'] ?></td>
+														<td><?php echo $row4['national_id'] ?></td>
+														<td><?php echo $row4['mob_number'] ?></td>
+														<td><?php echo $row4['outsource_company_name'] ?></td>
 														<td>
 															<p class="big">
 																<?php
@@ -492,6 +515,14 @@ WHERE
 															}
 															?>
 														</td>
+														<?php
+															if($admin_id == '1'){
+																?>
+																<td><?php echo $row4['rest_day'] ?></td>
+																<td><?php echo $row4['am_pm'] ?></td>
+																<?php
+															}
+														?>
 													</tr>
 													<?php
 												};
@@ -1426,9 +1457,7 @@ WHERE
 				.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
 				.DataTable( {
 					bAutoWidth: true,
-					"aoColumns": [
-					  null, null, null,null,null
-					],
+					
 					"aaSorting": [],
 
 

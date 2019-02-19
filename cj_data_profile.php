@@ -29,7 +29,7 @@
 		?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8">
-		<title>Admin profile</title>
+		<title>CJ data profile</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -123,7 +123,7 @@
 											{echo "Unknow";};
 										?>
 										<?php
-							if($securitylvl == "a")
+							if($admin_id == "1")
 								{
 									
 								}else
@@ -232,25 +232,7 @@
 
 						<div class="page-header">
 							<h1>
-								 الصفحة الشخصية
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									<?php
-										require 'assets/redi/sqlcon.php';
-										if (isset($_SESSION['authenticate']))
-											{
-												$nickname=$_SESSION['nickname'];
-												$prosname=$_SESSION['prosname'];
-												$securitylvl=$_SESSION['securitylvl'];
-												$idusers=$_SESSION['idusers'];
-												$admin_id=$_SESSION['admin_id'];
-
-													echo $nickname;
-											}
-										else
-											{echo "Unknow";};
-										?>
-								</small>
+								 Prosecution profile									
 							</h1>
 						</div><!-- /.page-header -->
 						
@@ -288,106 +270,134 @@
 										}
 
 
-								$idusers=$_GET['idusers'];
-								$result=mysqli_query($sqlcon, "SELECT * FROM `users` where `idusers`=$idusers");
-								while($userinfores = mysqli_fetch_assoc($result))
-															{	
+								$cj_data_id=$_GET['cj_data_id'];
+								$result=mysqli_query($sqlcon, "SELECT
+  cj_data.id,
+  cj_data.name,
+  cj_data.job,
+  pros.idpros,
+  pros.prosname,
+  cj_data.username,
+  cj_data.password,
+  cj_data.national_id,
+  cj_data.pros_type,
+  overallpros.overallprosid,
+  overallpros.overallprosname
+FROM
+  cj_data
+  LEFT JOIN pros ON cj_data.pros_idpros = pros.idpros
+  LEFT JOIN overallpros ON cj_data.overallpros_overallprosid = overallpros.overallprosid
+WHERE
+  cj_data.id = $cj_data_id");
+								$cj_data_info_res = mysqli_fetch_assoc($result);
 													?>								
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<div>
-									<form method="post" action="assets/redi/editadmin.php?idusers=<?php echo $idusers?>" method="post">
-										<div id="user-profile-1" class="user-profile row">
-											<div class="col-xs-12 col-sm-3 center">
-												<div>
-													<div class="space-12"></div>
-													<span class="profile-picture">
-														<img id="avatar" onerror="this.src='assets/images/avatars/profile-pic.jpg'" src="assets/images/avatars/<?php echo $userinfores['idusers'] ;?>.jpg" />
-													</span>
-													<div class="space-4"></div>
+									<form method="post" action="assets/redi/edit_cj_data.php?cj_data_id=<?php echo $cj_data_id?>" method="post">
+										<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> nickname </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="nickname" class="col-xs-10 col-sm-5" name="name" value="<?php echo $cj_data_info_res['name']?>"/>
+													</div>
 												</div>
-											</div>
-											<div class="col-xs-12 col-sm-9">
-												<div class="profile-user-info profile-user-info-striped">
-													<div class="profile-info-row">
-														<div class="profile-info-name">Nickname</div>
-
-														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['nickname'] ;?>" type="text" class="form-control" name="nickname" >
-														</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Job </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="job" class="col-xs-10 col-sm-5" name="job" value="<?php echo $cj_data_info_res['job']?>"/>
 													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Username</div>
-
-														<div class="profile-info-value">
-															<input  required value="<?php echo $userinfores['username'] ;?>" type="text" class="form-control" name="username" >
-														</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> username </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="username" class="col-xs-10 col-sm-5"  name="username" value="<?php echo $cj_data_info_res['username']?>"/>
 													</div>
-													
-													<div class="profile-info-row">
-														<div class="profile-info-name">Password</div>
-
-														<div class="profile-info-value">
-															<input required value="<?php echo $userinfores['password'] ;?>" type="text" class="form-control" name="password" >
-														</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> password </label>
+													<div class="col-sm-9">
+														<input required type="text" id="form-field-1" placeholder="password" class="col-xs-10 col-sm-5"  name="password" value="<?php echo $cj_data_info_res['password']?>"/>
 													</div>
-													<div class="profile-info-row">
-														<div class="profile-info-name">Security level</div>
-
-														<div class="profile-info-value">
-															<select id="form-field-4" name="securitylvl">
-																<option value="0" <?php if($userinfores['securitylvl']=="0") echo 'selected="selected"'; ?> > معطل </option>
-																<option value="d" <?php if($userinfores['securitylvl']=="d") echo 'selected="selected"'; ?> > داتا انتري </option>
-																<option value="a" <?php if($userinfores['securitylvl']=="a") echo 'selected="selected"'; ?> > Administrator </option>
-															</select>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> national id </label>
+													<div class="col-sm-9">
+														<input type="text" id="form-field-1" placeholder="national_id" class="col-xs-10 col-sm-5"  name="national_id" value="<?php echo $cj_data_info_res['national_id']?>"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" id="form-field-5"> Prosecution type </label>
+													<div class="col-sm-8">
+														<div class="input-group">
+															<input <?php if ($cj_data_info_res['pros_type'] == '1'){ echo 'checked'; } ?> type="radio" name='Prosecution_radio' value='1' id="Prosecution_radio"> Prosecution </input>
+														</div>
+														<div class="input-group">
+															<input <?php if ($cj_data_info_res['pros_type'] == '2'){ echo 'checked'; } ?> type="radio" name='Prosecution_radio' value='2' id="over_all_Prosecution_radio" > Over all prosecution </input>
 														</div>
 													</div>
 												</div>
-											</div>
-										</div>
-										<?php }; ?>
-										<div class="hr hr32 hr-dotted"></div>
-										<select multiple="multiple" size="10" name="duallistbox_demo1[]" id="form-field-13">
-											<?php
-												$result2 = mysqli_query($sqlcon, "
-												SELECT
-  overallpros.overallprosid,
-  overallpros.overallprosname,
-  users.idusers
+												<div class="<?php if ($cj_data_info_res['pros_type'] == '2'){ echo 'hidden'; } ?> form-group" id="Prosecution">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-13">In prosecution</label>
+													<div class="col-sm-8">
+														<select name="pros" id="form-field-13">
+															<?php
+																$result2 = mysqli_query($sqlcon, "SELECT
+  pros.idpros,
+  pros.overallprosid,
+  pros.prosname
 FROM
-  overallpros
+  pros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
 WHERE
-  users.idusers = '$idusers'");
-												while ($row2 = $result2->fetch_assoc()) {
-												?>												
-											<option selected value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-											<?php
-											$result2 = mysqli_query($sqlcon, "
-												SELECT
+  overallpros_has_users.users_idusers = '$admin_id'");
+																while ($row2 = $result2->fetch_assoc()) {
+																$prosid = $row2['idpros'];
+																$prosname = $row2['prosname']; 
+																?>
+																<option
+																<?php 
+																if ($cj_data_info_res['pros_type'] == '1'){
+																	if ($cj_data_info_res['idpros'] == $row2['idpros']){
+																		echo "selected";
+																	}
+																} 
+																?>
+																value="<?php echo $row2['idpros'] ?>"> <?php echo $row2['prosname'] ?> </option>
+															<?php } ?>
+														</select>
+													</div>
+												</div>
+												<div class="<?php if ($cj_data_info_res['pros_type'] == '1'){ echo 'hidden'; } ?> form-group" id="over_all_Prosecution">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-13">In over all prosecution</label>
+													<div class="col-sm-8">
+														<select name="over_all_pros" id="form-field-13">
+															<?php
+																$result2 = mysqli_query($sqlcon, "SELECT
   overallpros.overallprosid,
   overallpros.overallprosname
 FROM
   overallpros
-WHERE overallpros.overallprosid NOT IN (SELECT
-  overallpros.overallprosid
-FROM
-  overallpros
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
-  INNER JOIN users ON overallpros_has_users.users_idusers = users.idusers
 WHERE
-  users.idusers = '$idusers')");
-											while ($row2 = $result2->fetch_assoc()) {
-												?>
-												<option value="<?php echo $row2['overallprosid'] ?>
-												"> <?php echo $row2['overallprosname'] ;?> </option>
-											<?php } ?>
-										</select>
+  overallpros_has_users.users_idusers = '$admin_id'");
+																while ($row2 = $result2->fetch_assoc()) {
+
+																?>
+																<option
+																<?php 
+																if ($cj_data_info_res['pros_type'] == '2'){
+																	if ($cj_data_info_res['overallprosid'] == $row2['overallprosid']){
+																		echo "selected";
+																	}
+																} 
+																?>
+																value="<?php echo $row2['overallprosid'] ?>"> <?php echo $row2['overallprosname'] ?> </option>
+															<?php } ?>
+														</select>
+													</div>
+												</div>
 										<div class="clearfix form-actions">
 											<div class="center">
 												<button class="btn btn-info"  type="Submit"  name="submit">
@@ -1248,6 +1258,16 @@ WHERE
 			
 			})
 		</script>
+<script>
+			$("#over_all_Prosecution_radio").click(function(){
+				$('#over_all_Prosecution').fadeIn('slow').removeClass('hidden');
+				$('#Prosecution').fadeIn('slow').addClass('hidden');
+			});
 
+			$("#Prosecution_radio").click(function(){
+				$('#over_all_Prosecution').fadeIn('slow').addClass('hidden');
+				$('#Prosecution').fadeIn('slow').removeClass('hidden');
+			});
+		</script>
 	</body>
 </html>
