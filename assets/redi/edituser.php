@@ -12,7 +12,6 @@ $username =$_POST['username'];
 $password =$_POST['password'];
 $securitylvl =$_POST['securitylvl'];
 $am_pm =$_POST['am_pm'];
-$in_idpros =$_POST['in_idpros'];
 $rest_day =$_POST['rest_day'];
 
 	$national_id =$_POST['national_id'];
@@ -22,7 +21,7 @@ $rest_day =$_POST['rest_day'];
 	$outsource_company_id =$_POST['outsource_company_id'];
 	$multi_skills =$_POST['multi_skills'];
 
-	$result1 = mysqli_query($sqlcon, "UPDATE `pic`.`users` SET `username` = '$username', `securitylvl` = '$securitylvl', `password` = '$password', `nickname` = '$nickname', `national_id` = '$national_id', `mob_number` = '$mob_number', `notes` = '$notes', `address` = '$address', `outsource_company_outsource_company_id` = '$outsource_company_id', `am_pm` = '$am_pm', `idpros` = '$in_idpros', `rest_day` = '$rest_day' WHERE `users`.`idusers` = '$idusers';
+	$result1 = mysqli_query($sqlcon, "UPDATE `pic`.`users` SET `username` = '$username', `securitylvl` = '$securitylvl', `password` = '$password', `nickname` = '$nickname', `national_id` = '$national_id', `mob_number` = '$mob_number', `notes` = '$notes', `address` = '$address', `outsource_company_outsource_company_id` = '$outsource_company_id', `am_pm` = '$am_pm', `rest_day` = '$rest_day' WHERE `users`.`idusers` = '$idusers';
 ");
 
 $result2 = mysqli_query($sqlcon, "DELETE FROM pros_has_users WHERE idusers='$idusers';");

@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="en">
-	<head>
-<link rel="icon" type="image/png" href="assets/favicon.png" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
+<head>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
 		<title>تقرير متابعة الحضور و الغياب</title>
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-		<!-- text fonts -->
-		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
-		<!-- ace styles -->
-		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-		<!--[if lte IE 9]>
-		<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
-		<![endif]-->
-		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
-		<!--[if lte IE 9]>
-		<link rel="stylesheet" href="assets/css/ace-ie.min.css" />
-		<![endif]-->
-		<!-- inline styles related to this page -->
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-		<!--[if lte IE 8]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.table2excel.js"></script>
-	</head>
+    <link href="needs/tableexport.min.css" rel="stylesheet">
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <!-- text fonts -->
+    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.table2excel.js"></script>
+    <style>
+        @media print{@page {size: landscape}}
+    </style>
+</head>
 	<?php
 		require 'assets/redi/sqlcon.php';
 	session_start();
 	$admin_id = $_SESSION["admin_id"];
+		$prosid=$_POST['prosid'];
 		$type2=$_POST['type2'];
 		$date=$_POST['date_start'];
 		$date2=$_POST['date_start'];
@@ -41,7 +46,7 @@
 		$end_date3=$_POST['date_end'];
 			$query = "select ca.nickname, ca.rest_day";
 		while (strtotime($date) <= strtotime($end_date)) {
-			$query .= ", max(case when ca.db_date = '$date' then CONCAT_WS(' / ', TIME_FORMAT(p.checkintime, '%l:%i%p'), TIME_FORMAT(p.checkouttime, '%l:%i%p')) end) `$date`";
+			$query .= ", max(case when ca.db_date = '$date' then CONCAT(TIME_FORMAT(p.checkouttime, '%l:%i %p') ,' / ', TIME_FORMAT(p.checkintime, '%l:%i %p'),'') end)";
 			$date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
 		}
 	$query .= "
@@ -55,7 +60,17 @@
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
 	  WHERE
-      a.securitylvl = 'd' and overallpros_has_users.users_idusers = '$admin_id'
+      a.securitylvl = 'd' and overallpros_has_users.users_idusers = '$admin_id' ";
+
+	  if($prosid=='*'){
+		  
+	  }else{
+		  $query .= " AND
+      pros.idpros = '$prosid'";
+	  }
+
+$query .= "
+	
 	) ca
 	left join attendance p
 	  on ca.idusers = p.idusers
@@ -108,7 +123,7 @@
 						</div>
 					</div>
 					<br>
-					<table  border="5" align="center"  style="width:98%" class="table2excel" data-tableName="Test Table 2">
+            <table border="5" align="center" style="width:98%" id="attend" tableexport-key="attend">
 						<tr>
 							<td width="5%" align="center">
 								<font size="3" style="bold" >
@@ -126,17 +141,18 @@
 								</font>
 							</td>
 							<?php 
-									while (strtotime($date2) <= strtotime($end_date2))
-									{
-										?>
-										<td align="center">
-											<font size="3" style="bold" >
-											<b><?php echo $date2 ; ?></b>
-											</font>
-										</td>
-										<?php
-										$date2 = date("Y-m-d", strtotime("+1 day", strtotime($date2)));
-									}
+								while (strtotime($date2) <= strtotime($end_date2))
+								{
+									?>
+									<td align="center">
+										<font size="3" style="bold" >
+										<b><?php echo $date2 ; ?></b>
+										</font>
+									</td>
+								
+									<?php
+									$date2 = date("Y-m-d", strtotime("+1 day", strtotime($date2)));
+								}
 							?>
 						</tr>
 						
@@ -158,10 +174,31 @@
                                         ?>
                                         <td align="center">
 											<?php
-												if ($row[$i]== '')
-													echo "غياب";
-												else
-													echo $row[$i];
+												switch ($row[$i]) {
+													case "Saturday":
+														echo "السبت";
+														break;
+													case "Sunday":
+														echo "الأحد";
+														break;
+													case "Monday":
+														echo "الإثنين";
+														break;
+													case "Tuesday":
+														echo "الثلاثاء";
+														break;
+													case "Wednesday":
+														echo "الأربعاء";
+														break;
+													case "Thursday":
+														echo "الخميس";
+														break;
+													case "":
+														echo "غياب";
+														break;
+													default:
+														echo $row[$i];
+												}
 											?>
 										</td>
                                         <?php
@@ -211,16 +248,15 @@
 <!--	<script type="text/javascript">-->
 <!--		window.onload = replaceDigits-->
 <!--	</script>-->
-	<script>
-		$(function() {
-			$(".table2excel").table2excel({
-				name: "Excel Document Name",
-				filename: "تقرير",
-				fileext: ".xls",
-				exclude_img: true,
-				exclude_links: true,
-				exclude_inputs: true
-			});
-		});
-	</script>
+<script type="text/javascript" src="needs/jquery.min.js.download"></script>
+<script type="text/javascript" src="needs/xlsx.core.min.js.download"></script>
+<script type="text/javascript" src="needs/Blob.min.js.download"></script>
+<script type="text/javascript" src="needs/FileSaver.min.js.download"></script>
+<script type="text/javascript" src="needs/tableexport.min.js.download"></script>
+<script>
+
+    var attend = document.getElementById('attend');
+    TableExport(attend);
+
+</script>
 </html>

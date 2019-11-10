@@ -509,7 +509,7 @@ FROM
   INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 
 WHERE
-  overallpros_has_users.users_idusers = '$admin_id' 
+  overallpros_has_users.users_idusers = '$admin_id' and users.idusers != '52'
   GROUP BY
   request.request_id
   ORDER BY
@@ -535,7 +535,7 @@ FROM
   LEFT JOIN users users1 ON request.request_done_by = users1.idusers
   INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 WHERE
-  request.users_idusers = $_SESSION[idusers] 
+  request.users_idusers = $_SESSION[idusers]
   GROUP BY
   request.request_id
   ORDER BY
@@ -683,10 +683,12 @@ WHERE
 													<label class="col-sm-3 control-label no-padding-right" for="form-field-8"> طلب إذن </label>
 													<div class="col-sm-9">
 														<input  type="text" class="input-sm date-picker col-sm-2" id="excuses_date"   data-date-format="yyyy-mm-dd" name="excuses_date" placeholder="يوم"/>
-														<input type="radio" name='excuses_type' value='1'> حضور </input>
-														<input type="radio" name='excuses_type' value='2'> إنصراف </input>
 													</div>
 													<div class="col-sm-9">
+														<input type="radio" name='excuses_type' value='1'> حضور </input>
+<br>
+														<input type="radio" name='excuses_type' value='2'> إنصراف </input>
+<br>
 														<textarea  type="text" class="input-sm col-sm-7" id="excuses_reason" name="excuses_reason" placeholder="السبب و المدة"/></textarea>
 													</div>
 												</div>

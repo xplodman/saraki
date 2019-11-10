@@ -433,10 +433,9 @@ FROM
   LEFT JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 WHERE
   users.securitylvl != 'a' AND
+  users.idusers != '52' AND
   overallpros_has_users.users_idusers = '$admin_id'
-  group by users.idusers ORDER BY
-  users.securitylvl DESC,
-  users.nickname");
+  group by users.idusers");
 												}
 														while($row4 = mysqli_fetch_assoc($result4))
 															{	
@@ -568,7 +567,7 @@ WHERE
 												<div class="form-group">
 													<label class="col-sm-3 control-label no-padding-right" for="form-field-13">النيابات التابع لها</label>
 													<div class="col-sm-8">
-														<select multiple="multiple" size="16" name="material_matid1[]" id="form-field-13">
+														<select required multiple="multiple" size="16" name="material_matid1[]" id="form-field-13">
 															<?php
 																$result2 = mysqli_query($sqlcon, "SELECT
   pros.idpros,

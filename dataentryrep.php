@@ -36,7 +36,7 @@ $day = date('w');
 $week_start=$_POST['week_start'];
 $week_end=$_POST['week_end'];
 $result4 = mysqli_query($sqlcon,"
-		SELECT
+SELECT
   Count(`case`.departs_iddeparts) AS countcase,
   users.nickname AS nickname,
   users.idusers AS idusers
@@ -55,9 +55,10 @@ WHERE
 GROUP BY
   users.idusers
 ORDER BY
-  countcase DESC") or die(mysqli_error($sqlcon));
+  countcase DESC
+") or die(mysqli_error($sqlcon));
 $result5 = mysqli_query($sqlcon,"
-	SELECT
+SELECT
   Count(`case`.departs_iddeparts) AS countcase,
   users.nickname AS nickname,
   users.idusers AS idusers
@@ -74,7 +75,8 @@ WHERE
   `case`.createdate BETWEEN '$week_start' and '$week_end 23:59:59' AND
   overallpros_has_users.users_idusers = '$admin_id'
 ORDER BY
-  countcase DESC") or die(mysqli_error($sqlcon));
+  countcase DESC
+") or die(mysqli_error($sqlcon));
 ?>
 
 <body>

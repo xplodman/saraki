@@ -7,9 +7,6 @@ set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
 
 cd C:\wamp\www\pic\
-mysqldump.exe -e -uroot -proot -hlocalhost pic > C:\mysql-backup\%fullstamp%-pic.sql --skip-lock-tables
-mysqldump.exe -e -uroot -proot -hlocalhost cj_motalba > C:\mysql-backup\%fullstamp%-cj_motalba.sql --skip-lock-tables
+mysqldump.exe -e -uroot -proot -hlocalhost pic > C:\mysql-backup\"OneDrive - Ministry of Communications & Information Technology-MCIT"\%fullstamp%-pic.sql --skip-lock-tables
+mysqldump.exe -e -uroot -proot -hlocalhost cj_motalba > C:\mysql-backup\"OneDrive - Ministry of Communications & Information Technology-MCIT"\%fullstamp%-cj_motalba.sql --skip-lock-tables
 
-"NET USE X: "\\10.31.10.51\sarakibackup" /user:administrator Admin1234
-"Robocopy C:\mysql-backup x:\ /E /log:"c:\ databasebackuplog.txt"
-"NET USE X: /d

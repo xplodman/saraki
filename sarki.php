@@ -486,7 +486,7 @@ WHERE
   overallpros_has_users.users_idusers = '$admin_id'
 ORDER BY
   sarki.idsarki DESC
-LIMIT 1000") or die(mysqli_error($sqlcon));
+LIMIT 100") or die(mysqli_error($sqlcon));
 											}else
 											{
 												$result4 = mysqli_query($sqlcon,"
@@ -510,7 +510,7 @@ LIMIT 1000") or die(mysqli_error($sqlcon));
 															  Inner Join departs On departs.iddeparts = sarki.departs_iddeparts
 															  Inner Join pros On pros.idpros = departs.pros_idpros
 															  Inner Join users On sarki.idusers = users.idusers
-															Where users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 1000") or die(mysqli_error($sqlcon));
+															Where users.idusers =$_SESSION[idusers] Order By sarki.idsarki Desc Limit 100") or die(mysqli_error($sqlcon));
 											}
 											while($row4 = mysqli_fetch_assoc($result4))
 											{

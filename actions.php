@@ -595,10 +595,10 @@ Where users.idusers =$_SESSION[idusers]";
 									}
 								}
 								$case_has_action_query .= " ORDER BY case_has_action.case_has_action_id DESC";
-								$case_has_action_query .= " Limit 500";		
+								$case_has_action_query .= " Limit 250";		
 
 								$court_has_session_query .= " ORDER BY case_has_court_session_id DESC";
-								$court_has_session_query .= " Limit 500";
+								$court_has_session_query .= " Limit 250";
 								?>
 								<div class="row">
 									<div class="row">

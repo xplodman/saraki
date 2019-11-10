@@ -224,7 +224,7 @@ if ($_POST['case_statement_type']=='non_sequential'){
 				
 			$case_id = mysqli_fetch_assoc($case_id_query);
 
-			$insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`, `case_has_action_id`) VALUES ('$case_id[idcase]', '$action_type_sequential[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers', '$max_case_has_action_id');");
+			$insert_case_action = mysqli_query($sqlcon, "INSERT INTO `pic`.`case_has_action` (`case_idcase`, `action_action_id`, `insert_date`, `update_date`, `status`, `remove`, `users_idusers`, `case_has_action_id`) VALUES ('$case_id[idcase]', '$action_type_sequential[$y]', CURRENT_TIMESTAMP, NULL, '1', '0', '$idusers', '$max_case_has_action_id');") or die(mysqli_error($sqlcon));
 					
 				if ($insert_case_action === false) {
 					array_push($failed_in_action_case_number, $case_number[$y]);

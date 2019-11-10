@@ -79,6 +79,7 @@ function active($currect_page){
 						</a>
 						<b class="arrow"></b>
 					</li>
+					<?php if(1==2){ ?>
 					<li class="<?php active('investigations.php')?>">
 						<a href="investigations.php">
 							<i class="menu-icon fa fa-book"></i>
@@ -93,6 +94,7 @@ function active($currect_page){
 						</a>
 						<b class="arrow"></b>
 					</li>
+					<?php  } ?>
 					<li class="<?php active('requests.php')?>">
 						<a href="requests.php">
 							<i class="menu-icon fa fa-medkit"></i>

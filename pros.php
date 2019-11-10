@@ -422,14 +422,16 @@ WHERE
 																From pros
 																  Inner Join overallpros On overallpros.overallprosid = pros.overallprosid 
 																Where pros.idpros = '".$row4['idpros']."'");
-																$color = "purple";
 																while($row = mysqli_fetch_assoc($matresult))
 																	{	
 																	$overallprosid= $row['overallprosid'];
 																	$overallprosname= $row['overallprosname'];
-																	echo '<a  class="btn btn-xs btn-'.$color.'">';
-																	echo $overallprosname;
-																	echo '</a>'."&nbsp;&nbsp;&nbsp;";
+																	?>
+																	<a href="over_all_prosprofile.php?over_all_id=<?php echo $overallprosid ?>" class="btn btn-xs btn-info">
+																	<?php echo $overallprosname ?>
+																	</a>
+																	<?php
+																
 																};
 															?>
 															</p>

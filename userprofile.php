@@ -369,23 +369,6 @@
 															</div>
 													</div>
 													<div class="profile-info-row">
-														<div class="profile-info-name">In prosecution</div>
-														<div class="profile-info-value">
-															<select id="form-field-4" name="in_idpros">
-																<?php
-																$in_idpros_q = mysqli_query($sqlcon, "SELECT
-  pros.idpros,
-  pros.prosname
-FROM
-  pros");
-																while ($in_idpros_info = $in_idpros_q->fetch_assoc()) {
-																	?>
-																	<option value="<?php echo $in_idpros_info['idpros'] ?>" <?php if($userinfores['idpros']==$in_idpros_info['idpros']) echo 'selected="selected"'; ?> > <?php echo $in_idpros_info['prosname'] ?> </option>
-																<?php } ?>
-															</select>
-														</div>
-													</div>
-													<div class="profile-info-row">
 														<div class="profile-info-name">Rest day</div>
 														<div class="profile-info-value">
 														<select id="form-field-4" name="rest_day">
@@ -517,6 +500,206 @@ FROM
 										</div>
 									</form>
 								</div>
+								
+								
+								<div class="row">
+										<div class="col-sm-12">
+										<h3>كشف بالاذون الخاصة بالمدخل</h3>
+										<div class="widget-box">
+											<div class="widget-header">
+												<div class="pull-right">
+													<div class="tableTools-container2"></div>
+												</div>
+												<div class="pull-LEFT">
+													<h4 class="smaller">
+														<small>كشف بالاذون الخاصة بالمدخل</small>
+													</h4>
+												</div>
+											</div>
+											<div class="widget-body">
+											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+													<thead>
+													<tr>
+														<th>نوع الطلب</th>
+														<th>من تاريخ</th>
+														<th>إلى تاريخ</th>
+														<th>السبب</th>
+														<th>حالة الطلب</th>
+														<th>تاريخ الطلب</th>
+														<th>أسم الطالب</th>
+														<th>يتبع لـ</th>
+														<th>النيابات التابع لها</th>
+														<?php
+														if($_SESSION['securitylvl'] == "a")
+														{
+														?>
+															<th>أسم المتصرف في الطلب</th>
+															<th>تاريخ التصرف في الطلب</th>
+															<th>الرد</th>
+														<?php
+														}
+														?>
+													</tr>
+													</thead>
+
+													<tbody>
+													<?php
+													if($_SESSION['securitylvl'] == "a")
+													{
+														$admin_id=$_SESSION['admin_id'];
+														$result4 = mysqli_query($sqlcon,"SELECT
+  request.request_id,
+  request.request_type,
+  request.request_from,
+  request.request_to,
+  request.request_reason,
+  request.request_status,
+  users.nickname,
+  users.idusers,
+  users1.nickname AS nickname1,
+  request.request_date,
+  Date_Format(request.request_done_date, '%d/%m/%Y') AS request_done_date,
+  outsource_company.outsource_company_name
+FROM
+  request
+  LEFT JOIN users ON request.users_idusers = users.idusers
+  LEFT JOIN users users1 ON request.request_done_by = users1.idusers
+  INNER JOIN pros_has_users ON pros_has_users.idusers = users.idusers
+  INNER JOIN pros ON pros_has_users.idpros = pros.idpros
+  INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
+  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
+
+WHERE
+  overallpros_has_users.users_idusers = '$admin_id' and users.idusers = '$dataentry_user_id'
+  GROUP BY
+  request.request_id
+  ORDER BY
+  request.request_id DESC") or die(mysqli_error($sqlcon));
+													}else
+													{
+														$result4 = mysqli_query($sqlcon,"SELECT
+  request.request_id,
+  request.request_type,
+  request.request_from,
+  request.request_to,
+  request.request_reason,
+  request.request_status,
+  users.nickname,
+  users.idusers,
+  users1.nickname AS nickname1,
+  request.request_date,
+  Date_Format(request.request_done_date, '%d/%m/%Y') AS request_done_date,
+  outsource_company.outsource_company_name
+FROM
+  request
+  LEFT JOIN users ON request.users_idusers = users.idusers
+  LEFT JOIN users users1 ON request.request_done_by = users1.idusers
+  INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
+WHERE
+  request.users_idusers = $_SESSION[idusers]
+  GROUP BY
+  request.request_id
+  ORDER BY
+  request.request_id DESC") or die(mysqli_error($sqlcon));
+													}
+													while($row4 = mysqli_fetch_assoc($result4))
+													{
+
+														?>
+														<tr>
+															<td class="middle wrap">
+																<?php
+																if ($row4['request_type']=='1'){
+																	echo 'أجازة';
+																}elseif($row4['request_type']=='2'){
+																	echo 'إذن حضور';
+																}elseif($row4['request_type']=='3'){
+																	echo 'إذن إنصراف';
+																}
+																?>
+															</td>
+															<td><?php echo $row4['request_from'];?></td>
+															<td><?php echo $row4['request_to'];?></td>
+															<td><?php echo $row4['request_reason'] ?></td>
+															<td>
+																<?php
+																if ($row4['request_status']=='0'){
+																	?>
+																	<button class="btn btn-xs btn-info"> تحت الفحص</button>
+																<?php
+																}elseif($row4['request_status']=='1'){
+																	?>
+																	<button class="btn btn-xs btn-success"> تم القبول</button>
+																<?php
+																}elseif($row4['request_status']=='9'){
+																	?>
+																	<button class="btn btn-xs btn-danger"> تم الرفض</button>
+																<?php
+																}
+																?>
+															</td>
+															<td><?php echo $row4['request_date'] ?></td>
+															<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+															<td><?php echo $row4['outsource_company_name'] ?></td>
+															<td>
+																<p class="big">
+																	<?php
+																	$matresult = mysqli_query($sqlcon, "
+																		Select pros.prosname,
+																		  pros.idpros 
+																		From pros_has_users
+																		  Inner Join users On users.idusers = pros_has_users.idusers
+																		  Inner Join pros On pros_has_users.idpros = pros.idpros
+																		Where users.idusers ='".$row4['idusers']."'");
+																			$color = "purple";
+																			while ($row = $matresult->fetch_assoc()) {
+																				$prosid= $row['idpros'];
+																				$prosname= $row['prosname'];
+																				echo '<a href="'?>prosprofile.php?idpros=<?php echo $prosid ;
+																				echo '" class="btn btn-xs btn-'.$color.'">';
+																				echo $prosname;
+																				echo '</a>'."&nbsp;";
+																			};
+																			
+																	?>
+																</p>
+															</td>
+
+															<?php
+															if($_SESSION['securitylvl'] == "a")
+															{
+																?>
+																<td><?php echo $row4['nickname1'] ?></td>
+
+																<td><?php echo $row4['request_done_date'] ?></td>
+																
+																<td>
+																<?php
+																if ($row4['request_status']=='0'){
+																	?>
+																	<a class="btn btn-xs btn-success" href="assets/redi/update_request.php?request_id=<?php echo $row4['request_id'] ?>&request_status=1"><?php echo 'قبول' ?></a>
+																<a class="btn btn-xs btn-danger" href="assets/redi/update_request.php?request_id=<?php echo $row4['request_id'] ?>&request_status=9"><?php echo 'رفض' ?></a>
+																<?php
+																}
+																?>
+																
+																</td>
+																<?php
+															}
+															?>
+														</tr>
+														<?php
+													};
+													?>
+													</tbody>
+												</table>
+											</div>
+											</div>
+									</div><!-- /.col -->
+								</div>
+								
+								
 								<div class="row">
 										<div class="col-sm-12">
 										<h3>كشف بالحضور و الإنصراف</h3>
@@ -543,6 +726,7 @@ FROM
 																<th>وقت الإنصراف</th>
 																<th>Ip address الخروج</th>
 																<th>موقع الخروج</th>
+																<th>إجمالي ساعات العمل الفعلي</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -656,10 +840,11 @@ FROM
     THEN 'المنشية'
     ELSE 'OTHERS'
   END) AS ip_address_2,
-  Date_Format(attendance.checkouttime, '%h:%i %p') AS checkouttime,
+  attendance.checkouttime,
   users.nickname,
   users.idusers,
-  Date_Format(attendance.checkintime, '%h:%i %p') AS checkintime
+  attendance.checkintime,
+  TIME_FORMAT(TIMEDIFF(IFNULL(attendance.checkouttime, attendance.checkintime),attendance.checkintime ), '%k:%i') as TIMEDIFF
 FROM
   attendance
   INNER JOIN users ON users.idusers = attendance.idusers
@@ -682,50 +867,83 @@ LIMIT 30") or die(mysqli_error($sqlcon));
 																		<td><?php echo $row4['checkindate'] ?></td>
 																		<td>
 																		<?php
-															$dateinlate = "09:15 AM";
-															$dateinnormal = "09:00 AM";
-															$dateinearly = "08:45 AM";
-															$dateinearly=date("h:i A",strtotime($dateinearly));
-															$dateinlate=date("h:i A",strtotime($dateinlate));
-															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinearly > $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-success">';
-															elseif(($dateinlate < $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-danger">';
-															else:
-															$varb='<span class="btn btn-xs btn-warning">';
-																endif;
-																echo $varb.$row4['checkintime'];?></span>
+																		
+																			$dateinlate = "09:15:00";
+																			$dateinnormal = "09:00:00";
+																			$dateinearly = "08:45:00";
+																			
+																			$dateinlate=date("H:i",strtotime($dateinlate));
+																			$dateinnormal=date("H:i",strtotime($dateinnormal));
+																			$dateinearly=date("H:i",strtotime($dateinearly));
+																			
+																			if(($dateinearly > $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-success">';
+																			elseif(($dateinlate < $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			endif;
+																			
+																			$datein=date("h:i A",strtotime($row4['checkintime']));
+																			
+																			echo $varb.$datein;?></span>
 
 																		</td>
 																		<td><?php echo $row4['ip_address_real'] ?></td>
 																		<td><?php echo $row4['ip_address'] ?></td>
 																		<td>
 
+																			<?php
+																			$dateoutlate = "15:30:00";
+																			$dateoutearly = "14:00:00";
+																			
+																			$dateoutlate=date("H:i",strtotime($dateoutlate));
+																			$dateoutearly=date("H:i",strtotime($dateoutearly));
 
-																<?php
-																$dateoutlate = "03:00 PM";
+																			if(($dateoutearly > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			elseif(($dateoutlate > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-success">';
+																			endif;
+																			
+																			$dateout=date("h:i A",strtotime($row4['checkouttime']));
 
-																$dateoutearly = "02:00 PM";
-
-																$dateoutearly=date("h:i A",strtotime($dateoutearly));
-																$dateoutlate=date("h:i A",strtotime($dateoutlate));
-
-																if(($dateoutearly > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-danger">';
-
-																elseif(($dateoutlate > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-warning">';
-
-																else:
-																$varb='<span class="btn btn-xs btn-success">';
-																endif;
-																echo $varb.$row4['checkouttime'];?></span>
-
+																			echo $varb.$dateout;?></span>
 
 																</td>
 																<td><?php echo $row4['ip_address_2_real'] ?></td>
 																<td><?php echo $row4['ip_address_2'] ?></td>
+																<td>
+																<?php
+																	if(($row4['TIMEDIFF'] > '7:00')):
+																	?>
+																	<span class="btn btn-xs btn-success">
+																		<?php
+																		echo $row4['TIMEDIFF'];
+																		?>
+																	</span>
+																	<?php
+																	elseif(($row4['TIMEDIFF'] == '7:00')):
+																	?>
+																	<span class="btn btn-xs btn-info">
+																		<?php
+																		echo $row4['TIMEDIFF'];
+																		?>
+																	</span>
+																	<?php
+																	elseif(($row4['TIMEDIFF'] < '7:00')):
+																	?>
+																	<span class="btn btn-xs btn-danger">
+																		<?php
+																		echo $row4['TIMEDIFF'];
+																		?>
+																	</span>
+																	<?php
+																	endif;
+																?>
+																</td>
 
 																	</tr>
 																<?php

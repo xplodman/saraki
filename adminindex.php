@@ -285,6 +285,74 @@
 												<div class="col-sm-12">
 													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="date_start"/>
 													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="date_end"/>
+													<select class="multiselect" id="form-field-44" name="prosid">
+														<option value="*" >كل النيابات</option>
+														<?php
+														$result22 = mysqli_query($sqlcon, "SELECT
+		  pros.idpros,
+		  pros.prosname
+		FROM
+		  overallpros
+		  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+		  INNER JOIN pros ON pros.overallprosid = overallpros.overallprosid
+		WHERE
+		  overallpros_has_users.users_idusers = '$admin_id'");
+														while ($row22 = $result22->fetch_assoc()) {
+															?>
+															<option value="<?php echo $row22['idpros'] ?>" > <?php echo $row22['prosname'] ?> </option>
+
+														<?php } ?>
+													</select>
+													<select class="multiselect" id="form-field-4" name="type2">
+														<option selected="selected" value="1 , 2" >الكل</option>
+														<?php
+														$result2 = mysqli_query($sqlcon, "SELECT * FROM `outsource_company`");
+														while ($row2 = $result2->fetch_assoc()) {
+															?>
+															<option value="<?php echo $row2['outsource_company_id'] ?>"
+																<?php
+
+																if (!empty($type)) {
+																	if($row2['outsource_company_id']==$type)
+																		echo 'selected="selected"';
+																}
+
+																?>
+															> <?php echo $row2['outsource_company_name']?> </option>
+														<?php } ?>
+													</select>
+													<button class="btn btn-info"  type="Submit"  name="submit">
+														<i class="ace-icon fa fa-print bigger-150"></i>
+														Print
+													</button>
+												</div>
+											</div>
+										</form>
+										<div class="hr hr32 hr-dotted"></div>
+										<h3>تقرير بعدد ساعات العمل</h3>
+										<form class="form-horizontal" method="post" action="dataentry_attend_rep2.php"  target="_blank">
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input required type="text" autocomplete="off" class="date-picker8" "id-date-picker-8" placeholder="من" type="text" data-date-format="yyyy/mm/dd" name="date_start"/>
+													<input required type="text" autocomplete="off" class="date-picker9" "id-date-picker-9" placeholder="إلى" type="text" data-date-format="yyyy/mm/dd" name="date_end"/>
+													<select class="multiselect" id="form-field-44" name="prosid">
+														<option value="*" >كل النيابات</option>
+														<?php
+														$result22 = mysqli_query($sqlcon, "SELECT
+		  pros.idpros,
+		  pros.prosname
+		FROM
+		  overallpros
+		  INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+		  INNER JOIN pros ON pros.overallprosid = overallpros.overallprosid
+		WHERE
+		  overallpros_has_users.users_idusers = '$admin_id'");
+														while ($row22 = $result22->fetch_assoc()) {
+															?>
+															<option value="<?php echo $row22['idpros'] ?>" > <?php echo $row22['prosname'] ?> </option>
+
+														<?php } ?>
+													</select>
 													<select class="multiselect" id="form-field-4" name="type2">
 														<option selected="selected" value="1 , 2" >الكل</option>
 														<?php
@@ -369,7 +437,8 @@
 														<select class="multiselect" required id="form-field-44" name="idusers">
 															<option value="" >أسم المستخدم</option>
 															<?php
-																$result22 = mysqli_query($sqlcon, "SELECT
+																$result22 = mysqli_query($sqlcon, "
+SELECT
   *
 FROM
   users
@@ -555,6 +624,7 @@ WHERE
 														<thead>
 															<tr>
 																<th>الأسم</th>
+																<th>تابع لـ</th>
 																<th>التاريخ</th>
 																<th>وقت الحضور</th>
 																<th>Ip address الدخول</th>
@@ -675,10 +745,11 @@ WHERE
     THEN 'المنشية'
     ELSE 'OTHERS'
   END) AS ip_address_2,
-  Date_Format(attendance.checkouttime, '%h:%i %p') AS checkouttime,
+  attendance.checkouttime,
   users.nickname,
   users.idusers,
-  Date_Format(attendance.checkintime, '%h:%i %p') AS checkintime
+  attendance.checkintime,
+  outsource_company.outsource_company_name
 FROM
   attendance
   INNER JOIN users ON users.idusers = attendance.idusers
@@ -686,6 +757,7 @@ FROM
   INNER JOIN pros ON pros.idpros = pros_has_users.idpros
   INNER JOIN overallpros ON pros.overallprosid = overallpros.overallprosid
   INNER JOIN overallpros_has_users ON overallpros_has_users.overallpros_overallprosid = overallpros.overallprosid
+  INNER JOIN outsource_company ON users.outsource_company_outsource_company_id = outsource_company.outsource_company_id
 WHERE
   overallpros_has_users.users_idusers = '$admin_id' 
 GROUP BY
@@ -701,54 +773,58 @@ LIMIT 100") or die(mysqli_error($sqlcon));
 																?>
 																	<tr>
 																		<td><a class="green" href="userprofile.php?idusers=<?php echo $row4['idusers'] ?>"><?php echo $row4['nickname'] ?></a></td>
+																		<td><?php echo $row4['outsource_company_name'] ?></td>
 																		<td><?php echo $row4['checkindate'] ?></td>
 																		<td>
-																		<?php
-															$dateinlate = "09:15 AM";
-															$dateinnormal = "09:00 AM";
-															$dateinearly = "08:45 AM";
-															$dateinearly=date("h:i A",strtotime($dateinearly));
-															$dateinlate=date("h:i A",strtotime($dateinlate));
-															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinnormal >= $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-success">';
-															elseif(($dateinlate < $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-danger">';
-															else:
-															$varb='<span class="btn btn-xs btn-warning">';
-																endif;
-																echo $varb.$row4['checkintime'];?></span>
+																		
+																			<?php
+																			$dateinlate = "09:15:00";
+																			$dateinnormal = "09:00:00";
+																			$dateinearly = "08:45:00";
+																			
+																			$dateinlate=date("H:i",strtotime($dateinlate));
+																			$dateinnormal=date("H:i",strtotime($dateinnormal));
+																			$dateinearly=date("H:i",strtotime($dateinearly));
+																			
+																			if(($dateinearly > $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-success">';
+																			elseif(($dateinlate < $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			endif;
+																			
+																			$datein=date("h:i A",strtotime($row4['checkintime']));
+																			
+																			echo $varb.$datein;?></span>
 
 																		</td>
 																		<td><?php echo $row4['ip_address_real'] ?></td>
 																		<td><?php echo $row4['ip_address'] ?></td>
 																		<td>
+																		
+																			<?php
+																			$dateoutlate = "15:30:00";
+																			$dateoutearly = "14:00:00";
+																			
+																			$dateoutlate=date("H:i",strtotime($dateoutlate));
+																			$dateoutearly=date("H:i",strtotime($dateoutearly));
 
+																			if(($dateoutearly > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			elseif(($dateoutlate > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-success">';
+																			endif;
+																			
+																			$dateout=date("h:i A",strtotime($row4['checkouttime']));
 
-																<?php
-																$dateoutlate = "03:00 PM";
-
-																$dateoutearly = "02:00 PM";
-
-																$dateoutearly=date("h:i A",strtotime($dateoutearly));
-																$dateoutlate=date("h:i A",strtotime($dateoutlate));
-
-																if(($dateoutearly > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-danger">';
-
-																elseif(($dateoutlate > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-warning">';
-
-																else:
-																$varb='<span class="btn btn-xs btn-success">';
-																endif;
-																echo $varb.$row4['checkouttime'];?></span>
-
-
-																</td>
-																<td><?php echo $row4['ip_address_2_real'] ?></td>
-																<td><?php echo $row4['ip_address_2'] ?></td>
-
+																			echo $varb.$dateout;?></span>
+																			
+																		</td>
+																		<td><?php echo $row4['ip_address_2_real'] ?></td>
+																		<td><?php echo $row4['ip_address_2'] ?></td>
 																	</tr>
 																<?php
 																};

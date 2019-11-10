@@ -5,6 +5,9 @@ include_once "assets/redi/sqlcon.php";
 <html>
 
 <head>
+
+</head>
+<div id="txt"></div>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,15 +174,26 @@ include_once "assets/redi/sqlcon.php";
                 if ($backresult ==  "0") {
                     ?>
                     <div class="alert alert-danger alert-dismissable">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                         Check your username and password.
                     </div>
                     <?php
                 }elseif ($backresult ==  "7") {
                     ?>
                     <div class="alert alert-danger alert-dismissable">
-                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                         Call system admin to assign a prosecution.
+                    </div>
+                    <?php
+                }
+				elseif ($backresult ==  "x") {
+                    ?>
+                    <div class="alert alert-danger alert-dismissable">
+                        Call system admin.
+                    </div>
+                    <?php
+                }elseif ($backresult ==  "88") {
+                    ?>
+                    <div class="alert alert-danger alert-dismissable">
+                        مواعيد العمل الرسمية لم تبدأ بعد.
                     </div>
                     <?php
                 }

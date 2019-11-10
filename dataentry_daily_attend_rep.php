@@ -152,7 +152,7 @@ ORDER BY
 							?>
 							<tr>
 								<td align="center"><?php echo $row_numbers; ?></td>
-								<td align="center"><?php echo $row['nickname']; ?></td>
+								<td align="center"><?php echo $row['idusers']; ?></td>
 								<td align="center"><?php echo $row['rest_day']; ?></td>
 
 									<?php

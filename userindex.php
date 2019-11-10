@@ -269,49 +269,9 @@
 							<div class="col-xs-12">
 								<div class="row">
 									<div class="space-6"></div>
-									<div class="col-sm-12 infobox-container">
+									
+									<div class="col-sm-3 infobox-container">
 									<h3>إيراد الشهر الحالي</h3>
-									<?php
-										$iduser = $_SESSION["idusers"];
-										$query="Select Count(`case`.idcase) As casecount,
-  departs.departname,
-  users.nickname,
-  `case`.caseyear,
-  casetype.casetypename,
-  `case`.createdate 
-From `case`
-  Inner Join departs On departs.iddeparts = `case`.departs_iddeparts
-  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
-  Inner Join users On users.idusers = sarki.idusers
-  Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL 1 MONTH, '%Y-%m-%d %H:%i:%s') )  And
-  users.idusers = $idusers  
-										Group By departs.departname,
-										  users.nickname,
-										  `case`.caseyear,
-										  users.idusers,
-										  casetype.casetypename
-										Order By departs.departname,
-										  `case`.caseyear,
-										  casetype.casetypename";
-										$casecount=mysqli_query($sqlcon, $query);
-										while($casecountrow = mysqli_fetch_assoc($casecount))
-															{
-									?>
-										<div class="infobox infobox-blue2">
-											<div class="infobox-progress">
-												<div class="easy-pie-chart percentage" data-percent="100" data-size="46">
-													<span class="percent"><?php echo $casecountrow['casecount'] ?></span>
-												</div>
-											</div>
-
-											<div class="infobox-data">
-												<span class="infobox-text"><?php echo $casecountrow['casetypename']." <br> ".$casecountrow['departname']." ".$casecountrow['caseyear']?></span>
-											</div>
-										</div>
-									<?php };?>
-									</div>							
-									<div class="col-sm-12 infobox-container">
 									<?php
 										$iduser = $_SESSION["idusers"];
 										$casecount=mysqli_query($sqlcon, "Select Count(`case`.idcase) As casecount,
@@ -350,51 +310,12 @@ WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:
 											</div>
 										</div>
 									<?php };?>
-									</div>
-									<div class="col-sm-12 infobox-container">
+									</div>															
+									
+									<div class="col-sm-3 infobox-container">
+									
 								<h3>إيراد الشهر السابق</h3>
-									<?php
-										$iduser = $_SESSION["idusers"];
-										$casecount=mysqli_query($sqlcon, "Select Count(`case`.idcase) As casecount,
-  departs.departname,
-  users.nickname,
-  `case`.caseyear,
-  casetype.casetypename,
-  `case`.createdate 
-From `case`
-  Inner Join departs On departs.iddeparts = `case`.departs_iddeparts
-  Inner Join sarki On sarki.idsarki = `case`.sarki_idsarki
-  Inner Join users On users.idusers = sarki.idusers
-  Inner Join casetype On `case`.casetype_idcasetype = casetype.idcasetype
-WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00') + INTERVAL -1 MONTH, '%Y-%m-%d %H:%i:%s') AND DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:00'), '%Y-%m-%d %H:%i:%s') )  And
-  users.idusers = $idusers  
-										Group By departs.departname,
-										  users.nickname,
-										  `case`.caseyear,
-										  users.idusers,
-										  casetype.casetypename
-										Order By departs.departname,
-										  `case`.caseyear,
-										  casetype.casetypename");
-										while($casecountrow = mysqli_fetch_assoc($casecount))
-															{
-									?>
-										<div class="infobox infobox-blue2">
-											<div class="infobox-progress">
-												<div class="easy-pie-chart percentage" data-percent="100" data-size="46">
-													<span class="percent"><?php echo $casecountrow['casecount'] ?></span>
-												</div>
-											</div>
-
-											<div class="infobox-data">
-												<div class="infobox-content"><?php echo $casecountrow['casetypename']." ".$casecountrow['departname']?> / <?php echo $casecountrow['caseyear'] ?>
-												</div>
-											</div>
-										</div>
-									<?php };?>
-									</div>							
-									<div class="col-sm-12 infobox-container">
-									<?php
+										<?php
 										$iduser = $_SESSION["idusers"];
 										$casecount=mysqli_query($sqlcon, "Select Count(`case`.idcase) As casecount,
   departs.departname,
@@ -433,15 +354,8 @@ WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:
 										</div>
 									<?php };?>
 									</div>
-								</div><!-- /.row -->
 								
-								
-								
-								<div class="hr hr32 hr-dotted"></div>
-
-								
-								<div class="space-6"></div>
-									<div class="col-sm-12 infobox-container">
+									<div class="col-sm-3 infobox-container">
 									<h3>تصرفات الشهر الحالي</h3>
 									<?php
 									$iduser = $_SESSION["idusers"];
@@ -480,9 +394,8 @@ WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:
 											</div>
 										</div>
  									</div>							
-									<div class="col-sm-12 infobox-container">
+																	<div class="col-sm-3 infobox-container">
 								<h3>تصرفات الشهر السابق</h3>					
-									<div class="col-sm-12 infobox-container">
 									<?php
 										$iduser = $_SESSION["idusers"];
 										$casecount=mysqli_query($sqlcon, "
@@ -522,6 +435,15 @@ WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:
 										</div>
 									</div>
 								</div><!-- /.row -->
+								</div><!-- /.row -->
+								
+								
+								
+								<div class="hr hr32 hr-dotted"></div>
+
+								
+								<div class="space-6"></div>
+
 								<div class="row">
 								</div>
 								
@@ -547,69 +469,45 @@ WHERE (`case`.createdate BETWEEN DATE_FORMAT(date_format(NOW() , '%Y-%m-1 00:00:
 																<th>اسم المدخل</th>
 																<th>عدد القضايا</th>
 																<th>تاريخ الإدخال</th>
-																<th>النيابة</th>
 															</tr>
 														</thead>
 <tbody>
 
 
 <?php
-$x = 0; 
-$y = 0;
-while($x > -8) {
     
-$result4 = mysqli_query($sqlcon,"Select pros.prosname,
-  pros.idpros,
-  users.username,
+$result4 = mysqli_query($sqlcon,"
+SELECT
+  Count(`case`.idcase) AS countcase,
+  users.nickname AS nickname,
+  users.idusers AS idusers,
+  Date(`case`.createdate) AS createdate
+FROM
+  (`case`
+  JOIN sarki ON sarki.idsarki = `case`.sarki_idsarki)
+  JOIN users ON sarki.idusers = users.idusers
+WHERE
+  users.idusers = $idusers
+GROUP BY
   users.nickname,
   users.idusers,
-  users.securitylvl
-From users
-  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
-  Inner Join pros On pros.idpros = pros_has_users.idpros
-Where users.idusers = $idusers
-Order By pros.prosname ") or die(($sqlcon));
+  Date(`case`.createdate)
+ORDER BY
+  createdate DESC
+LIMIT 10
+") or die(($sqlcon));
 while($row4 = mysqli_fetch_assoc($result4))
 {?>
 
 <tr>
 
 <td><?php echo $row4['nickname'] ?></td>
-<td>
-<?php
-$result55 = mysqli_query($sqlcon,"
-Select Count(`case`.departs_iddeparts) As countcase,
-  users.nickname As nickname,
-  users.idusers As idusers,
-  Date(`case`.createdate) As createdate,
-  pros.prosname
-From (((`case`
-  Join casetype On `case`.casetype_idcasetype = casetype.idcasetype)
-  Join departs On departs.iddeparts = `case`.departs_iddeparts)
-  Join sarki On sarki.idsarki = `case`.sarki_idsarki)
-  Join users On sarki.idusers = users.idusers
-  Inner Join pros On pros.idpros = departs.pros_idpros
-  Inner Join pros_has_users On pros_has_users.idpros = pros.idpros And
-    pros_has_users.idusers = users.idusers
-Where Date(`case`.createdate) = CurDate() - Interval $y Day And pros.idpros = $row4[idpros]
-Group By users.idusers,
-  Date(`case`.createdate),
-  pros.prosname
-Having users.idusers = $row4[idusers]") or die(mysqli_error($sqlcon));
-$row55 = mysqli_fetch_assoc($result55);
-if($row55['countcase'] > '0')
-{echo $row55['countcase'];}else
-{echo "0";}
-?></td>
-<td><?php echo date('Y-m-d',strtotime("$x days"));?></td>
-<td><?php echo $row4['prosname'];?></td>
+<td><?php echo $row4['countcase'];?></td>
+<td><?php echo $row4['createdate'];?></td>
 
 </tr>
 <?php
 };
-$x--;
-$y++;
-} 
 ?>
 </tbody>
 													</table>
@@ -637,6 +535,7 @@ $y++;
 																<th>التاريخ</th>
 																<th>وقت الحضور</th>
 																<th>وقت الإنصراف</th>
+																<th>ساعات العمل الفعلي</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -644,9 +543,10 @@ $y++;
 														$result4 = mysqli_query($sqlcon,"
 															Select pros.prosname,
 															  attendance.checkindate,
-															  Date_Format(attendance.checkouttime, '%h:%i %p') As checkouttime,
+															  attendance.checkouttime,
 															  users.nickname,
-															  Date_Format(attendance.checkintime, '%h:%i %p') As checkintime
+															  attendance.checkintime,
+															  TIME_FORMAT(TIMEDIFF(IFNULL(attendance.checkouttime, attendance.checkintime),attendance.checkintime ), '%k:%i') AS TIMEDIFF
 															From attendance
 															  Inner Join users On users.idusers = attendance.idusers
 															  Inner Join pros_has_users On pros_has_users.idusers = users.idusers
@@ -662,47 +562,81 @@ $y++;
 																		<td><?php echo $row4['nickname'] ?></td>
 																		<td><?php echo $row4['checkindate'] ?></td>
 																		<td>
-																		<?php
-															$dateinlate = "09:15 AM";
-															$dateinnormal = "09:00 AM";
-															$dateinearly = "08:45 AM";
-															$dateinearly=date("h:i A",strtotime($dateinearly));
-															$dateinlate=date("h:i A",strtotime($dateinlate));
-															$dateinnormal=date("h:i A",strtotime($dateinnormal));
-															if(($dateinnormal >= $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-success">';
-															elseif(($dateinlate < $row4['checkintime'])):
-															$varb='<span class="btn btn-xs btn-danger">';
-															else:
-															$varb='<span class="btn btn-xs btn-warning">';
-																endif;
-																echo $varb.$row4['checkintime'];?></span>
-																
+																		
+																			<?php
+																			$dateinlate = "09:15:00";
+																			$dateinnormal = "09:00:00";
+																			$dateinearly = "08:45:00";
+																			
+																			$dateinlate=date("H:i",strtotime($dateinlate));
+																			$dateinnormal=date("H:i",strtotime($dateinnormal));
+																			$dateinearly=date("H:i",strtotime($dateinearly));
+																			
+																			if(($dateinearly > $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-success">';
+																			elseif(($dateinlate < $row4['checkintime'])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			endif;
+																			
+																			$datein=date("h:i A",strtotime($row4['checkintime']));
+																			
+																			echo $varb.$datein;?></span>
+																			
 																		</td>
 																		<td>
 																		
-																		
-																<?php
-																$dateoutlate = "03:00 PM";
+																			<?php
+																			$dateoutlate = "15:30:00";
+																			$dateoutearly = "15:00:00";
+																			
+																			$dateoutlate=date("H:i",strtotime($dateoutlate));
+																			$dateoutearly=date("H:i",strtotime($dateoutearly));
 
-																$dateoutearly = "02:00 PM";
+																			if(($dateoutearly > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-danger">';
+																			elseif(($dateoutlate > $row4["checkouttime"])):
+																			$varb='<span class="btn btn-xs btn-warning">';
+																			else:
+																			$varb='<span class="btn btn-xs btn-success">';
+																			endif;
+																			
+																			$dateout=date("h:i A",strtotime($row4['checkouttime']));
 
-																$dateoutearly=date("h:i A",strtotime($dateoutearly));
-																$dateoutlate=date("h:i A",strtotime($dateoutlate));
-
-																if(($dateoutearly > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-danger">';
-
-																elseif(($dateoutlate > $row4["checkouttime"])):
-																$varb='<span class="btn btn-xs btn-warning">';
-
-																else:
-																$varb='<span class="btn btn-xs btn-success">';
-																endif;
-																echo $varb.$row4['checkouttime'];?></span>
+																			echo $varb.$dateout;?></span>
 																
-																
-																</td>
+																		</td>
+																		<td>
+																		<?php
+																			if(($row4['TIMEDIFF'] > '7:00')):
+																			?>
+																			<span class="btn btn-xs btn-success">
+																				<?php
+																				echo $row4['TIMEDIFF'];
+																				?>
+																			</span>
+																			<?php
+																			elseif(($row4['TIMEDIFF'] == '7:00')):
+																			?>
+																			<span class="btn btn-xs btn-info">
+																				<?php
+																				echo $row4['TIMEDIFF'];
+																				?>
+																			</span>
+																			<?php
+																			elseif(($row4['TIMEDIFF'] < '7:00')):
+																			?>
+																			<span class="btn btn-xs btn-danger">
+																				<?php
+																				echo $row4['TIMEDIFF'];
+																				?>
+																			</span>
+																			<?php
+																			endif;
+																		?>
+																		</td>
+
 																	</tr>
 																<?php
 																};
@@ -802,7 +736,7 @@ $y++;
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null, null, null
+					  null, null, null
 					],
 					"aaSorting": [],
 
@@ -1024,7 +958,7 @@ $y++;
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null, null, null
+					  null, null, null, null, null
 					],
 					"aaSorting": [],
 
